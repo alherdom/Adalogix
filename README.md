@@ -1,2 +1,2 @@
 # Adalogix
-Repository dedicated to create an application that simulates a logistic application
+Repository dedicated to create an application that simulates logistics management, inventory, route, chat.
