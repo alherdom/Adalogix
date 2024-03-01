@@ -9,9 +9,9 @@ Repository dedicated to creating an application that simulates logistics managem
 
 </div>
 
-<div align="center">
+<!-- <div align="center">
 <img src="../img/descriptive-image-if-exists.png" />
-</div>
+</div> -->
 
 ## Index
 
