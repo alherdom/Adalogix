@@ -109,14 +109,15 @@ The technological stack will be divided into the different areas of action for e
 
 | Concept                                                 | Quantity    |
 | ------------------------------------------------------- | ----------- |
-| VPS Digital Ocean                                       | 15 € /month |
-| API key (in case of more than 100.000 monthly requests) | 30 € /month |
+| Register domain "adalogix.io" | 556 € / 10years |
+| VPS Digital Ocean                                       | 15 € / month |
+| API key (in case of more than 100.000 monthly requests) | 30 € / month |
 
 - Cost of hardware
   | Concept | Quantity |
   | ------------------------------------------------------- | ----------- |
   | Laptops | 5400 € |
-  | Office (Coworking) | 430 € /month |
-  | Diets | 50€ /month |
-  | Displacement | 30€ /month |
-  | Formation | 200€ /year - variable |
+  | Office (Coworking) | 430 € / month |
+  | Diets | 50 € / month |
+  | Displacement | 30 € / month |
+  | Formation | 200 € / year * |
