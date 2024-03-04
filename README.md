@@ -109,7 +109,7 @@ The technological stack will be divided into the different areas of action for e
 
 | Concept                                                 | Quantity    |
 | ------------------------------------------------------- | ----------- |
-| Register domain "adalogix.io" | 556 € / 10years |
+| Register domain "adalogix.io" | 556 € / 10 years |
 | VPS Digital Ocean                                       | 15 € / month |
 | API key (in case of more than 100.000 monthly requests) | 30 € / month |
 
