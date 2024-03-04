@@ -10,10 +10,6 @@ Repository dedicated to creating an application that simulates logistics managem
 
 </div>
 
-<!-- <div align="center">
-<img src="../img/descriptive-image-if-exists.png" />
-</div> -->
-
 ## Index
 
 1. [IDENTIFICATION](#id1)
@@ -119,5 +115,8 @@ The technological stack will be divided into the different areas of action for e
 - Cost of hardware
   | Concept | Quantity |
   | ------------------------------------------------------- | ----------- |
-  | VPS Digital Ocean | 18 € /month |
-  | API key (in case of more than 100.000 monthly requests) | 30 € /month |
+  | Laptops | 5400 € |
+  | Office (Coworking) | 430 € /month |
+  | Diets | 50€ /month |
+  | Displacement | 30€ /month |
+  | Formation | 200€ /year - variable |
