@@ -1,4 +1,5 @@
 # Adalogix
+
 Repository dedicated to creating an application that simulates logistics management, inventory, route, chat.
 
 <div align="center">
@@ -46,44 +47,47 @@ The project is divided into three main applications, each covering the following
 
 - **Inventory.**
 
-    - Stock control.
-    - Automation of merchandise restocking.
-    - Cost value of goods.
-    - Sales management / Profit calculation.
-    - Product loading optimization for trucks.
-    - Searches, tags, categories.
+  - Stock control.
+  - Automation of merchandise restocking.
+  - Cost value of goods.
+  - Sales management / Profit calculation.
+  - Product loading optimization for trucks.
+  - Searches, tags, categories.
 
 - **Chat.**
 
-    - Internal employee communication.
-    - Sending various attached files.
+  - Internal employee communication.
+  - Sending various attached files.
 
 - **Route Planner.**
 
-    - "Smart" route planner to optimize merchandise deliveries.
-    - Delivery and route history.
-    - Control of times and number of deliveries per route/driver.
-    - Google Maps API routes. Save destinations (coordinates) in the backend and send them to the frontend. Time estimates.
+  - "Smart" route planner to optimize merchandise deliveries.
+  - Delivery and route history.
+  - Control of times and number of deliveries per route/driver.
+  - Google Maps API routes. Save destinations (coordinates) in the backend and send them to the frontend. Time estimates.
 
 Various roles are considered to use the application, excluding the development team, there will be two basic roles. **Administrator** for inventory management, registration of **Delivery Drivers** in the application, use of chat, and management and planning of the route planner.
 
 - **Roles.**
 
-    - Administrator: full access to the application, responsible for inventory CRUD management, use of the route planner, access to chat and group creation, registration in the application of other roles (delivery drivers, sales representatives, etc.).
+  - Administrator: full access to the application, responsible for inventory CRUD management, use of the route planner, access to chat and group creation, registration in the application of other roles (delivery drivers, sales representatives, etc.).
 
-    - Delivery Driver: access to internal chat, access to chat groups, use of the route planner, will update the status of each delivery (delivered, not-delivered, partial, incident).
+  - Delivery Driver: access to internal chat, access to chat groups, use of the route planner, will update the status of each delivery (delivered, not-delivered, partial, incident).
 
 ### 5. SYSTEM PRE-DESIGN <a name="id5"></a>
 
 The technological stack will be divided into the different areas of action for each respectively.
 
 - **Frontend**.
+
   - JavaScript + React.
 
 - **Backend**.
+
   - Python + Django.
 
 - **Database**.
+
   - PostgreSQL + Redis.
 
 - **Deployment**.
@@ -97,20 +101,23 @@ The technological stack will be divided into the different areas of action for e
 
 - Costs of a team of developers and analysts:
 
-| Concept | Quantity   |
-| --------- | --------- | 
-| Cost per hour  | 10 €    |
-| Hours per day  | 8 hours | 
-| Estimated time | 50 days |
+| Concept                | Quantity  |
+| ---------------------- | --------- |
+| Cost per hour          | 10 €      |
+| Hours per day          | 8 hours   |
+| Estimated time         | 50 days   |
 | Developers and analist | 3 workers |
-| Total cost | 12000 € |    
+| Total cost             | 12000 €   |
 
 - Cost of production execution.
 
-| Concept | Quantity   |
-| --------- | --------- | 
-| Cost per hour  | 10 €    |
-| Hours per day  | 8 hours | 
-| Estimated time | 50 days |
-| Developers and analist | 3 workers |
-| Total cost | 12000 € |  
+| Concept                                                 | Quantity    |
+| ------------------------------------------------------- | ----------- |
+| VPS Digital Ocean                                       | 15 € /month |
+| API key (in case of more than 100.000 monthly requests) | 30 € /month |
+
+- Cost of hardware
+  | Concept | Quantity |
+  | ------------------------------------------------------- | ----------- |
+  | VPS Digital Ocean | 18 € /month |
+  | API key (in case of more than 100.000 monthly requests) | 30 € /month |
