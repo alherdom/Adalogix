@@ -11,3 +11,9 @@ class Employee(models.Model):
     department = models.CharField(max_length=255)
     phone = models.IntegerField(max_length=9)
     role = models.CharField(max_lengt=2, choices=EmployeeRole)
+
+    def is_store_admin(self):
+        return self.role == 'SA'
+
+    def is_delivery_employee(self):
+        return self.role == 'DE'
