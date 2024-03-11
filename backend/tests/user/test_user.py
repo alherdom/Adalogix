@@ -24,10 +24,16 @@ def test_delivery_employee_creation():
 
 
 @pytest.mark.django_db
-def test_id_correcly_generated():
-    user = User.objects.create(username='usertest', password='usertest')
-    last_id = Employee.objects.latest('id').id
-    employee = Employee.objects.create(
-        user=user, role='DE', phone='666666666', department='Department test'
-    )
-    assert employee.id == last_id + 1
+def test_delivery_employee_function():
+    user = User(username='usertest', password='usertest')
+    employee = Employee(user=user, role='DE', phone='666666666', department='Department test')
+    assert employee.is_delivery_employee()
+    assert not employee.is_store_admin()
+
+
+@pytest.mark.django_db
+def test_store_admin_function():
+    user = User(username='usertest', password='usertest')
+    employee = Employee(user=user, role='SA', phone='666666666', department='Department test')
+    assert not employee.is_delivery_employee()
+    assert employee.is_store_admin()
