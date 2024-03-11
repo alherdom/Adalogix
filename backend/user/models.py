@@ -9,8 +9,8 @@ class Employee(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=255)
-    phone = models.IntegerField(max_length=9)
-    role = models.CharField(max_lengt=2, choices=EmployeeRole)
+    phone = models.CharField(max_length=9)
+    role = models.CharField(max_length=2, choices=EmployeeRole.choices)
 
     def is_store_admin(self):
         return self.role == 'SA'
