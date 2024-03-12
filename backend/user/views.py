@@ -26,14 +26,14 @@ def user_login(request: HttpRequest) -> HttpResponse:
 @csrf_exempt
 @require_POST
 def truckdriver_registration(request: HttpRequest) -> HttpResponse:
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-    first_name = request.POST.get('first_name')
-    last_name = request.POST.get('last_name')
+    if User.objects.filter(username = request.POST.get('username')):
+        return HttpResponse('This username is already in use', status=400)
+    username, password, email, first_name, last_name = request.POST.values()
     new_user = User.objects.create(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-    new_user.groups.add(Group.objects.get('truckdriver'))
-    new_user.save()
+    truckdriver_group = Group.objects.get(name='truckdriver')
+    new_user.groups.add(truckdriver_group)
     return HttpResponse('Truckdriver created')
 
-    
+
+
+
