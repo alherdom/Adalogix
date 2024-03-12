@@ -20,7 +20,7 @@ def user_login(request: HttpRequest) -> HttpResponse:
         if user.groups.filter(name='truckdriver').exists():
             return HttpResponse('I\'m a truckdriver')
     else:
-        return HttpResponse(400)
+        return HttpResponse(status=400)
 
 @csrf_exempt
 @require_POST
