@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -21,11 +21,16 @@ def user_login(request: HttpRequest) -> HttpResponse:
             return HttpResponse('I\'m a truckdriver')
     else:
         return HttpResponse(400)
-    
 
 @csrf_exempt
 @require_POST
-def truckdriver_registration(request: HttpRequest) -> HttpResponse:
+def user_logout(request: HttpRequest) -> HttpResponse:
+    logout(request)
+    return HttpResponse('logged out')
+
+@csrf_exempt
+@require_POST
+def user_registration(request: HttpRequest) -> HttpResponse:
     if User.objects.filter(username = request.POST.get('username')):
         return HttpResponse('This username is already in use', status=400)
     username, password, email, first_name, last_name = request.POST.values()
@@ -33,6 +38,7 @@ def truckdriver_registration(request: HttpRequest) -> HttpResponse:
     truckdriver_group = Group.objects.get(name='truckdriver')
     new_user.groups.add(truckdriver_group)
     return HttpResponse('Truckdriver created')
+
 
 
 
