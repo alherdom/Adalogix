@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -20,20 +20,26 @@ def user_login(request: HttpRequest) -> HttpResponse:
         if user.groups.filter(name='truckdriver').exists():
             return HttpResponse('I\'m a truckdriver')
     else:
-        return HttpResponse(400)
-    
+        return HttpResponse(status=400)
 
 @csrf_exempt
 @require_POST
-def truckdriver_registration(request: HttpRequest) -> HttpResponse:
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-    first_name = request.POST.get('first_name')
-    last_name = request.POST.get('last_name')
+def user_logout(request: HttpRequest) -> HttpResponse:
+    logout(request)
+    return HttpResponse('logged out')
+
+@csrf_exempt
+@require_POST
+def user_registration(request: HttpRequest) -> HttpResponse:
+    if User.objects.filter(username = request.POST.get('username')):
+        return HttpResponse('This username is already in use', status=400)
+    username, password, email, first_name, last_name = request.POST.values()
     new_user = User.objects.create(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
-    new_user.groups.add(Group.objects.get('truckdriver'))
-    new_user.save()
+    truckdriver_group = Group.objects.get(name='truckdriver')
+    new_user.groups.add(truckdriver_group)
     return HttpResponse('Truckdriver created')
 
-    
+
+
+
+
