@@ -8,48 +8,16 @@
           </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="register">
-              <v-text-field
-                v-model="username"
-                label="Username"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="fullName"
-                label="Full Name"
-                required
-              ></v-text-field>
-              <v-select
-                v-model="role"
-                :items="roles"
-                label="Role"
-                required
-              ></v-select>
-              <v-text-field
-                v-model="email"
-                label="Email"
-                type="email"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="password"
-                label="Password"
-                type="password"
-                required
-              ></v-text-field>
-              <v-text-field
-                v-model="retypePassword"
-                label="Retype Password"
-                type="password"
-                required
-              ></v-text-field>
-              <v-btn
-                color="primary"
-                type="submit"
-                class="mr-4"
-                :loading="loading"
-              >
-                Register
-              </v-btn>
+              <v-text-field v-model="username" label="Username" required></v-text-field>
+              <v-text-field v-model="firstName" label="First Name" required></v-text-field>
+                <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
+                <v-select v-model="role" :items="roles" label="Role" required></v-select>
+                <v-text-field v-model="email" label="Email" type="email" required></v-text-field>
+                <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
+                <v-text-field v-model="retypePassword" label="Retype Password" type="password" required></v-text-field>
+                <v-btn color="primary" type="submit" class="mr-4" :loading="loading">
+                  Register
+                </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -63,19 +31,18 @@ export default {
   data() {
     return {
       username: '',
-      fullName: '',
+      firstName: '',
+      lastName: '',
       role: '',
       email: '',
       password: '',
       retypePassword: '',
       loading: false,
-      roles: ['Admin', 'User', 'Guest'] // Define your list of roles here
+      roles: ['Admin', 'Courier', 'Guest'] // Define your list of roles here
     };
   },
   methods: {
     register() {
-      // Here you can handle registration logic, such as sending data to your backend
-      // For simplicity, we're just logging the data to the console here
       console.log('Username:', this.username);
       console.log('Full Name:', this.fullName);
       console.log('Role:', this.role);
