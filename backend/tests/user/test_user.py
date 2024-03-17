@@ -48,5 +48,3 @@ def test_delivery_employee_registration():
     response = client.post("/user/register/", {"username": "dimas", "password": "1q2w3e4r", "first_name": "dimas", "last_name": "abrante", "email": "dimas@gmail.com"})
     assert response.status_code == 400
 
-    
-
