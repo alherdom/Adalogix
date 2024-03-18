@@ -35,7 +35,6 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body)
-    print(data)
     if User.objects.filter(username = data['username']):
         return HttpResponse('This username is already in use', status=400)
     username, password, email, first_name, last_name = data['username'], data['password'], data['email'], data['first_name'], data['last_name']
