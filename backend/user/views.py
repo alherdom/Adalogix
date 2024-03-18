@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
@@ -17,10 +17,11 @@ def user_login(request: HttpRequest) -> HttpResponse:
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
+        user_object = User.objects.get(username=user)
         if user.groups.filter(name='admin').exists():
-            return HttpResponse('I\'m an admin')   
+            return JsonResponse(dict(id=user_object.id, group="admin", status=200, message="Admin successfully logged in"))   
         if user.groups.filter(name='truckdriver').exists():
-            return HttpResponse('I\'m a truckdriver')
+            return JsonResponse(dict(id=user_object.id, group="truckdriver", status=200, message="Truckdriver successfully logged in"))
     else:
         return HttpResponse(status=400)
 
@@ -34,15 +35,16 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body)
+    print(data)
     if User.objects.filter(username = data['username']):
         return HttpResponse('This username is already in use', status=400)
-    username, password, email, first_name, last_name = data['name'], data['password'], data['first_name'], data['last_name']
+    username, password, email, first_name, last_name = data['username'], data['password'], data['email'], data['first_name'], data['last_name']
     new_user = User(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
     new_user.set_password(password)
     new_user.save()
     truckdriver_group = Group.objects.get(name='truckdriver')
     new_user.groups.add(truckdriver_group)
-    return HttpResponse('Truckdriver created')
+    return JsonResponse(dict(username=new_user.username,id=new_user.id, status=200, message="User successfully registered"))
 
 
 
