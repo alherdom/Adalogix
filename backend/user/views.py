@@ -5,13 +5,14 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-
+import json
 
 @csrf_exempt
 @require_POST
 def user_login(request: HttpRequest) -> HttpResponse:
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    data = json.loads(request.body)
+    username = data.get('username')
+    password = data.get('password')
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
@@ -31,9 +32,10 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 @csrf_exempt
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
-    if User.objects.filter(username = request.POST.get('username')):
+    data = json.loads(request.body)
+    if User.objects.filter(username = data.get('username')):
         return HttpResponse('This username is already in use', status=400)
-    username, password, email, first_name, last_name = request.POST.values()
+    username, password, email, first_name, last_name = data.values()
     new_user = User.objects.create(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
     truckdriver_group = Group.objects.get(name='truckdriver')
     new_user.groups.add(truckdriver_group)

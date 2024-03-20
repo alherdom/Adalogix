@@ -1,5 +1,5 @@
-function register(data) {
-  return fetch('http://localhost:8000/user/register', {
+export function register(data) {
+  return fetch('http://localhost:8000/user/register/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
