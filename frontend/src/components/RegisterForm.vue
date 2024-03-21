@@ -10,14 +10,14 @@
             <v-form @submit.prevent="register">
               <v-text-field v-model="username" label="Username" required></v-text-field>
               <v-text-field v-model="firstName" label="First Name" required></v-text-field>
-                <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
-                <v-select v-model="role" :items="roles" label="Role" required></v-select>
-                <v-text-field v-model="email" label="Email" type="email" required></v-text-field>
-                <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
-                <v-text-field v-model="retypePassword" label="Retype Password" type="password" required></v-text-field>
-                <v-btn color="primary" type="submit" class="mr-4" :loading="loading">
-                  Register
-                </v-btn>
+              <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
+              <v-select v-model="role" :items="roles" label="Role" required></v-select>
+              <v-text-field v-model="email" label="Email" type="email" required></v-text-field>
+              <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
+              <v-text-field v-model="retypePassword" label="Retype Password" type="password" required></v-text-field>
+              <v-btn color="primary" type="submit" class="mr-4" :loading="loading">
+                Register
+              </v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { register } from '@/api/register';
+
 export default {
   data() {
     return {
@@ -49,6 +51,13 @@ export default {
       console.log('Email:', this.email);
       console.log('Password:', this.password);
       console.log('Retype Password:', this.retypePassword);
+      register({
+        username: this.username,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        password: this.password
+      })
     }
   }
 };

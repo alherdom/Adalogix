@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 import json
 
-
 @csrf_exempt
 @require_POST
 def user_login(request: HttpRequest) -> HttpResponse:
