@@ -9,5 +9,5 @@ class Store(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def can_add(self, amout: int) -> bool:
+    def can_add_products(self, amout: int) -> bool:
         return self.capacity - amout >= 0
