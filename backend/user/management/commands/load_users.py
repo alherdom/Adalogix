@@ -10,7 +10,7 @@ class Command(BaseCommand):
         User.objects.create_superuser(username='admin', email='admin@admin.com', password='12345')
         # Truckdriver user
         new_user = User(
-            username='User1', email='test@gmail.com', first_name='Pepe', last_name='Pepe'
+            username='truckdriver', email='test@gmail.com', first_name='Pepe', last_name='Pepe'
         )
         new_user.set_password('12345HOLA')
         new_user.save()
@@ -18,7 +18,7 @@ class Command(BaseCommand):
         new_user.groups.add(truckdriver_group)
         # Admin user
         new_admin = User(
-            username='User2', email='test@gmail.com', first_name='Pepe', last_name='Pepe'
+            username='storeadmin', email='test@gmail.com', first_name='Pepe', last_name='Pepe'
         )
         new_admin.set_password('12345HOLA')
         new_admin.save()
