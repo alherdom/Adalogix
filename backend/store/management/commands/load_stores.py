@@ -14,6 +14,6 @@ class Command(BaseCommand):
             for line in f:
                 Store.objects.create(
                     name=line['name'],
-                    adress=line['address'],
+                    address=line['address'],
                     capacity=line['capacity'],
                 )
