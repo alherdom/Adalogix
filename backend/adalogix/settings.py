@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'store.apps.StoreConfig',
     'product.apps.ProductConfig',
-    'inventory.apps.InventoryConfig',
     'corsheaders',
 ]
 
