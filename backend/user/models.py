@@ -4,8 +4,11 @@ from django.db import models
 
 class Employee(models.Model):
     class EmployeeRole(models.TextChoices):
+
         STORE_ADMINISTRATOR = 'SA', 'Store Administrator'
         DELIVERY_EMPLOYEE = 'CO', 'Courier'
+        STORE_SUPERADMINISTRATOR = 'SU', 'Store Super Administrator'
+
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=255, blank=True, null=True)
@@ -17,3 +20,6 @@ class Employee(models.Model):
 
     def is_delivery_employee(self):
         return self.role == 'CO'
+
+    def is_store_superadmin(self):
+        return self.role == 'SU'
