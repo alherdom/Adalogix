@@ -38,7 +38,7 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body)
-    username, password, email, first_name, last_name = data['username'], data['password'], data['email'], data['first_name'], data['last_name']
+    username, password, email, first_name, last_name = data['username'], data['password'], data['email'], data['firstName'], data['lastName']
     if not all([username, email, first_name, last_name, password]):
         return HttpResponse('You must fill all the fields', status=400)
     if User.objects.filter(username = data['username']):
