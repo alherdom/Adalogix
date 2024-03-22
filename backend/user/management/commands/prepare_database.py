@@ -11,3 +11,5 @@ class Command(BaseCommand):
         Group.objects.get_or_create(name='truckdriver')
         Group.objects.get_or_create(name='admin')
         call_command('load_users')
+        call_command('load_stores')
+        call_command('load_products')
