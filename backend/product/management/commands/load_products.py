@@ -13,14 +13,16 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         with open('product/management/data/products.csv', 'r') as file:
             f = csv.DictReader(file)
-            for line in f:
-                new_product = Product(
+            for index, line in enumerate(f):
+                prod = Product.objects.create(
                     name=line['name'],
                     description=line['description'],
-                    price=line['line'],
+                    price=line['price'],
                     weight=line['weight'],
                     volume=line['volume'],
                 )
                 store1 = Store.objects.get(id=randint(1, 10))
                 store2 = Store.objects.get(id=randint(1, 10))
-                new_product.stores.add(store1, store2)
+                prod.stores.add(store1, through_defaults={'stock': randint(10, 50)})
+                prod.stores.add(store2, through_defaults={'stock': randint(10, 50)})
+                prod.save()
