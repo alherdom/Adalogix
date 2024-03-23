@@ -8,8 +8,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         call_command('makemigrations')
         call_command('migrate')
-        Group.objects.get_or_create(name='truckdriver')
+        Group.objects.get_or_create(name='courier')
         Group.objects.get_or_create(name='admin')
+        Group.objects.get_or_create(name='superadmin')
         call_command('load_users')
         call_command('load_stores')
         call_command('load_products')
