@@ -3,13 +3,13 @@
     <q-card-section>
       <q-form @submit="register" class="form">
         <q-input class="input-form" outlined v-model="username" label="Username" type="text" required />
-        <q-input class="input-form" outlined v-model="firstname" label="Fullname" type="text" required />
-        <q-input class="input-form" outlined v-model="lastname" label="Fullname" type="text" required />
+        <q-input class="input-form" outlined v-model="firstname" label="Firstname" type="text" required />
+        <q-input class="input-form" outlined v-model="lastname" label="Lastname" type="text" required />
         <q-select class="input-form" v-model="role" outlined label="Role" :options="roleOptions" required />
         <q-input class="input-form" outlined v-model="email" label="Email" type="text" required />
         <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
-        <q-input class="input-form" outlined v-model="retype_password" label="Retype password" type="password"
-          required />
+        <!-- <q-input class="input-form" outlined v-model="retype_password" label="Retype password" type="password"
+          required /> -->
         <q-btn color="primary" label="Register" type="submit" class="login-btn" :loading="loading" />
       </q-form>
     </q-card-section>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { register } from 'src/utils/common';
+import { register } from '../utils/common';
 export default {
   data() {
     return {
@@ -37,19 +37,13 @@ export default {
   },
   methods: {
     register() {
-      this.loading = true;
-      this.$store.dispatch('register', {
+      register({
         username: this.username,
         firstname: this.firstname,
         lastname: this.lastname,
         role: this.role,
         email: this.email,
         password: this.password,
-      }).then(() => {
-        this.loading = false;
-        // this.$router.push('/login');
-      }).catch(() => {
-        this.loading = false;
       });
     }
   }
