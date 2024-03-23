@@ -8,7 +8,7 @@
         <q-select class="input-form" v-model="role" outlined label="Role" :options="roleOptions" required />
         <q-input class="input-form" outlined v-model="email" label="Email" type="text" required />
         <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
-        <!-- <q-input class="input-form" outlined v-model="retype_password" label="Retype password" type="password"
+        <!-- <q-input class="input-form" outlined v-model="password2" label="Retype password" type="password"
           required /> -->
         <q-btn color="primary" label="Register" type="submit" class="login-btn" :loading="loading" />
       </q-form>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { register } from '../utils/common';
+import { request } from '../utils/common';
 export default {
   data() {
     return {
@@ -37,14 +37,14 @@ export default {
   },
   methods: {
     register() {
-      register({
+      request({
         username: this.username,
         firstname: this.firstname,
         lastname: this.lastname,
-        role: this.role,
+        role: this.role.value,
         email: this.email,
         password: this.password,
-      });
+      }, 'http://127.0.0.1:8000/user/register/', 'POST');
     }
   }
 }
