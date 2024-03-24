@@ -1,4 +1,9 @@
 <template>
+      <q-toolbar>
+          <!-- Input de búsqueda -->
+          <q-input v-model="filter" debounce="300" placeholder="Search" />
+          <q-btn color="primary" icon="add" label="" @click="addProduct" />
+      </q-toolbar>
   <q-table :rows="products" :columns="columns" row-key="id" :pagination="{ rowsPerPage: 10 }">
     <template v-slot:body-cell-quantity="props">
       <q-td :props="props">
@@ -10,7 +15,16 @@
         ${{ props.row.price }}
       </q-td>
     </template>
-  </q-table>
+    <template v-slot:body-cell-actions="props">
+      <q-td :props="props">
+        <q-btn class="actions-btn" color="primary" icon="edit" @click="editProduct(props.row)" />
+        <q-btn class="actions-btn" color="negative" icon="delete" @click="deleteProduct(props.row)" />
+      </q-td>
+    </template>
+    <!-- <template v-slot:top>
+      <q-btn color="primary" icon="add" label="ADD PRODUCT" @click="addProduct" />
+    </template> -->
+    </q-table>
 </template>
 
 <script>
@@ -94,3 +108,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.actions-btn {
+  height: 35px;
+  width: 35px;
+}
+
+.q-btn:nth-child(2) {
+  margin-left: 10px;
+}
+.q-toolbar {
+  display: flex;
+  justify-content: space-around;
+  padding: 0px 100px 20px;
+}
+</style>
