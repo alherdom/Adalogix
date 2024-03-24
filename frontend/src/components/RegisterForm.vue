@@ -1,15 +1,15 @@
 <template>
   <q-card class="login-card">
     <q-card-section>
-      <q-form @submit="register" class="form">
+      <q-form @submit="sendData" class="form">
         <q-input class="input-form" outlined v-model="username" label="Username" type="text" required />
         <q-input class="input-form" outlined v-model="firstname" label="Firstname" type="text" required />
         <q-input class="input-form" outlined v-model="lastname" label="Lastname" type="text" required />
         <q-select class="input-form" v-model="role" outlined label="Role" :options="roleOptions" required />
         <q-input class="input-form" outlined v-model="email" label="Email" type="text" required />
         <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
-        <!-- <q-input class="input-form" outlined v-model="password2" label="Retype password" type="password"
-          required /> -->
+        <q-input class="input-form" outlined v-model="retypePassword" label="Retype password" type="password"
+          required />
         <q-btn color="primary" label="Register" type="submit" class="login-btn" :loading="loading" />
       </q-form>
     </q-card-section>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { request } from '../utils/common';
+import { postRequest } from '../utils/common';
 export default {
   data() {
     return {
@@ -32,21 +32,29 @@ export default {
       ],
       email: '',
       password: '',
+      retypePassword: '',
       loading: false,
     };
   },
   methods: {
-    register() {
-      request({
-        username: this.username,
-        firstname: this.firstname,
-        lastname: this.lastname,
-        role: this.role.value,
-        email: this.email,
-        password: this.password,
-      }, 'http://127.0.0.1:8000/user/register/', 'POST');
+    async sendData() {
+      try {
+        const data = {
+          username: this.username,
+          firstname: this.firstname,
+          lastname: this.lastname,
+          role: this.role.value,
+          email: this.email,
+          password: this.password,
+        };
+        const url = 'http://localhost:8000/user/register/';
+        await postRequest(data, url);
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
     }
   }
+
 }
 </script>
 
