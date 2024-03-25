@@ -42,8 +42,8 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         return HttpResponse('You must fill all the fields', status=400)
     if User.objects.filter(username = data['username']):
         return HttpResponse('This username is already in use', status=400)
-    # if role not in list(Employee.EmployeeRole):
-    #     return HttpResponse('Invalid role', status=400)
+    if role not in list(Employee.EmployeeRole):
+        return HttpResponse('Invalid role', status=400)
     new_user = User(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
     new_user.set_password(password)
     new_user.save()
