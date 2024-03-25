@@ -1,7 +1,11 @@
 <template>
   <q-toolbar>
-    <q-input class="search-input" v-model="filter" debounce="300" placeholder="Search" />
-    <q-btn class="add-btn" color="primary" label="add item" @click="addProduct" />
+    <q-input class="search-input" v-model="filter" debounce="300" placeholder="Search">
+      <template v-slot:prepend>
+        <q-icon name="search" />
+      </template>
+    </q-input>
+    <q-btn class="add-btn" color="primary" icon="add" label="add item" @click="addProduct" />
   </q-toolbar>
   <q-table :rows="products" :columns="columns" row-key="id" :pagination="{ rowsPerPage: 10 }">
     <template v-slot:body-cell-quantity="props">
@@ -24,6 +28,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import { getRequest } from 'src/utils/common';
 
 export default {
@@ -101,6 +106,20 @@ export default {
         console.error('Error getting products:', error);
       }
     },
+    deleteProduct(product) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You will not be able to recover this product!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, keep it'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.deleteProductFromAPI(product);
+        }
+      });
+    },
   }
 }
 </script>
@@ -127,7 +146,8 @@ export default {
 }
 
 .add-btn {
-  width: 85px;
-  padding: 0px 5px 0px 5px;
+  width: 115px;
+  padding: 0px 5px 0px 0px;
+  font-weight: bolder;
 }
 </style>

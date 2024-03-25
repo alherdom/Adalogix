@@ -80,8 +80,4 @@ a {
   text-decoration: none;
   color: inherit;
 }
-
-a:hover {
-  color: #000000;
-}
 </style>

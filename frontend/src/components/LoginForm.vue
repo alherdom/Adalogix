@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import { postRequest } from '../utils/common';
 export default {
   data() {
@@ -40,13 +41,25 @@ export default {
           password: this.password,
         };
         const url = 'http://localhost:8000/user/login/';
-        const response = await postRequest(data, url); // Asegúrate de capturar la respuesta
+        const response = await postRequest(data, url);
         if (response.status === 200) {
+          Swal.fire({
+            title: 'Success',
+            text: 'You are successfully logged in',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 2000,
+          });
           this.$router.push('/main');
-        } else {
-          console.error('Error sending data:', response.statusText);
         }
       } catch (error) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Invalid username or password',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        });
         console.error('Error sending data:', error);
       }
     }

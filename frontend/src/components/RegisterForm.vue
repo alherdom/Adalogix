@@ -3,12 +3,12 @@
     <q-card-section>
       <q-form @submit="sendData" class="form">
         <q-input class="input-form" outlined v-model="username" label="Username" type="text" required />
-        <q-input class="input-form" outlined v-model="firstname" label="Firstname" type="text" required />
-        <q-input class="input-form" outlined v-model="lastname" label="Lastname" type="text" required />
+        <q-input class="input-form" outlined v-model="firstname" label="First Name" type="text" required />
+        <q-input class="input-form" outlined v-model="lastname" label="Last Name" type="text" required />
         <q-select class="input-form" v-model="role" outlined label="Role" :options="roleOptions" required />
         <q-input class="input-form" outlined v-model="email" label="Email" type="text" required />
         <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
-        <q-input class="input-form" outlined v-model="retypePassword" label="Retype password" type="password"
+        <q-input class="input-form" outlined v-model="confirmPassword" label="Confirm Password" type="password"
           required />
         <q-btn color="primary" label="Register" type="submit" class="login-btn" :loading="loading" />
       </q-form>
@@ -17,7 +17,10 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+import { Dialog } from 'quasar';
 import { postRequest } from '../utils/common';
+
 export default {
   data() {
     return {
@@ -26,13 +29,12 @@ export default {
       lastname: '',
       role: '',
       roleOptions: [
-        { label: 'Admin', value: 'admin' },
-        { label: 'Courier', value: 'courier' },
-        { label: 'Guest', value: 'guest' }
+        { label: 'Admin', value: 'SA' },
+        { label: 'Courier', value: 'CO' },
       ],
       email: '',
       password: '',
-      retypePassword: '',
+      confirmPassword: '',
       loading: false,
     };
   },
@@ -48,7 +50,19 @@ export default {
           password: this.password,
         };
         const url = 'http://localhost:8000/user/register/';
-        await postRequest(data, url);
+        const response = await postRequest(data, url);
+        if (response.status === 200) {
+          Swal.fire({
+            title: 'Success',
+            text: 'User registered successfully',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/main');
+        } else {
+          console.error('Error sending data:', response.statusText);
+        }
       } catch (error) {
         console.error('Error sending data:', error);
       }
