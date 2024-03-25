@@ -4,9 +4,10 @@ const routes = [
     redirect: "/login",
   },
   {
-  path: "/login",
-  name: "login",
-  component: () => import("pages/LoginPage.vue"),},
+    path: "/login",
+    name: "login",
+    component: () => import("pages/LoginPage.vue"),
+  },
   {
     path: "/main",
     name: "main",
@@ -21,15 +22,29 @@ const routes = [
         path: "inventory",
         name: "inventory",
         component: () => import("pages/InventoryPage.vue"),
+        meta: { requiresAuth: true },
       },
       {
         path: "register",
         name: "register",
         component: () => import("pages/RegisterPage.vue"),
+        meta: { requiresAuth: true },
       },
-      { path: "route", component: () => import("pages/IndexPage.vue") },
-      { path: "chat", component: () => import("pages/IndexPage.vue") },
-      { path: "logout", component: () => import("pages/IndexPage.vue") },
+      {
+        path: "route",
+        name: "route",
+        component: () => import("pages/IndexPage.vue"),
+      },
+      {
+        path: "chat",
+        name: "chat",
+        component: () => import("pages/IndexPage.vue"),
+      },
+      {
+        path: "logout",
+        name: "logout",
+        component: () => import("pages/IndexPage.vue"),
+      },
     ],
   },
   // Ruta para manejar cualquier otra ruta no definida
