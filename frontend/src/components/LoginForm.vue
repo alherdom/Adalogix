@@ -61,7 +61,7 @@ a {
 }
 
 .logo {
-  width: 100px;
+  width: 120px;
 }
 
 .login-card {
