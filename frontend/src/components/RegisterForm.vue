@@ -1,69 +1,103 @@
 <template>
-  <v-container>
-    <v-row justify="center">
-      <v-col cols="12" sm="8" md="6">
-        <v-card>
-          <v-card-title class="headline grey lighten-2">
-            Register
-          </v-card-title>
-          <v-card-text>
-            <v-form @submit.prevent="register">
-              <v-text-field v-model="username" label="Username" required></v-text-field>
-              <v-text-field v-model="firstName" label="First Name" required></v-text-field>
-              <v-text-field v-model="lastName" label="Last Name" required></v-text-field>
-              <v-select v-model="role" :items="roles" label="Role" required></v-select>
-              <v-text-field v-model="email" label="Email" type="email" required></v-text-field>
-              <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
-              <v-text-field v-model="retypePassword" label="Retype Password" type="password" required></v-text-field>
-              <v-btn color="primary" type="submit" class="mr-4" :loading="loading">
-                Register
-              </v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <q-card class="login-card">
+    <q-card-section>
+      <q-form @submit="sendData" class="form">
+        <q-input class="input-form" outlined v-model="username" label="Username" type="text" required />
+        <q-input class="input-form" outlined v-model="firstname" label="First Name" type="text" required />
+        <q-input class="input-form" outlined v-model="lastname" label="Last Name" type="text" required />
+        <q-select class="input-form" v-model="role" outlined label="Role" :options="roleOptions" required />
+        <q-input class="input-form" outlined v-model="email" label="Email" type="text" required />
+        <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
+        <q-input class="input-form" outlined v-model="confirmPassword" label="Confirm Password" type="password"
+          required />
+        <q-btn color="primary" label="Register" type="submit" class="login-btn" :loading="loading" />
+      </q-form>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>
-import { register } from '@/api/register';
+import Swal from 'sweetalert2';
+import { Dialog } from 'quasar';
+import { postRequest } from '../utils/common';
 
 export default {
   data() {
     return {
       username: '',
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
       role: '',
+      roleOptions: [
+        { label: 'Admin', value: 'SA' },
+        { label: 'Courier', value: 'CO' },
+      ],
       email: '',
       password: '',
-      retypePassword: '',
+      confirmPassword: '',
       loading: false,
-      roles: ['Admin', 'Courier', 'Guest'] // Define your list of roles here
     };
   },
   methods: {
-    register() {
-      console.log('Username:', this.username);
-      console.log('Full Name:', this.fullName);
-      console.log('Role:', this.role);
-      console.log('Email:', this.email);
-      console.log('Password:', this.password);
-      console.log('Retype Password:', this.retypePassword);
-      register({
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        password: this.password
-      })
+    async sendData() {
+      try {
+        const data = {
+          username: this.username,
+          firstname: this.firstname,
+          lastname: this.lastname,
+          role: this.role.value,
+          email: this.email,
+          password: this.password,
+        };
+        const url = 'http://localhost:8000/user/register/';
+        const response = await postRequest(data, url);
+        if (response.status === 200) {
+          Swal.fire({
+            title: 'Success',
+            text: 'User registered successfully',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/main');
+        } else {
+          console.error('Error sending data:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error sending data:', error);
+      }
     }
   }
-};
+
+}
 </script>
+
 <style scoped>
-.v-container {
-  margin-top: 100px;
+.login-card {
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-form:first-child {
+  margin-top: 20px;
+}
+
+.input-form {
+  padding: 0px 20px 20px 20px;
+}
+
+.login-btn {
+  height: 50px;
+  width: 91%;
+  padding: 0px 20px 0px 20px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 </style>
