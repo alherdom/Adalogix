@@ -5,7 +5,7 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          Adalogix
+          <a href="">Adalogix</a>
         </q-toolbar-title>
 
         <div>v0.0.1</div>
@@ -17,7 +17,7 @@
         <q-item-label header>
         </q-item-label>
 
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" target=""/>
+        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" target="" />
       </q-list>
     </q-drawer>
 
@@ -75,3 +75,13 @@ function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
+<style scoped>
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: #000000;
+}
+</style>

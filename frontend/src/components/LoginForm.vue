@@ -8,31 +8,11 @@
     </q-card-section>
 
     <q-card-section>
-      <q-form @submit="login" class="form">
-        <q-input
-          class="input-form"
-          outlined
-          v-model="username"
-          label="Username"
-          type="text"
-          required
-        />
-        <q-input
-          class="input-form"
-          outlined
-          v-model="password"
-          label="Password"
-          type="password"
-          required
-        />
+      <q-form @submit="sendData" class="form">
+        <q-input class="input-form" outlined v-model="username" label="Username" type="text" required />
+        <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
 
-        <q-btn
-          color="primary"
-          label="Log in"
-          type="submit"
-          class="login-btn"
-          :loading="loading"
-        />
+        <q-btn color="primary" label="Log in" type="submit" class="login-btn" :loading="loading" />
 
         <div class="text-center subtitle-form">
           <q-btn flat label="Forgot your password?" @click="forgotPassword" />
@@ -43,6 +23,7 @@
 </template>
 
 <script>
+import { postRequest } from '../utils/common';
 export default {
   data() {
     return {
@@ -52,33 +33,23 @@ export default {
     };
   },
   methods: {
-    async login() {
+    async sendData() {
       try {
-        this.loading = true; // Activar la animación de carga
-
-        // Enviar datos de inicio de sesión al backend
-        const response = await login({
+        const data = {
           username: this.username,
           password: this.password,
-        });
-
-        // Manejar la respuesta del backend
+        };
+        const url = 'http://localhost:8000/user/login/';
+        const response = await postRequest(data, url); // Asegúrate de capturar la respuesta
         if (response.status === 200) {
-          // Login exitoso, redirigir al dashboard por ejemplo
-          this.$router.push("/dashboard");
+          this.$router.push('/main');
         } else {
-          // Mostrar mensaje de error al usuario
-          this.errorMessage =
-            response.message || "An error occurred during login.";
+          console.error('Error sending data:', response.statusText);
         }
       } catch (error) {
-        console.error("Error during login:", error);
-        // Manejar el error de la solicitud (por ejemplo, problemas de red)
-        this.errorMessage = "An error occurred during login.";
-      } finally {
-        this.loading = false; // Desactivar la animación de carga, independientemente del resultado
+        console.error('Error sending data:', error);
       }
-    },
+    }
   },
 };
 </script>

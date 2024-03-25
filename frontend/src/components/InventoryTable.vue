@@ -1,18 +1,17 @@
 <template>
-      <q-toolbar>
-          <!-- Input de búsqueda -->
-          <q-input v-model="filter" debounce="300" placeholder="Search" />
-          <q-btn color="primary" icon="add" label="" @click="addProduct" />
-      </q-toolbar>
+  <q-toolbar>
+    <q-input class="search-input" v-model="filter" debounce="300" placeholder="Search" />
+    <q-btn class="add-btn" color="primary" label="add item" @click="addProduct" />
+  </q-toolbar>
   <q-table :rows="products" :columns="columns" row-key="id" :pagination="{ rowsPerPage: 10 }">
     <template v-slot:body-cell-quantity="props">
       <q-td :props="props">
-        {{ props.row.quantity }} uds
+        {{ props.row.quantity }} units
       </q-td>
     </template>
     <template v-slot:body-cell-price="props">
       <q-td :props="props">
-        ${{ props.row.price }}
+        {{ props.row.price }} €
       </q-td>
     </template>
     <template v-slot:body-cell-actions="props">
@@ -21,10 +20,7 @@
         <q-btn class="actions-btn" color="negative" icon="delete" @click="deleteProduct(props.row)" />
       </q-td>
     </template>
-    <!-- <template v-slot:top>
-      <q-btn color="primary" icon="add" label="ADD PRODUCT" @click="addProduct" />
-    </template> -->
-    </q-table>
+  </q-table>
 </template>
 
 <script>
@@ -118,9 +114,20 @@ export default {
 .q-btn:nth-child(2) {
   margin-left: 10px;
 }
+
 .q-toolbar {
   display: flex;
   justify-content: space-around;
-  padding: 0px 100px 20px;
+  padding: 0px 0px 20px 0px;
+}
+
+.search-input {
+  width: 20%;
+  font-size: 15px;
+}
+
+.add-btn {
+  width: 85px;
+  padding: 0px 5px 0px 5px;
 }
 </style>
