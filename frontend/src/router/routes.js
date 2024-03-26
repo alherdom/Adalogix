@@ -12,6 +12,7 @@ const routes = [
     path: "/main",
     name: "main",
     component: () => import("layouts/MainLayout.vue"),
+    meta: { requiresAuth: true },
     children: [
       {
         path: "",
@@ -38,11 +39,6 @@ const routes = [
       {
         path: "chat",
         name: "chat",
-        component: () => import("pages/IndexPage.vue"),
-      },
-      {
-        path: "logout",
-        name: "logout",
         component: () => import("pages/IndexPage.vue"),
       },
     ],

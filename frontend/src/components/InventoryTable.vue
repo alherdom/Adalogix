@@ -116,12 +116,19 @@ export default {
         cancelButtonText: 'No, keep it'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.deleteProductFromAPI(product);
+          const url = `http://localhost:8000/product/delete/${product.id}/`;
+          fetch(url, {
+            method: 'DELETE',
+          }).then(() => {
+            this.getProducts();
+            Swal.fire('Deleted!', 'Your product has been deleted.', 'success');
+          });
         }
       });
     },
   }
 }
+
 </script>
 
 <style scoped>

@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-
 </script>
 
 <style scoped>
@@ -16,8 +15,10 @@
   align-items: center;
   height: 80vh;
 }
+
 img {
-  width: 250px;;
+  width: 250px;
+  ;
 }
 
 .title {

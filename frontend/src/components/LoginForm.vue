@@ -50,6 +50,8 @@ export default {
             showConfirmButton: false,
             timer: 2000,
           });
+          sessionStorage.setItem('name', response.name);
+          sessionStorage.setItem('role', response.group);
           this.$router.push('/main');
         }
       } catch (error) {
@@ -62,7 +64,16 @@ export default {
         });
         console.error('Error sending data:', error);
       }
-    }
+    },
+    forgotPassword() {
+      Swal.fire({
+        title: 'Forgot Password',
+        text: 'Please contact your administrator',
+        icon: 'info',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    },
   },
 };
 </script>
