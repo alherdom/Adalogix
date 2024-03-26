@@ -20,12 +20,15 @@ class LoginView(APIView):
         user = authenticate(username=data['username'], password=data['password'])
         if user:
             user = User.objects.get(username=data['username'])
-            Token.objects.get(user=user).delete()
+            if token_existance := Token.objects.filter(user=user):
+                token_existance[0].delete()
             token, created = Token.objects.get_or_create(user=user)
             if user.groups.filter(name='admin').exists():
                 group = 'admin'
             elif user.groups.filter(name='courier').exists():
                 group = 'courier'
+            else:
+                return JsonResponse({'error': 'User has no role'}, status=401)
             return JsonResponse(
                 dict(
                     id=user.id,
