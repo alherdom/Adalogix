@@ -1,47 +1,42 @@
 import json
 
-import jwt
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import Group, User
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
 
 from .models import Employee
 
 
-@csrf_exempt
-@require_POST
-def user_login(request: HttpRequest) -> HttpResponse:
-    data = json.loads(request.body)
-    username = data['username']
-    password = data['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        user_object = User.objects.get(username=user)
-        if not user_object.groups.all():
-            return HttpResponse('This user has no group', status=400)
-        if user.groups.filter(name='admin').exists():
+class LoginView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        data = json.loads(request.body)
+        user = authenticate(username=data['username'], password=data['password'])
+        if user:
+            user = User.objects.get(username=data['username'])
+            Token.objects.get(user=user).delete()
+            token, created = Token.objects.get_or_create(user=user)
+            if user.groups.filter(name='admin').exists():
+                group = 'admin'
+            elif user.groups.filter(name='courier').exists():
+                group = 'courier'
             return JsonResponse(
                 dict(
-                    id=user_object.id,
-                    group='admin',
+                    id=user.id,
+                    group=group,
                     status=200,
                     message='Admin successfully logged in',
+                    token=token.key,
                 )
             )
-        if user.groups.filter(name='courier').exists():
-            return JsonResponse(
-                dict(
-                    id=user_object.id,
-                    group='courier',
-                    status=200,
-                    message='Courier successfully logged in',
-                )
-            )
-    else:
-        return HttpResponse(status=400)
+        else:
+            return JsonResponse({'error': 'Invalid credentials'}, status=401)
 
 
 @csrf_exempt
@@ -91,10 +86,3 @@ def user_registration(request: HttpRequest) -> HttpResponse:
             message='User successfully registered',
         )
     )
-
-
-@csrf_exempt
-def test_view(request):
-    payload = {'user': 'pepito', 'role': 'admin'}
-    jtoken = jwt.encode(payload, 'secret_key', algorithm='HS256')
-    return JsonResponse({'token': jtoken})

@@ -14,7 +14,7 @@ class Command(BaseCommand):
         )
         new_user.set_password('12345HOLA')
         new_user.save()
-        truckdriver_group = Group.objects.get(name='truckdriver')
+        truckdriver_group = Group.objects.get(name='courier')
         new_user.groups.add(truckdriver_group)
         # Admin user
         new_admin = User(
