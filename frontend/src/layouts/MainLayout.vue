@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
         <q-toolbar-title>
-          <a href="">Adalogix</a>
+          <a href="" class="title">Adalogix</a>
         </q-toolbar-title>
         <q-chip>
           <q-avatar>
@@ -13,14 +13,14 @@
           {{ userName }}
         </q-chip>
         <!-- <div class="q-pa-md">
-          <q-btn-dropdown class="" color="primary" label="User">
-            <div class="row no-wrap q-pa-md">
-              <div class="column items-center">
-                <q-avatar size="auto">
-                  <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          <q-btn-dropdown class="showUser" size="md" color="white" :label="userName">
+            <div class="row no-wrap q-pa-md user-row">
+              <div class="column">
+                <q-avatar size="100px">
+                  <img src="../assets/default-avatar.svg">
                 </q-avatar>
-                <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
-                <q-btn color="primary" label="Logout" push size="sm" v-close-popup />
+                <div class="text-subtitle1 q-mt-md q-mb-xs">{{ userName }}</div>
+                <q-btn color="primary" label="Logout" push size="md" v-close-popup />
               </div>
             </div>
           </q-btn-dropdown>
@@ -29,8 +29,6 @@
     </q-header>
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header>
-        </q-item-label>
         <EssentialLink v-for="link in filteredLinks" :key="link.title" v-bind="link" @click="hadleClick(link)" />
       </q-list>
     </q-drawer>
@@ -78,6 +76,12 @@ const linksList = [
   {
     title: 'USERS',
     icon: 'people_alt',
+    link: '#/main/users',
+    roles: ['admin']
+  },
+  {
+    title: 'REGISTER',
+    icon: 'app_registration',
     link: '#/main/register',
     roles: ['admin']
   },
@@ -117,5 +121,55 @@ function hadleClick(link) {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+a::after {
+  background-color: red;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.q-chip {
+  background-color: white;
+  font-weight: 400;
+}
+
+.q-list {
+  padding: 50px 0px 0px 0px;
+  font-weight: 400;
+}
+
+.q-list a:first-child {
+  border-top: 1px solid #f0f0f0;
+}
+
+.q-list a {
+  border-bottom: 1px solid #f0f0f0;
+  padding-top: 12px;
+}
+
+.showUser {
+  color: black !important;
+  border-radius: 8px;
+  border-bottom: 3px solid rgb(255, 255, 255, 0.5);
+  text-transform: capitalize;
+  height: 10px !important;
+}
+
+.user-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 </style>

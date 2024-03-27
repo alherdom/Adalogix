@@ -16,22 +16,6 @@ import routes from "./routes";
  * with the Router instance.
  */
 
-const isAuthenticated = () => {
-  const role = sessionStorage.getItem("role");
-  if (role === "admin" || role === "courier") {
-    return true;
-  }
-  return false;
-};
-
-const requireAuth = (to, from, next) => {
-  if (to.meta.requiresAuth && !isAuthenticated()) {
-    next("/login");
-  } else {
-    next();
-  }
-};
-
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
@@ -49,6 +33,23 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach(requireAuth);
+  Router.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+    const userRole = sessionStorage.getItem("role");
+    if (requiresAuth) {
+      if (!userRole) {
+        next({ path: "/login" });
+      } else {
+        const allowedRoles = to.meta.roles;
+        if (allowedRoles.includes(userRole.toLowerCase())) {
+          next();
+        } else {
+          next({ path: "/unauthorized" });
+        }
+      }
+    } else {
+      next();
+    }
+  });
   return Router;
 });
