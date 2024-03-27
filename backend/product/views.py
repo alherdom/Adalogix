@@ -1,3 +1,5 @@
+import json
+from django.http import JsonResponse
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
@@ -6,10 +8,19 @@ from rest_framework.generics import (
     UpdateAPIView,
 )
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 
 from .models import Product
 from .serializers import ProductDetailSerializer, ProductListSerializer
 
+class ProductMultipleDelete(APIView):
+    def delete(self, request):
+        data = json.loads(request.body)
+        product_ids = data["ID's"]
+        for product_id in product_ids:
+            Product.objects.get(id=product_id).delete()
+        return JsonResponse({'deleted': 'true'})
 
 class ProductListView(ListAPIView):
     permission_classes = [IsAuthenticated]
