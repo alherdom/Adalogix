@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView
 from .serializers import EmployeeSerializer
 from rest_framework.permissions import IsAuthenticated
 
@@ -95,6 +95,11 @@ def user_registration(request: HttpRequest) -> HttpResponse:
     )
 
 class EmployeeListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+class EmployeeUpdateView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
