@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-x#$_yztjvbgq-8v*kp5k$pi$n_rfhm8=m)dakru60uja_j7eql
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -81,8 +82,12 @@ WSGI_APPLICATION = 'adalogix.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'adalogix',
+        'USER': 'adalogix',
+        'PASSWORD': 'adalogix',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -149,6 +154,7 @@ CORS_ALLOW_HEADERS = [
 # REST FRAMEWORK SETTINGS
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
 }

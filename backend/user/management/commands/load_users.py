@@ -8,13 +8,13 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         # First we create an admin
         User.objects.create_superuser(username='admin', email='admin@admin.com', password='12345')
-        # Truckdriver user
+        # Courier user
         new_user = User(
             username='truckdriver', email='test@gmail.com', first_name='Pepe', last_name='Pepe'
         )
         new_user.set_password('12345HOLA')
         new_user.save()
-        truckdriver_group = Group.objects.get(name='truckdriver')
+        truckdriver_group = Group.objects.get(name='courier')
         new_user.groups.add(truckdriver_group)
         # Admin user
         new_admin = User(

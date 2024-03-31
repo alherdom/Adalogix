@@ -1,48 +1,50 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
-from .models import Employee
 import json
 
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth.models import Group, User
+from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
+from .serializers import EmployeeSerializer
+from rest_framework.permissions import IsAuthenticated
 
-@csrf_exempt
-@require_POST
-def user_login(request: HttpRequest) -> HttpResponse:
-    data = json.loads(request.body)
-    username = data['username']
-    password = data['password']
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        login(request, user)
-        user_object = User.objects.get(username=user)
-        if not user_object.groups.all():
-            return HttpResponse('This user has no group', status=400)
-        if user.groups.filter(name='admin').exists():
+
+from .models import Employee
+
+
+class LoginView(APIView):
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        data = json.loads(request.body)
+        user = authenticate(username=data['username'], password=data['password'])
+        if user:
+            user = User.objects.get(username=data['username'])
+            if token_existance := Token.objects.filter(user=user):
+                token_existance[0].delete()
+            token, created = Token.objects.get_or_create(user=user)
+            if user.groups.filter(name='admin').exists():
+                group = 'admin'
+            elif user.groups.filter(name='courier').exists():
+                group = 'courier'
+            else:
+                return JsonResponse({'error': 'User has no role'}, status=401)
             return JsonResponse(
                 dict(
-                    id=user_object.id,
-                    name=user_object.first_name + ' ' + user_object.last_name,
-                    group='admin',
+                    id=user.id,
+                    group=group,
                     status=200,
                     message='Admin successfully logged in',
+                    token=token.key,
                 )
             )
-        if user.groups.filter(name='courier').exists():
-            return JsonResponse(
-                dict(
-                    id=user_object.id,
-                    name=user_object.first_name + ' ' + user_object.last_name,
-                    group='courier',
-                    status=200,
-                    message='Courier successfully logged in',
-                )
-            )
-    else:
-        return HttpResponse(status=400)
+        else:
+            return JsonResponse({'error': 'Invalid credentials'}, status=401)
+
 
 
 @csrf_exempt
@@ -60,8 +62,13 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         data['username'],
         data['password'],
         data['email'],
+<<<<<<< HEAD
         data['firstname'],
         data['lastname'],
+=======
+        data['firstName'],
+        data['lastName'],
+>>>>>>> develop
         data['role'],
     )
     if not all([username, email, first_name, last_name, password, role]):
@@ -92,6 +99,7 @@ def user_registration(request: HttpRequest) -> HttpResponse:
             message='User successfully registered',
         )
     )
+<<<<<<< HEAD
 
 
 def user_list(request):
@@ -99,3 +107,10 @@ def user_list(request):
         'id', 'username', 'first_name', 'last_name', 'email', 'groups__name')
     users_list = list(users)
     return JsonResponse(users_list, safe=False)
+=======
+
+class EmployeeListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+>>>>>>> develop
