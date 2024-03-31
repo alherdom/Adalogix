@@ -1,36 +1,85 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
+    <q-header class="myHeader" elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-        <q-toolbar-title>
-          <a href="" class="title">Adalogix</a>
-        </q-toolbar-title>
-        <q-chip>
-          <q-avatar>
-            <img src="../assets/default-avatar.svg">
-          </q-avatar>
-          {{ userName }}
-        </q-chip>
-        <!-- <div class="q-pa-md">
-          <q-btn-dropdown class="showUser" size="md" color="white" :label="userName">
-            <div class="row no-wrap q-pa-md user-row">
-              <div class="column">
-                <q-avatar size="100px">
-                  <img src="../assets/default-avatar.svg">
-                </q-avatar>
-                <div class="text-subtitle1 q-mt-md q-mb-xs">{{ userName }}</div>
-                <q-btn color="primary" label="Logout" push size="md" v-close-popup />
-              </div>
+        <q-btn flat @click="drawer = !drawer" dense icon="menu" />
+        <q-toolbar-title class="title"
+          ><a href="#/">Adalogix</a></q-toolbar-title
+        >
+        <q-space />
+        <q-btn-dropdown
+          class="userName"
+          flat
+          dense
+          :label="userName"
+          icon="person"
+          no-caps
+        >
+          <div class="row no-wrap q-pa-md">
+            <div class="myDropdown">
+              <q-btn
+                class="btn-profile"
+                color="primary"
+                text-color="black"
+                label="Profile"
+                push
+                size="sm"
+                @click="showProfile"
+              />
+              <q-btn
+                class="btn-logout"
+                color="primary"
+                text-color="black"
+                label="Logout"
+                push
+                size="sm"
+                @click="logout"
+              />
             </div>
-          </q-btn-dropdown>
-        </div> -->
+          </div>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <EssentialLink v-for="link in filteredLinks" :key="link.title" v-bind="link" @click="hadleClick(link)" />
-      </q-list>
+
+    <q-drawer
+      v-model="drawer"
+      show-if-above
+      :mini="miniState"
+      @mouseover="miniState = false"
+      @mouseout="miniState = true"
+      :width="200"
+      :breakpoint="500"
+      bordered
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+    >
+      <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+        <q-list padding>
+          <router-link
+            v-for="(link, index) in filteredLinks"
+            :key="link.path"
+            :to="link.path"
+          >
+            <q-item :active="isActive(link.path)" clickable v-ripple>
+              <q-item-section avatar>
+                <q-icon :name="link.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ link.label }}
+              </q-item-section>
+            </q-item>
+            <q-separator
+              v-if="(index + 1) % 5 === 0 && index !== filteredLinks.length - 1"
+            />
+          </router-link>
+          <q-item clickable @click="logout" v-ripple>
+            <q-item-section avatar>
+              <q-icon name="exit_to_app" />
+            </q-item-section>
+            <q-item-section> LOGOUT </q-item-section>
+          </q-item>
+          <q-separator />
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
     <q-page-container>
       <router-view />
@@ -38,138 +87,91 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-import Swal from 'sweetalert2';
+<script>
+import { ref, computed } from "vue";
+import Swal from "sweetalert2";
+import { useUserStore } from "../stores/users";
+import { useRouter } from "vue-router";
 
-defineOptions({
-  name: 'MainLayout'
-})
-const userName = sessionStorage.getItem('name')
+export default {
+  setup() {
+    const drawer = ref(false);
+    const miniState = ref(true);
+    const userStore = useUserStore();
+    const router = useRouter();
+    const userName = userStore.userData.name;
 
-const linksList = [
-  {
-    title: 'HOME',
-    icon: 'home',
-    link: '#/main',
-    roles: ['admin', 'courier']
-  },
-  {
-    title: 'INVENTORY',
-    icon: 'inventory',
-    link: '#/main/inventory',
-    roles: ['admin']
-  },
-  {
-    title: 'ROUTE',
-    icon: 'location_on',
-    link: '#/main/route',
-    roles: ['admin']
-  },
-  {
-    title: 'CHAT',
-    icon: 'chat',
-    link: '#/main/chat',
-    roles: ['admin', 'courier']
-  },
-  {
-    title: 'USERS',
-    icon: 'people_alt',
-    link: '#/main/users',
-    roles: ['admin']
-  },
-  {
-    title: 'REGISTER',
-    icon: 'app_registration',
-    link: '#/main/register',
-    roles: ['admin']
-  },
-  {
-    title: 'LOGOUT',
-    icon: 'exit_to_app',
-    roles: ['admin', 'courier']
-  }
-]
+    const links = [
+      {
+        path: "/",
+        label: "HOME",
+        icon: "cottage",
+        roles: ["admin", "courier"],
+      },
+      {
+        path: "/inventory",
+        label: "INVENTORY",
+        icon: "inventory",
+        roles: ["admin"],
+      },
+      { path: "/router", label: "ROUTER", icon: "fmd_good", roles: ["admin"] },
+      {
+        path: "/chat",
+        label: "CHAT",
+        icon: "comment",
+        roles: ["admin", "courier"],
+      },
+      { path: "/users", label: "USERS", icon: "people_alt", roles: ["admin"] },
+      {
+        path: "/settings",
+        label: "SETTINGS",
+        icon: "settings",
+        roles: ["admin", "courier"],
+      },
+    ];
 
-const leftDrawerOpen = ref(false)
-const userRole = sessionStorage.getItem('role')
-
-const filteredLinks = computed(() => {
-  return linksList.filter(link => link.roles.includes(userRole));
-})
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
-
-function hadleClick(link) {
-  if (link.title === 'LOGOUT') {
-    sessionStorage.removeItem('role')
-    Swal.fire({
-      title: 'See you soon 👋🏻',
-      text: 'You have been logged out',
-      icon: 'success',
-      showConfirmButton: false,
-      timer: 2000,
+    const filteredLinks = computed(() => {
+      const userRole = localStorage.getItem("userGroup");
+      if (!userRole) return [];
+      return links.filter(
+        (link) => Array.isArray(link.roles) && link.roles.includes(userRole)
+      );
     });
-  }
-}
 
+    const isActive = (route) => {
+      return router.currentRoute.value.path === route;
+    };
+
+    const logout = () => {
+      Swal.fire({
+        title: `Bye ${userName}! 👋🏻`,
+        text: "You have been logged out",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      router.push("/login");
+      userStore.clearData();
+      localStorage.clear();
+    };
+
+    const showProfile = () => {
+      Swal.fire({
+        title: "Showing profile...",
+        text: "This feature is not implemented yet",
+        icon: "info",
+      });
+    };
+
+    return {
+      drawer,
+      miniState,
+      filteredLinks,
+      userName,
+      isActive,
+      logout,
+      showProfile,
+    };
+  },
+};
 </script>
-<style scoped>
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-a::after {
-  background-color: red;
-}
-
-.title {
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
-.q-chip {
-  background-color: white;
-  font-weight: 400;
-}
-
-.q-list {
-  padding: 50px 0px 0px 0px;
-  font-weight: 400;
-}
-
-.q-list a:first-child {
-  border-top: 1px solid #f0f0f0;
-}
-
-.q-list a {
-  border-bottom: 1px solid #f0f0f0;
-  padding-top: 12px;
-}
-
-.showUser {
-  color: black !important;
-  border-radius: 8px;
-  border-bottom: 3px solid rgb(255, 255, 255, 0.5);
-  text-transform: capitalize;
-  height: 10px !important;
-}
-
-.user-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-</style>

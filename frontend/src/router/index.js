@@ -1,4 +1,5 @@
 import { route } from "quasar/wrappers";
+import { useUserStore } from "../stores/users";
 import {
   createRouter,
   createMemoryHistory,
@@ -35,7 +36,9 @@ export default route(function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-    const userRole = sessionStorage.getItem("role");
+    const userRole = localStorage.getItem("userGroup");
+    // const userStore = useUserStore();
+    // const userRole = userStore.userData.group;
     if (requiresAuth) {
       if (!userRole) {
         next({ path: "/login" });

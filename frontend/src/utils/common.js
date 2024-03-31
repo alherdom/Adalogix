@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 export async function postRequest(data, url) {
   const options = {
     method: 'POST',
@@ -21,4 +23,16 @@ export async function getRequest(url) {
 
   const response = await fetch(url, options);
   return await response.json();
+}
+
+export const logout = () => {
+  sessionStorage.clear();
+  this.$router.push('/login');
+  Swal.fire({
+    title: "Success",
+    text: "Logged out successfully",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
 }
