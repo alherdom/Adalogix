@@ -62,13 +62,8 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         data['username'],
         data['password'],
         data['email'],
-<<<<<<< HEAD
-        data['firstname'],
-        data['lastname'],
-=======
         data['firstName'],
         data['lastName'],
->>>>>>> develop
         data['role'],
     )
     if not all([username, email, first_name, last_name, password, role]):
@@ -99,18 +94,8 @@ def user_registration(request: HttpRequest) -> HttpResponse:
             message='User successfully registered',
         )
     )
-<<<<<<< HEAD
-
-
-def user_list(request):
-    users = User.objects.values(
-        'id', 'username', 'first_name', 'last_name', 'email', 'groups__name')
-    users_list = list(users)
-    return JsonResponse(users_list, safe=False)
-=======
 
 class EmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
->>>>>>> develop
