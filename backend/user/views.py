@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, UpdateAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
 from .serializers import EmployeeSerializer
 from rest_framework.permissions import IsAuthenticated
 
@@ -36,7 +36,7 @@ class LoginView(APIView):
             return JsonResponse(
                 dict(
                     id=user.id,
-                    group=group,
+                    group=group,    
                     status=200,
                     message='Admin successfully logged in',
                     token=token.key,
@@ -100,6 +100,11 @@ class EmployeeListView(ListAPIView):
     serializer_class = EmployeeSerializer
 
 class EmployeeUpdateView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+class EmployeeDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
