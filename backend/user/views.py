@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from .serializers import EmployeeSerializer
 from rest_framework.permissions import IsAuthenticated
 
@@ -108,3 +108,16 @@ class EmployeeDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+class EmployeeDeleteView(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+class EmployeeMultipleDelete(APIView):
+    def delete(self, request):
+        data = json.loads(request.body)
+        employee_ids = data["ID's"]
+        for employee_id in employee_ids:
+            Employee.objects.get(id=employee_id).delete()
+        return JsonResponse({'deleted': 'true'})
