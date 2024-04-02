@@ -41,6 +41,7 @@ class ProductList(APIView):
                     'id': product.id,
                     'description': product.description,
                     'quantity': quantity,
+                    'category': product.category,
                     'pirce': product.price,
                     'weight': product.weight,
                     'volume': product.volume,
