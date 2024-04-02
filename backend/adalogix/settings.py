@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from prettyconf import config
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -85,7 +86,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'adalogix',
         'USER': 'adalogix',
-        'PASSWORD': 'adalogix',
+        'PASSWORD': config('POSTGRES_PASSWORD', default='adalogix'),
         'HOST': 'localhost',
         'PORT': '5432',
     }

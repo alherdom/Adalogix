@@ -99,7 +99,7 @@ export default {
     const miniState = ref(true);
     const userStore = useUserStore();
     const router = useRouter();
-    const userName = userStore.userData.name;
+    const userName = localStorage.getItem("userName");
 
     const links = [
       {

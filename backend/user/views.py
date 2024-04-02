@@ -36,6 +36,7 @@ class LoginView(APIView):
             return JsonResponse(
                 dict(
                     id=user.id,
+                    name=user.get_full_name(),
                     group=group,
                     status=200,
                     message='Admin successfully logged in',
@@ -44,7 +45,6 @@ class LoginView(APIView):
             )
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=401)
-
 
 
 @csrf_exempt
@@ -94,6 +94,7 @@ def user_registration(request: HttpRequest) -> HttpResponse:
             message='User successfully registered',
         )
     )
+
 
 class EmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]

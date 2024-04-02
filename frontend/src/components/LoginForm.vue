@@ -25,7 +25,7 @@
 <script>
 import { ref } from 'vue';
 import Swal from 'sweetalert2';
-import { postRequest } from '../utils/common';
+import { postLoginRequest } from '../utils/common';
 import { useUserStore } from '../stores/users';
 import { useRouter } from 'vue-router';
 
@@ -51,6 +51,7 @@ export default {
         showConfirmButton: false,
         timer: 2000,
       });
+      localStorage.setItem('userId', response.id);
       localStorage.setItem('userName', response.name);
       localStorage.setItem('userGroup', response.group);
       localStorage.setItem('userToken', response.token);
@@ -60,7 +61,7 @@ export default {
 
     // Function to handle the failed login
     // It shows an error message if the login fails
-    const handleFailedLogin = (error) => {
+    const handleFailedLogin = () => {
       Swal.fire({
         title: 'Error',
         text: 'Invalid username or password',
@@ -82,12 +83,14 @@ export default {
           password: password.value,
         };
         const url = 'http://localhost:8000/user/login/';
-        const response = await postRequest(requestData, url);
+        const response = await postLoginRequest(requestData, url);
         if (response.status === 200) {
           handleSuccessLogin(response);
+        } else {
+          handleFailedLogin();
         }
       } catch (error) {
-        handleFailedLogin(error);
+        console.error(error);
       } finally {
         loading.value = false;
       }

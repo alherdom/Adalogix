@@ -45,20 +45,18 @@ a {
 .register-card {
   width: 500px;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
+  height: auto;
+  height: 640px;
 }
 
 .register-form .q-input {
   padding: 0px 20px 20px 20px;
-}
-
-.register-form:first-child {
-  margin-top: 20px;
 }
 
 .register-btn {
@@ -66,12 +64,15 @@ a {
   width: 91%;
   padding: 0px 20px 0px 20px;
   margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 .q-page-container {
   margin-bottom: 10px;
+}
+
+.subtitle-register-form {
+  margin-top: 20px;
+  margin-bottom: 0px !important;
 }
 
 // MAIN LAYOUT
@@ -100,14 +101,15 @@ a {
 }
 
 // INVENTORY AND USERS TABLES
-.my-sticky-dynamic {
-  /* height or max-height is important */
-  height: 90vh;
+.my-sticky-header-table {
+  // height or max-height is important
+  height: 94vh;
 
   .q-table__top,
+  .q-table__bottom,
   thead tr:first-child th {
+    // bg color is important for th; just specify one
     background-color: #EEEEEE;
-    height: 45px;
   }
 
   thead tr th {
@@ -115,19 +117,19 @@ a {
     z-index: 1;
   }
 
-  /* this will be the loading indicator */
-  thead tr:last-child th {
-    /* height of all previous header rows */
-    top: 48px;
-  }
-
   thead tr:first-child th {
     top: 0;
   }
 
-  /* prevent scrolling behind sticky top row on focus */
+  // this is when the loading indicator appears
+  &.q-table--loading thead tr:last-child th {
+    // height of all previous header rows
+    top: 48px;
+  }
+
+  // prevent scrolling behind sticky top row on focus
   tbody {
-    /* height of all previous header rows */
+    // height of all previous header rows
     scroll-margin-top: 48px;
   }
 }
