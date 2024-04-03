@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" dense icon="menu" />
         <q-toolbar-title class="title"
-          ><a href="#/">Adalogix</a></q-toolbar-title
+          ><a href="/">Adalogix</a></q-toolbar-title
         >
         <q-space />
         <q-btn-dropdown
@@ -87,91 +87,77 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { ref, computed } from "vue";
 import Swal from "sweetalert2";
 import { useUserStore } from "../stores/users";
 import { useRouter } from "vue-router";
 
-export default {
-  setup() {
-    const drawer = ref(false);
-    const miniState = ref(true);
-    const userStore = useUserStore();
-    const router = useRouter();
-    const userName = localStorage.getItem("userName");
+const drawer = ref(false);
+const miniState = ref(true);
+const userStore = useUserStore();
+const router = useRouter();
+const userName = localStorage.getItem("userName");
 
-    const links = [
-      {
-        path: "/",
-        label: "HOME",
-        icon: "cottage",
-        roles: ["admin", "courier"],
-      },
-      {
-        path: "/inventory",
-        label: "INVENTORY",
-        icon: "inventory",
-        roles: ["admin"],
-      },
-      { path: "/router", label: "ROUTER", icon: "fmd_good", roles: ["admin"] },
-      {
-        path: "/chat",
-        label: "CHAT",
-        icon: "comment",
-        roles: ["admin", "courier"],
-      },
-      { path: "/users", label: "USERS", icon: "people_alt", roles: ["admin"] },
-      {
-        path: "/settings",
-        label: "SETTINGS",
-        icon: "settings",
-        roles: ["admin", "courier"],
-      },
-    ];
-
-    const filteredLinks = computed(() => {
-      const userRole = localStorage.getItem("userGroup");
-      if (!userRole) return [];
-      return links.filter(
-        (link) => Array.isArray(link.roles) && link.roles.includes(userRole)
-      );
-    });
-
-    const isActive = (route) => {
-      return router.currentRoute.value.path === route;
-    };
-
-    const logout = () => {
-      Swal.fire({
-        title: `Bye ${userName}! 👋🏻`,
-        text: "You have been logged out",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      router.push("/login");
-      userStore.clearData();
-      localStorage.clear();
-    };
-
-    const showProfile = () => {
-      Swal.fire({
-        title: "Showing profile...",
-        text: "This feature is not implemented yet",
-        icon: "info",
-      });
-    };
-
-    return {
-      drawer,
-      miniState,
-      filteredLinks,
-      userName,
-      isActive,
-      logout,
-      showProfile,
-    };
+const links = [
+  {
+    path: "/",
+    label: "HOME",
+    icon: "cottage",
+    roles: ["admin", "courier"],
   },
+  {
+    path: "/inventory",
+    label: "INVENTORY",
+    icon: "inventory",
+    roles: ["admin"],
+  },
+  { path: "/router", label: "ROUTER", icon: "fmd_good", roles: ["admin"] },
+  {
+    path: "/chat",
+    label: "CHAT",
+    icon: "comment",
+    roles: ["admin", "courier"],
+  },
+  { path: "/users", label: "USERS", icon: "people_alt", roles: ["admin"] },
+  {
+    path: "/settings",
+    label: "SETTINGS",
+    icon: "settings",
+    roles: ["admin", "courier"],
+  },
+];
+
+const filteredLinks = computed(() => {
+  const userRole = localStorage.getItem("userGroup");
+  if (!userRole) return [];
+  return links.filter(
+    (link) => Array.isArray(link.roles) && link.roles.includes(userRole)
+  );
+});
+
+const isActive = (route) => {
+  return router.currentRoute.value.path === route;
+};
+
+const logout = () => {
+  Swal.fire({
+    title: `Bye ${userName}! 👋🏻`,
+    text: "You have been logged out",
+    icon: "success",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  router.push("/login");
+  userStore.clearData();
+  localStorage.clear();
+};
+
+const showProfile = () => {
+  Swal.fire({
+    title: "Showing profile...",
+    text: "This feature is not implemented yet",
+    icon: "info",
+  });
 };
 </script>

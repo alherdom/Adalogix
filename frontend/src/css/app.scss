@@ -101,6 +101,23 @@ a {
 }
 
 // INVENTORY AND USERS TABLES
+.searchInput {
+  width: 365px;
+  padding: 5px 0px 25px 0px;
+  margin-right: 100vw;
+}
+
+.myBtns {
+  background-color: black;
+  color: white;
+  padding: 0px 7px 0px 5px;
+}
+
+.myBtns .q-btn__content {
+  font-weight: 400;
+  padding: 2px 5px 2px 5px;
+}
+
 .my-sticky-header-table {
   // height or max-height is important
   height: 94vh;
