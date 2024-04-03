@@ -119,7 +119,7 @@ class EmployeeDeleteView(DestroyAPIView):
 class EmployeeMultipleDelete(APIView):
     def delete(self, request):
         data = json.loads(request.body)
-        employee_ids = data["ID's"]
+        employee_ids = data['employee_ids']
         for employee_id in employee_ids:
-            Employee.objects.get(id=employee_id).delete()
-        return JsonResponse({'deleted': 'true'})
+            Employee.objects.get(user=employee_id).delete()
+        return JsonResponse({'status': 200})

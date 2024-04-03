@@ -1,11 +1,11 @@
 <template>
   <q-table class="my-sticky-header-table" flat bordered title="Users Table" :rows="items" :columns="columns"
-    :loading="loading" row-key="id" v-model:selected="selectedRows" selection="multiple"
+  :loading="loading" row-key="user" v-model:selected="selectedRows" selection="multiple"
     :pagination="{ rowsPerPage: 20 }">
     <template v-slot:top-right>
       <q-input class="searchInput" v-model="search" debounce="300" dense placeholder="Search user..." />
       <q-btn-group class="myBtns">
-        <q-btn push dense no-caps label="Delete Users" icon="delete" @click="deleteItems" />
+        <q-btn push dense no-caps label="Delete Users" icon="delete" @click="deleteUser" />
         <q-btn push dense no-caps label="Export CSV" icon="download" @click="exportTable" />
         <q-btn push dense no-caps label="Register User" icon="person_add" @click="registerUser" />
       </q-btn-group>
@@ -15,7 +15,7 @@
 
 <script setup>
 import Swal from "sweetalert2";
-import { getRequest, deleteRequest } from "src/utils/common";
+import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -25,21 +25,37 @@ const columns = [
     required: true,
     label: "Id",
     align: "left",
-    field: "id",
+    field: "user",
     sortable: true,
   },
   {
-    name: "first_name",
+    name: "userName",
     required: true,
-    label: "Name",
+    label: "Username",
+    align: "left",
+    field: "username",
+    sortable: true,
+  },
+  {
+    name: "role",
+    required: true,
+    label: "Role",
+    align: "left",
+    field: "role",
+    sortable: true,
+  },
+  {
+    name: "firstName",
+    required: true,
+    label: "First Name",
     align: "left",
     field: "first_name",
     sortable: true,
   },
   {
-    name: "last_name",
+    name: "lastName",
     required: true,
-    label: "Name",
+    label: "Last Name",
     align: "left",
     field: "last_name",
     sortable: true,
@@ -50,14 +66,6 @@ const columns = [
     label: "Email",
     align: "left",
     field: "email",
-    sortable: true,
-  },
-  {
-    name: "role",
-    required: true,
-    label: "Role",
-    align: "left",
-    field: "role",
     sortable: true,
   },
 ];
@@ -87,7 +95,7 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const deleteItems = async () => {
+const deleteUser = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
       title: "No users selected",
@@ -107,7 +115,7 @@ const deleteItems = async () => {
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const requestData = { ids: selectedRows.value.map((item) => item.id) };
+      const requestData = { employee_ids: selectedRows.value.map((item) => item.user) };
       const url = "http://localhost:8000/user/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);

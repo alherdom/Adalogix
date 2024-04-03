@@ -5,7 +5,7 @@
     <template v-slot:top-right>
         <q-input class="searchInput" v-model="search" debounce="300" dense placeholder="Search item..." />
       <q-btn-group class="myBtns">
-        <q-btn push dense no-caps label="Delete Items" icon="delete" @click="deleteItems" />
+        <q-btn push dense no-caps label="Delete Items" icon="delete" @click="deleteItem" />
         <q-btn push dense no-caps label="Export CSV" icon="download" @click="exportTable" />
         <q-btn push dense no-caps label="Load Data" icon="upload" @click="exportTable" />
       </q-btn-group>
@@ -94,7 +94,7 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const deleteItems = async () => {
+const deleteItem = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
       title: "No items selected",
@@ -114,7 +114,7 @@ const deleteItems = async () => {
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const requestData = { ids: selectedRows.value.map((item) => item.id) };
+      const requestData = { product_ids: selectedRows.value.map((item) => item.id) };
       const url = "http://localhost:8000/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
