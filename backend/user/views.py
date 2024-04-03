@@ -36,7 +36,8 @@ class LoginView(APIView):
             return JsonResponse(
                 dict(
                     id=user.id,
-                    group=group,    
+                    name=user.get_full_name(),
+                    group=group,
                     status=200,
                     message='Admin successfully logged in',
                     token=token.key,
@@ -94,6 +95,7 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         )
     )
 
+
 class EmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
@@ -117,7 +119,7 @@ class EmployeeDeleteView(DestroyAPIView):
 class EmployeeMultipleDelete(APIView):
     def delete(self, request):
         data = json.loads(request.body)
-        employee_ids = data["ID's"]
+        employee_ids = data['employee_ids']
         for employee_id in employee_ids:
-            Employee.objects.get(id=employee_id).delete()
-        return JsonResponse({'deleted': 'true'})
+            Employee.objects.get(user=employee_id).delete()
+        return JsonResponse({'status': 200})

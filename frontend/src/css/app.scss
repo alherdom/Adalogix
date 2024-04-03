@@ -1,1 +1,155 @@
 // app global css in SCSS form
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// LOGIN FORM
+.login-logo {
+  width: 120px;
+}
+
+.login-card {
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.title-form {
+  padding-top: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.subtitle-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.input-form {
+  padding: 0px 20px 20px 20px;
+}
+
+.login-btn {
+  height: 50px;
+  width: 91%;
+  padding: 0px 20px 0px 20px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+// REGISTER FORM
+.register-card {
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  height: 640px;
+}
+
+.register-form .q-input {
+  padding: 0px 20px 20px 20px;
+}
+
+.register-btn {
+  height: 50px;
+  width: 91%;
+  padding: 0px 20px 0px 20px;
+  margin: 0 auto;
+}
+
+.q-page-container {
+  margin-bottom: 10px;
+}
+
+.subtitle-register-form {
+  margin-top: 20px;
+  margin-bottom: 0px !important;
+}
+
+// MAIN LAYOUT
+.myHeader {
+  color: black;
+}
+
+.userName {
+  font-weight: 400;
+}
+
+.myDropdown {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.exportTable,
+.registerUser {
+  font-weight: 400;
+}
+
+.btn-profile {
+  margin-bottom: 10px;
+  width: 100px;
+}
+
+// INVENTORY AND USERS TABLES
+.searchInput {
+  width: 400px;
+  padding: 20px 0px 25px 0px;
+  margin-right: 500px;
+  font-size: 1.1em;
+  position: relative;
+  // margin-right: 100vw;
+}
+
+.myBtns {
+  background-color: black;
+  color: white;
+  padding: 0px 7px 0px 5px;
+}
+
+.myBtns .q-btn__content {
+  font-weight: 400;
+  padding: 2px 5px 2px 5px;
+}
+
+.my-sticky-header-table {
+  // height or max-height is important
+  height: 94vh;
+
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th {
+    // bg color is important for th; just specify one
+    background-color: #EEEEEE;
+  }
+
+  thead tr th {
+    position: sticky;
+    z-index: 1;
+  }
+
+  thead tr:first-child th {
+    top: 0;
+  }
+
+  // this is when the loading indicator appears
+  &.q-table--loading thead tr:last-child th {
+    // height of all previous header rows
+    top: 48px;
+  }
+
+  // prevent scrolling behind sticky top row on focus
+  tbody {
+    // height of all previous header rows
+    scroll-margin-top: 48px;
+  }
+}

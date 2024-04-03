@@ -1,13 +1,13 @@
 <template>
-  <q-table class="my-sticky-header-table" flat bordered title="Inventory Table" :rows="items" :columns="columns"
-    :loading="loading" row-key="id" v-model:selected="selectedRows" selection="multiple"
+  <q-table class="my-sticky-header-table" flat bordered title="Users Table" :rows="items" :columns="columns"
+  :loading="loading" row-key="user" v-model:selected="selectedRows" selection="multiple"
     :pagination="{ rowsPerPage: 20 }">
     <template v-slot:top-right>
-        <q-input class="searchInput" v-model="search" debounce="300" dense placeholder="Search item..." />
+      <q-input class="searchInput" v-model="search" debounce="300" dense placeholder="Search user..." />
       <q-btn-group class="myBtns">
-        <q-btn push dense no-caps label="Delete Items" icon="delete" @click="deleteItem" />
+        <q-btn push dense no-caps label="Delete Users" icon="delete" @click="deleteUser" />
         <q-btn push dense no-caps label="Export CSV" icon="download" @click="exportTable" />
-        <q-btn push dense no-caps label="Load Data" icon="upload" @click="exportTable" />
+        <q-btn push dense no-caps label="Register User" icon="person_add" @click="registerUser" />
       </q-btn-group>
     </template>
   </q-table>
@@ -16,7 +16,7 @@
 <script setup>
 import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const columns = [
@@ -25,47 +25,47 @@ const columns = [
     required: true,
     label: "Id",
     align: "left",
-    field: "id",
+    field: "user",
     sortable: true,
   },
   {
-    name: "name",
+    name: "userName",
     required: true,
-    label: "Name",
+    label: "Username",
     align: "left",
-    field: "name",
+    field: "username",
     sortable: true,
   },
   {
-    name: "description",
+    name: "role",
     required: true,
-    label: "Description",
+    label: "Role",
     align: "left",
-    field: "description",
+    field: "role",
     sortable: true,
   },
   {
-    name: "category",
+    name: "firstName",
     required: true,
-    label: "Category",
+    label: "First Name",
     align: "left",
-    field: "category",
+    field: "first_name",
     sortable: true,
   },
   {
-    name: "quantity",
+    name: "lastName",
     required: true,
-    label: "Quantity",
+    label: "Last Name",
     align: "left",
-    field: "quantity",
+    field: "last_name",
     sortable: true,
   },
   {
-    name: "price",
+    name: "email",
     required: true,
-    label: "Price",
+    label: "Email",
     align: "left",
-    field: "price",
+    field: "email",
     sortable: true,
   },
 ];
@@ -73,11 +73,12 @@ const columns = [
 const loading = ref(false);
 const selectedRows = ref([]);
 const items = ref([]);
+const router = useRouter();
 
 const fetchData = async () => {
   try {
     loading.value = true;
-    const url = "http://localhost:8000/product/list/";
+    const url = "http://localhost:8000/user/list";
     const response = await getRequest(url);
     items.value = response;
   } catch (error) {
@@ -94,11 +95,11 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const deleteItem = async () => {
+const deleteUser = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
-      title: "No items selected",
-      text: "Please select items to delete",
+      title: "No users selected",
+      text: "Please select users to delete",
       icon: "error",
       showConfirmButton: false,
       timer: 1500,
@@ -106,16 +107,16 @@ const deleteItem = async () => {
     return;
   }
   Swal.fire({
-    title: "Delete items?",
-    text: "Are you sure you want to delete the selected items?",
+    title: "Delete users?",
+    text: "Are you sure you want to delete the selected users?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const requestData = { product_ids: selectedRows.value.map((item) => item.id) };
-      const url = "http://localhost:8000/product/delete/multiple/";
+      const requestData = { employee_ids: selectedRows.value.map((item) => item.user) };
+      const url = "http://localhost:8000/user/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
@@ -135,5 +136,9 @@ const exportTable = () => {
     text: "This feature is not implemented yet",
     icon: "info",
   });
+};
+
+const registerUser = () => {
+  router.push("/register");
 };
 </script>

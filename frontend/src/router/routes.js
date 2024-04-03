@@ -1,16 +1,14 @@
 const routes = [
   {
-    path: "/",
-    redirect: "/login",
+    path: "/login",
+    name: "login",
+    component: () => import("pages/LoginPage.vue"),
   },
   {
-  path: "/login",
-  name: "login",
-  component: () => import("pages/LoginPage.vue"),},
-  {
-    path: "/main",
+    path: "/",
     name: "main",
     component: () => import("layouts/MainLayout.vue"),
+    meta: { requiresAuth: true, roles: ["admin", "courier"] },
     children: [
       {
         path: "",
@@ -21,18 +19,66 @@ const routes = [
         path: "inventory",
         name: "inventory",
         component: () => import("pages/InventoryPage.vue"),
+        meta: { requiresAuth: true, roles: ["admin"] },
+        children: [
+          {
+            path: "edit",
+            name: "edit",
+            component: () => import("pages/EditPage.vue"),
+            meta: { requiresAuth: true, roles: ["admin"] },
+          },
+        ],
+      },
+      {
+        path: "users",
+        name: "users",
+        component: () => import("pages/UsersPage.vue"),
+        meta: { requiresAuth: true, roles: ["admin"] },
+        children: [
+          {
+            path: "register",
+            name: "register",
+            component: () => import("pages/RegisterPage.vue"),
+            meta: { requiresAuth: true, roles: ["admin"] },
+          },
+          {
+            path: "profile",
+            name: "profile",
+            component: () => import("pages/ProfilePage.vue"),
+            meta: { requiresAuth: true, roles: ["admin"] },
+          },
+          {
+            path: "edit",
+            name: "edit",
+            component: () => import("pages/EditPage.vue"),
+            meta: { requiresAuth: true, roles: ["admin"] },
+          },
+        ],
       },
       {
         path: "register",
         name: "register",
         component: () => import("pages/RegisterPage.vue"),
+        meta: { requiresAuth: true, roles: ["admin"] },
       },
-      { path: "route", component: () => import("pages/IndexPage.vue") },
-      { path: "chat", component: () => import("pages/IndexPage.vue") },
-      { path: "logout", component: () => import("pages/IndexPage.vue") },
+      {
+        path: "router",
+        name: "router",
+        component: () => import("pages/IndexPage.vue"),
+        meta: { requiresAuth: true, roles: ["admin"] },
+      },
+      {
+        path: "chat",
+        name: "chat",
+        component: () => import("pages/IndexPage.vue"),
+      },
+      {
+        path: "settings",
+        name: "settings",
+        component: () => import("pages/IndexPage.vue"),
+      },
     ],
   },
-  // Ruta para manejar cualquier otra ruta no definida
   {
     path: "/:catchAll(.*)",
     component: () => import("pages/ErrorNotFound.vue"),

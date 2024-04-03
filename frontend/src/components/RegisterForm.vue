@@ -1,103 +1,123 @@
 <template>
-  <q-card class="login-card">
+  <q-card class="register-card">
     <q-card-section>
-      <q-form @submit="sendData" class="form">
-        <q-input class="input-form" outlined v-model="username" label="Username" type="text" required />
-        <q-input class="input-form" outlined v-model="firstname" label="First Name" type="text" required />
-        <q-input class="input-form" outlined v-model="lastname" label="Last Name" type="text" required />
-        <q-select class="input-form" v-model="role" outlined label="Role" :options="roleOptions" required />
-        <q-input class="input-form" outlined v-model="email" label="Email" type="text" required />
-        <q-input class="input-form" outlined v-model="password" label="Password" type="password" required />
-        <q-input class="input-form" outlined v-model="confirmPassword" label="Confirm Password" type="password"
-          required />
-        <q-btn color="primary" label="Register" type="submit" class="login-btn" :loading="loading" />
+      <div class="text-h5 text-center">Register</div>
+    </q-card-section>
+    <q-card-section>
+      <q-form @submit="sendData" class="register-form">
+        <q-input
+          outlined
+          v-model="userName"
+          label="Username"
+          type="text"
+          required
+        />
+        <q-input
+          outlined
+          v-model="firstName"
+          label="First Name"
+          type="text"
+          required
+        />
+        <q-input
+          outlined
+          v-model="lastName"
+          label="Last Name"
+          type="text"
+          required
+        />
+        <q-select
+          class="input-form"
+          outlined
+          v-model="role"
+          label="Role"
+          :options="roleOptions"
+          required
+        />
+        <q-input outlined v-model="email" label="Email" type="text" required />
+        <q-input
+          outlined
+          v-model="password"
+          label="Password"
+          type="password"
+          required
+        />
+        <q-input
+          outlined
+          v-model="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          required
+        />
+        <q-btn
+          color="primary"
+          label="Register"
+          type="submit"
+          class="register-btn"
+          :loading="loading"
+        />
+        <div class="text-center subtitle-register-form">
+          <q-btn flat label="Back to user list" @click="backToUsers" />
+        </div>
       </q-form>
     </q-card-section>
   </q-card>
 </template>
 
-<script>
-import Swal from 'sweetalert2';
-import { Dialog } from 'quasar';
-import { postRequest } from '../utils/common';
+<script setup>
+import Swal from "sweetalert2";
+import { postRequest } from "../utils/common";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-export default {
-  data() {
-    return {
-      username: '',
-      firstname: '',
-      lastname: '',
-      role: '',
-      roleOptions: [
-        { label: 'Admin', value: 'SA' },
-        { label: 'Courier', value: 'CO' },
-      ],
-      email: '',
-      password: '',
-      confirmPassword: '',
-      loading: false,
+const router = useRouter();
+const userName = ref("");
+const firstName = ref("");
+const lastName = ref("");
+const role = ref("");
+const roleOptions = ref([
+  { label: "Admin", value: "SA" },
+  { label: "Courier", value: "CO" },
+]);
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const loading = ref(false);
+
+const sendData = async () => {
+  try {
+    loading.value = true;
+    const requestData = {
+      username: userName.value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      role: role.value.value,
+      email: email.value,
+      password: password.value,
     };
-  },
-  methods: {
-    async sendData() {
-      try {
-        const data = {
-          username: this.username,
-          firstname: this.firstname,
-          lastname: this.lastname,
-          role: this.role.value,
-          email: this.email,
-          password: this.password,
-        };
-        const url = 'http://localhost:8000/user/register/';
-        const response = await postRequest(data, url);
-        if (response.status === 200) {
-          Swal.fire({
-            title: 'Success',
-            text: 'User registered successfully',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          this.$router.push('/main');
-        } else {
-          console.error('Error sending data:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error sending data:', error);
-      }
+    console.log(requestData);
+    const url = "http://localhost:8000/user/register/";
+    const response = await postRequest(requestData, url);
+    if (response.status === 200) {
+      Swal.fire({
+        title: "Success",
+        text: "User registered successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      router.push("/users");
+    } else {
+      alert("Error");
     }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
   }
+};
 
-}
+const backToUsers = () => {
+  router.push("/users");
+};
 </script>
-
-<style scoped>
-.login-card {
-  width: 500px;
-  margin: 0 auto;
-  margin-top: 50px;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-}
-
-.input-form:first-child {
-  margin-top: 20px;
-}
-
-.input-form {
-  padding: 0px 20px 20px 20px;
-}
-
-.login-btn {
-  height: 50px;
-  width: 91%;
-  padding: 0px 20px 0px 20px;
-  margin: 0 auto;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-</style>
