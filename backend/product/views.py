@@ -39,10 +39,11 @@ class ProductList(APIView):
             products_to_return.append(
                 {
                     'id': product.id,
+                    'name': product.name,
                     'description': product.description,
                     'quantity': quantity,
                     'category': product.category,
-                    'pirce': product.price,
+                    'price': product.price,
                     'weight': product.weight,
                     'volume': product.volume,
                 }

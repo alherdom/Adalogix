@@ -1,14 +1,68 @@
 <template>
-  <q-table class="my-sticky-header-table" flat bordered title="Inventory Table" :rows="items" :columns="columns"
-    :loading="loading" row-key="id" v-model:selected="selectedRows" selection="multiple"
-    :pagination="{ rowsPerPage: 20 }">
-    <template v-slot:top-right>
-        <q-input class="searchInput" v-model="search" debounce="300" dense placeholder="Search item..." />
-      <q-btn-group class="myBtns">
-        <q-btn push dense no-caps label="Delete Items" icon="delete" @click="deleteItem" />
-        <q-btn push dense no-caps label="Export CSV" icon="download" @click="exportTable" />
-        <q-btn push dense no-caps label="Load Data" icon="upload" @click="exportTable" />
-      </q-btn-group>
+  <q-table
+    class="my-sticky-header-table"
+    flat
+    bordered
+    title="Inventory Table"
+    :rows="items"
+    :columns="columns"
+    :loading="loading"
+    row-key="id"
+    v-model:selected="selectedRows"
+    selection="multiple"
+    :pagination="{ rowsPerPage: 20 }"
+  >
+    <template v-slot:top>
+      <q-toolbar-title>Inventory Table</q-toolbar-title>
+      <q-btn
+        class="q-ml-sm"
+        color="primary"
+        text-color="black"
+        :disable="loading"
+        no-caps
+        dense
+        flat
+        label="Delete Items"
+        icon="delete"
+        @click="deleteItem"
+      />
+      <q-btn
+        class="q-ml-sm"
+        color="primary"
+        text-color="black"
+        :disable="loading"
+        no-caps
+        dense
+        flat
+        label="Load Data"
+        icon="cloud_upload"
+        @click="exportTable"
+      />
+      <q-btn
+        class="q-ml-sm"
+        color="primary"
+        text-color="black"
+        :disable="loading"
+        no-caps
+        dense
+        flat
+        label="Export CSV"
+        icon="archive"
+        @click="exportTable"
+      />
+      <q-space />
+      <q-input
+        borderless
+        dense
+        debounce="300"
+        color="primary"
+        v-model="filter"
+        placeholder="Search Items..."
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
     </template>
   </q-table>
 </template>
@@ -18,6 +72,47 @@ import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { exportFile, useQuasar } from "quasar";
+function wrapCsvValue(val, formatFn, row) {
+  let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
+  formatted =
+    formatted === void 0 || formatted === null ? "" : String(formatted);
+  formatted = formatted.split('"').join('""');
+  return `"${formatted}"`;
+}
+
+const $q = useQuasar();
+
+const exportTable = () => {
+  const content = [columns.map((col) => wrapCsvValue(col.label))]
+    .concat(
+      items.value.map((row) =>
+        columns
+          .map((col) =>
+            wrapCsvValue(
+              typeof col.field === "function"
+                ? col.field(row)
+                : row[col.field === void 0 ? col.name : col.field],
+              col.format,
+              row
+            )
+          )
+          .join(",")
+      )
+    )
+    .join("\r\n");
+
+
+  const status = exportFile("inventory-table.csv", content, "text/csv");
+
+  if (status !== true) {
+    $q.notify({
+      message: "Browser denied file download...",
+      color: "negative",
+      icon: "warning",
+    });
+  }
+};
 
 const columns = [
   {
@@ -45,14 +140,6 @@ const columns = [
     sortable: true,
   },
   {
-    name: "category",
-    required: true,
-    label: "Category",
-    align: "left",
-    field: "category",
-    sortable: true,
-  },
-  {
     name: "quantity",
     required: true,
     label: "Quantity",
@@ -61,11 +148,35 @@ const columns = [
     sortable: true,
   },
   {
+    name: "category",
+    required: true,
+    label: "Category",
+    align: "left",
+    field: "category",
+    sortable: true,
+  },
+  {
     name: "price",
     required: true,
     label: "Price",
     align: "left",
     field: "price",
+    sortable: true,
+  },
+  {
+    name: "weight",
+    required: true,
+    label: "Weight",
+    align: "left",
+    field: "weight",
+    sortable: true,
+  },
+  {
+    name: "volume",
+    required: true,
+    label: "Volume",
+    align: "left",
+    field: "volume",
     sortable: true,
   },
 ];
@@ -114,7 +225,9 @@ const deleteItem = async () => {
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const requestData = { product_ids: selectedRows.value.map((item) => item.id) };
+      const requestData = {
+        product_ids: selectedRows.value.map((item) => item.id),
+      };
       const url = "http://localhost:8000/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
@@ -129,11 +242,11 @@ const deleteItem = async () => {
   });
 };
 
-const exportTable = () => {
-  Swal.fire({
-    title: "Exporting table...",
-    text: "This feature is not implemented yet",
-    icon: "info",
-  });
-};
+// const exportTable = () => {
+//   Swal.fire({
+//     title: "Exporting table...",
+//     text: "This feature is not implemented yet",
+//     icon: "info",
+//   });
+// };
 </script>
