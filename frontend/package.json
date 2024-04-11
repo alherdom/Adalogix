@@ -23,7 +23,9 @@
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.43.0",
     "@quasar/app-vite": "^1.8.0",
+    "@types/node": "^20.12.7",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.1.0",
