@@ -1,14 +1,68 @@
 <template>
-  <q-table class="my-sticky-header-table" flat bordered title="Users Table" :rows="items" :columns="columns"
-  :loading="loading" row-key="user" v-model:selected="selectedRows" selection="multiple"
-    :pagination="{ rowsPerPage: 20 }">
-    <template v-slot:top-right>
-      <q-input class="searchInput" v-model="search" debounce="300" dense placeholder="Search user..." />
-      <q-btn-group class="myBtns">
-        <q-btn push dense no-caps label="Delete Users" icon="delete" @click="deleteUser" />
-        <q-btn push dense no-caps label="Export CSV" icon="download" @click="exportTable" />
-        <q-btn push dense no-caps label="Register User" icon="person_add" @click="registerUser" />
-      </q-btn-group>
+  <q-table
+    class="my-sticky-header-table"
+    flat
+    bordered
+    title="Users Table"
+    :rows="items"
+    :columns="columns"
+    :loading="loading"
+    row-key="user"
+    v-model:selected="selectedRows"
+    selection="multiple"
+    :pagination="{ rowsPerPage: 20 }"
+  >
+    <template v-slot:top>
+      <q-toolbar-title>User Table</q-toolbar-title>
+      <q-btn
+        class="q-ml-sm"
+        color="primary"
+        text-color="black"
+        :disable="loading"
+        no-caps
+        dense
+        flat
+        label="Delete Users"
+        icon="delete"
+        @click="deleteUser"
+      />
+      <q-btn
+        class="q-ml-sm"
+        color="primary"
+        text-color="black"
+        :disable="loading"
+        no-caps
+        dense
+        flat
+        label="Register User"
+        icon="cloud_upload"
+        @click="registerUser"
+      />
+      <q-btn
+        class="q-ml-sm"
+        color="primary"
+        text-color="black"
+        :disable="loading"
+        no-caps
+        dense
+        flat
+        label="Export CSV"
+        icon="archive"
+        @click="exportTable"
+      />
+      <q-space />
+      <q-input
+        borderless
+        dense
+        debounce="300"
+        color="primary"
+        v-model="filter"
+        placeholder="Search Items..."
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
     </template>
   </q-table>
 </template>
@@ -115,7 +169,9 @@ const deleteUser = async () => {
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      const requestData = { employee_ids: selectedRows.value.map((item) => item.user) };
+      const requestData = {
+        employee_ids: selectedRows.value.map((item) => item.user),
+      };
       const url = "http://localhost:8000/user/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);

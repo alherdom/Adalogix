@@ -102,7 +102,6 @@ const exportTable = () => {
     )
     .join("\r\n");
 
-
   const status = exportFile("inventory-table.csv", content, "text/csv");
 
   if (status !== true) {
@@ -241,12 +240,4 @@ const deleteItem = async () => {
     }
   });
 };
-
-// const exportTable = () => {
-//   Swal.fire({
-//     title: "Exporting table...",
-//     text: "This feature is not implemented yet",
-//     icon: "info",
-//   });
-// };
 </script>
