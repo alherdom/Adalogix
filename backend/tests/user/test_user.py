@@ -120,28 +120,29 @@ def test_multiple_delete_employee(client, user1, employee1, employee2, user_name
     assert Employee.objects.filter(user__username = employee1_username).count() == 0
     assert Employee.objects.filter(user__username = employee2_username).count() == 0
     
+@pytest.mark.parametrize(
+        "user_name, password, field_to_change, new_value,  validity",
+        [
+            ("test_user", "test_password", "username", "new_username", 200),
+            ("test_user", "test_password", "first_name", "new_first_name", 200),
+            ("test_user", "test_password", "last_name", "new_last_name", 200),
+            ("test_user", "test_password", "email", "new_email", 200),
+            ("test_user", "test_password", "role", "CO", 200),
+            ("test_user", "test_password", "role", "SA", 200),
+            ("test_user", "test_password", "department", "new_department", 200),
+            ("test_user", "test_password", "phone", "123456789", 200),
+        ]
+)
 
-
-
-# TODO: Review how to update the employee model and the user model at the same time. We have a problem with the to_representation function.
-
-# @pytest.mark.parametrize(
-#         "user_name, password, field_to_change, new_value,  validity",
-#         [
-#             ("test_user", "test_password", "first_name", "new_role", 200),
-#         ]
-# )
-
-# def test_employee_update(client, user1, employee1, user_name, password, field_to_change, new_value,  validity):
-#     login_response = client.post(path="/user/login/", data=json.dumps({"username": user_name, "password": password}), content_type="application/json")
-#     headers = {"Authorization": f'Token {json.loads(login_response.content)["token"]}', "Content-Type": "application/json"}
-#     data = {field_to_change: new_value}
-#     print(employee1.department)
-#     response = client.patch(path=f"/user/update/{employee1.id}/", data=data, headers=headers, content_type="application/json")
-#     print(employee1.department)
-#     print(response.content)
-#     assert response.status_code == validity
-#     assert json.loads(response.content)[field_to_change] == new_value
+def test_employee_update(client, user1, employee1, user_name, password, field_to_change, new_value,  validity):
+    login_response = client.post(path="/user/login/", data=json.dumps({"username": user_name, "password": password}), content_type="application/json")
+    headers = {"Authorization": f'Token {json.loads(login_response.content)["token"]}', "Content-Type": "application/json"}
+    data = {field_to_change: new_value}
+    response = client.patch(path=f"/user/update/{employee1.id}/", data=data, headers=headers, content_type="application/json")
+    assert response.status_code == validity
+    if field_to_change == 'role':
+        new_value = 'courier' if new_value == 'CO' else 'admin'
+    assert json.loads(response.content)[field_to_change] == new_value
 
 
 

@@ -108,22 +108,7 @@ class EmployeeUpdateView(UpdateAPIView):
 
 # TODO: Review how to update the employee model and the user model at the same time. We have a problem with the to_representation function.
 
-    # def update(self, request, *args, **kwargs):
-    #     from rest_framework.response import Response
-    #     instance = self.get_object()
-    #     partial = kwargs.pop("partial", False)
-    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
-    #     serializer.is_valid(raise_exception=True)
 
-    #     self.perform_update(serializer)
-
-    #     user_fields = User._meta.fields
-    #     for key, value in request.data.items():
-    #         if key in user_fields:
-    #             setattr(instance.user, key, value)
-    #     self.perform_update(instance.user)
-    #     instance.user.save()
-    #     return Response(serializer.data)
 
 class EmployeeDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
