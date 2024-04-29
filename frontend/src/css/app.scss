@@ -44,15 +44,17 @@ a {
 // REGISTER FORM
 .register-card {
   width: 500px;
-  margin: 0 auto;
-  margin-top: 20px;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
   height: auto;
-  height: 640px;
+  height: 645px;
+}
+
+.register-form-title {
+  padding-top: 10px;
 }
 
 .register-form .q-input {
