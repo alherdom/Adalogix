@@ -18,7 +18,7 @@
       </q-input>
     </template>
     <template v-slot:body-cell-actions="props">
-      <q-td :props="props">
+      <q-td>
         <q-btn class="actions-btn" color="primary" flat icon="edit" @click="editUser(props.row)" />
       </q-td>
     </template>
@@ -27,7 +27,7 @@
     <RegisterForm />
   </q-dialog>
   <q-dialog v-model="editUserForm">
-    <EditUserForm :user="user" />
+    <EditUserForm :user="userData" />
   </q-dialog>
 </template>
 
@@ -95,6 +95,7 @@ const columns = [
   },
 ];
 
+const userData = ref({});
 const loading = ref(false);
 const selectedRows = ref([]);
 const items = ref([]);
@@ -166,11 +167,8 @@ const exportTable = () => {
   });
 };
 
-const editUser = (userData) => {
-  console.log("USER DATA:", userData);
+const editUser = (userProps) => {
+  userData.value = userProps;
   editUserForm.value = true;
-  const props = {
-    user: userData,
-  };
 };
 </script>

@@ -20,14 +20,7 @@ const routes = [
         name: "inventory",
         component: () => import("pages/InventoryPage.vue"),
         meta: { requiresAuth: true, roles: ["admin"] },
-        children: [
-          {
-            path: "edit",
-            name: "edit",
-            component: () => import("pages/EditPage.vue"),
-            meta: { requiresAuth: true, roles: ["admin"] },
-          },
-        ],
+        children: [],
       },
       {
         path: "users",
@@ -36,21 +29,9 @@ const routes = [
         meta: { requiresAuth: true, roles: ["admin"] },
         children: [
           {
-            path: "register",
-            name: "register",
-            component: () => import("pages/RegisterPage.vue"),
-            meta: { requiresAuth: true, roles: ["admin"] },
-          },
-          {
             path: "profile",
             name: "profile",
             component: () => import("pages/ProfilePage.vue"),
-            meta: { requiresAuth: true, roles: ["admin"] },
-          },
-          {
-            path: "edit",
-            name: "edit",
-            component: () => import("pages/EditPage.vue"),
             meta: { requiresAuth: true, roles: ["admin"] },
           },
         ],

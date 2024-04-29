@@ -5,57 +5,22 @@
     </q-card-section>
     <q-card-section>
       <q-form @submit="sendData" class="register-form">
-        <q-input
-          outlined
-          v-model="userName"
-          label="Username"
-          type="text"
-          required
-        />
-        <q-input
-          outlined
-          v-model="firstName"
-          label="First Name"
-          type="text"
-          required
-        />
-        <q-input
-          outlined
-          v-model="lastName"
-          label="Last Name"
-          type="text"
-          required
-        />
-        <q-select
-          class="input-form"
-          outlined
-          v-model="role"
-          label="Role"
-          :options="roleOptions"
-          required
-        />
+        <q-input outlined v-model="userName" label="Username" type="text" required />
+        <q-input outlined v-model="firstName" label="First Name" type="text" required />
+        <q-input outlined v-model="lastName" label="Last Name" type="text" required />
+        <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required />
         <q-input outlined v-model="email" label="Email" type="text" required />
-        <q-input
-          outlined
-          v-model="password"
-          label="Password"
-          type="password"
-          required
-        />
-        <q-input
-          outlined
-          v-model="confirmPassword"
-          label="Confirm Password"
-          type="password"
-          required
-        />
-        <q-btn
-          color="primary"
-          label="SEND"
-          type="submit"
-          class="register-btn"
-          :loading="loading"
-        />
+        <q-input outlined v-model="password" label="New Password" :type="isPwd ? 'password' : 'text'">
+          <template v-slot:append>
+            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+          </template>
+        </q-input>
+        <q-input outlined v-model="confirmPassword" label="Confirm Password" :type="isPwd ? 'password' : 'text'">
+          <template v-slot:append>
+            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+          </template>
+        </q-input>
+        <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
         <div class="text-center subtitle-register-form">
           <q-btn flat label="Back to user list" v-close-popup />
         </div>
@@ -70,6 +35,7 @@ import { postRequest } from "../utils/common";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+const isPwd = ref(false);
 const router = useRouter();
 const userName = ref("");
 const firstName = ref("");
@@ -117,7 +83,4 @@ const sendData = async () => {
   }
 };
 
-const backToUsers = () => {
-  router.push("/users");
-};
 </script>
