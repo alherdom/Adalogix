@@ -70,7 +70,7 @@ const routes = [
       {
         path: "chat",
         name: "chat",
-        component: () => import("pages/IndexPage.vue"),
+        component: () => import("pages/ChatPage.vue"),
       },
       {
         path: "settings",
