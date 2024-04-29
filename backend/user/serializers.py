@@ -9,9 +9,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         if instance.role == 'CO':
-            role = 'courier'
+            role = 'Courier'
         elif instance.role == 'SA':
-            role = 'admin'
+            role = 'Admin'
         representation['role'] = role
         representation['username'] = instance.user.username
         representation['first_name'] = instance.user.first_name

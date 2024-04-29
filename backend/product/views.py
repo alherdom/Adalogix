@@ -35,7 +35,7 @@ class ProductList(APIView):
         products_to_return = []
         products = Product.objects.all()
         for product in products:
-            quantity = Inventory.objects.filter(product=product).count()
+            quantity = sum(Inventory.stock for Inventory in Inventory.objects.filter(product=product))
             products_to_return.append(
                 {
                     'id': product.id,
