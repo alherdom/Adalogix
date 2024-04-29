@@ -54,6 +54,20 @@ export async function deleteRequest(data, url) {
   return await response.json();
 }
 
+export async function putRequest(data, url) {
+  const options = {
+    method: "PUT",
+    headers: {
+      Authorization: `Token ${localStorage.getItem("userToken")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  const response = await fetch(url, options);
+  return await response.json();
+}
+
 export const logout = () => {
   sessionStorage.clear();
   this.$router.push("/login");
