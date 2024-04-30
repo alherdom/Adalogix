@@ -106,6 +106,10 @@ class EmployeeUpdateView(UpdateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+# TODO: Review how to update the employee model and the user model at the same time. We have a problem with the to_representation function.
+
+
+
 class EmployeeDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
