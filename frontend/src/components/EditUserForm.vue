@@ -31,7 +31,7 @@
 
 <script setup>
 import Swal from "sweetalert2";
-import { postRequest } from "../utils/common";
+import { putRequest } from "../utils/common";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -39,12 +39,14 @@ const isPwd = ref(false);
 const props = defineProps({
   user: Object,
 });
-
+const userData = {...props.user};
+console.log(userData);
 const router = useRouter();
-const userName = ref(props.user.username);
-const firstName = ref(props.user.first_name);
-const lastName = ref(props.user.last_name);
-const role = ref({ label: props.user.role, value: props.user.role });
+const id = ref(userData.id);
+const userName = ref(userData.username);
+const firstName = ref(userData.first_name);
+const lastName = ref(userData.last_name);
+const role = ref({ label: userData.role, value: userData.role });
 const roleOptions = ref([
   { label: "Admin", value: "SA" },
   { label: "Courier", value: "CO" },
@@ -63,11 +65,10 @@ const sendData = async () => {
       lastName: lastName.value,
       role: role.value.value,
       email: email.value,
-      password: password.value,
     };
     console.log(requestData);
-    const url = "http://localhost:8000/user/register/";
-    const response = await postRequest(requestData, url);
+    const url = "http://localhost:8000/user/update/";
+    const response = await putRequest(requestData, url);
     if (response.status === 200) {
       Swal.fire({
         title: "Success",
