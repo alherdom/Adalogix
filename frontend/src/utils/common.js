@@ -54,9 +54,9 @@ export async function deleteRequest(data, url) {
   return await response.json();
 }
 
-export async function putRequest(data, url) {
+export async function patchRequest(data, url) {
   const options = {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       Authorization: `Token ${localStorage.getItem("userToken")}`,
       "Content-Type": "application/json",

@@ -35,66 +35,36 @@
 import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted } from "vue";
+import { useUserStore } from "src/stores/users";
 import RegisterForm from "./RegisterForm.vue";
 import EditUserForm from "./EditUserForm.vue";
 
+
 const columns = [
   {
-    name: "id",
-    required: true,
-    label: "Id",
-    align: "left",
-    field: "user",
-    sortable: true,
+    name: "id", required: true, label: "Id", align: "left", field: "user", sortable: true,
   },
   {
-    name: "userName",
-    required: true,
-    label: "Username",
-    align: "left",
-    field: "username",
-    sortable: true,
+    name: "userName", required: true, label: "Username", align: "left", field: "username", sortable: true,
   },
   {
-    name: "role",
-    required: true,
-    label: "Role",
-    align: "left",
-    field: "role",
-    sortable: true,
+    name: "role", required: true, label: "Role", align: "left", field: "role", sortable: true,
   },
   {
-    name: "firstName",
-    required: true,
-    label: "First Name",
-    align: "left",
-    field: "first_name",
-    sortable: true,
+    name: "firstName", required: true, label: "First Name", align: "left", field: "first_name", sortable: true,
   },
   {
-    name: "lastName",
-    required: true,
-    label: "Last Name",
-    align: "left",
-    field: "last_name",
-    sortable: true,
+    name: "lastName", required: true, label: "Last Name", align: "left", field: "last_name", sortable: true,
   },
   {
-    name: "email",
-    required: true,
-    label: "Email",
-    align: "left",
-    field: "email",
-    sortable: true,
+    name: "email", required: true, label: "Email", align: "left", field: "email", sortable: true,
   },
   {
-    name: "actions",
-    label: "Edit User",
-    align: "left",
-    field: "actions",
+    name: "actions", label: "Edit User", align: "left", field: "actions",
   },
 ];
 
+const userStore = useUserStore();
 const userData = ref({});
 const loading = ref(false);
 const selectedRows = ref([]);
@@ -171,4 +141,9 @@ const editUser = (userProps) => {
   userData.value = userProps;
   editUserForm.value = true;
 };
+
+if (userStore.editFormOpen) {
+  editUserForm.value = false;
+  fetchData();
+}
 </script>

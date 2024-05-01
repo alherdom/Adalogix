@@ -101,13 +101,22 @@ class EmployeeListView(ListAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+
 class EmployeeUpdateView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
-# TODO: Review how to update the employee model and the user model at the same time. We have a problem with the to_representation function.
+    def patch(self, request, *args, **kwargs):
+        partial = True
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return JsonResponse(dict(status=200, message='Employee successfully updated'))
 
+
+# TODO: Review how to update the employee model and the user model at the same time. We have a problem with the to_representation function.
 
 
 class EmployeeDetailView(RetrieveAPIView):
@@ -115,10 +124,12 @@ class EmployeeDetailView(RetrieveAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+
 class EmployeeDeleteView(DestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
 
 class EmployeeMultipleDelete(APIView):
     def delete(self, request):

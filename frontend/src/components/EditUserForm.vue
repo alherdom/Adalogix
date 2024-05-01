@@ -22,7 +22,7 @@
         </q-input>
         <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
         <div class="text-center subtitle-register-form">
-          <q-btn flat label="Back to user list" v-close-popup />
+          <q-btn flat label="Back to user list" v-close-popup/>
         </div>
       </q-form>
     </q-card-section>
@@ -31,15 +31,17 @@
 
 <script setup>
 import Swal from "sweetalert2";
-import { putRequest } from "../utils/common";
+import { patchRequest } from "../utils/common";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "src/stores/users";
 
+const userStore = useUserStore();
 const isPwd = ref(false);
 const props = defineProps({
   user: Object,
 });
-const userData = {...props.user};
+const userData = { ...props.user };
 console.log(userData);
 const router = useRouter();
 const id = ref(userData.id);
@@ -60,25 +62,31 @@ const sendData = async () => {
   try {
     loading.value = true;
     const requestData = {
+      id: id.value,
       username: userName.value,
       firstName: firstName.value,
       lastName: lastName.value,
-      role: role.value.value,
+      role: "SA",
       email: email.value,
     };
     console.log(requestData);
-    const url = "http://localhost:8000/user/update/";
-    const response = await putRequest(requestData, url);
+    const url = `http://localhost:8000/user/update/${id.value}/`;
+    const response = await patchRequest(requestData, url);
+    console.log(response);
     if (response.status === 200) {
+      userStore.handleEditFormDialog();
       Swal.fire({
         title: "Success",
-        text: "User registered successfully",
+        text: "User edited successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,
       });
+      // emitir evento para cerrar dialog en el padre
       router.push("/users");
+
     } else {
+      console.log(response.status);
       alert("Error");
     }
   } catch (error) {
