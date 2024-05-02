@@ -36,6 +36,14 @@ class ProductList(APIView):
         products = Product.objects.all()
         for product in products:
             quantity = sum(Inventory.stock for Inventory in Inventory.objects.filter(product=product))
+            stores = []
+            for store in product.stores.all():
+                store_info = {}
+                store_info['id'] = store.id
+                store_info['name'] = store.name
+                store_info['quantity'] = Inventory.objects.get(product=product.id, store=store.id).stock
+                store_info['address'] = store.address
+                stores.append(store_info)
             products_to_return.append(
                 {
                     'id': product.id,
@@ -46,6 +54,7 @@ class ProductList(APIView):
                     'price': product.price,
                     'weight': product.weight,
                     'volume': product.volume,
+                    'stores': json.dumps(stores)
                 }
             )
         return JsonResponse(products_to_return, safe=False)

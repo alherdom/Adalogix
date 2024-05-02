@@ -27,7 +27,7 @@
     <RegisterForm />
   </q-dialog>
   <q-dialog v-model="editUserForm">
-    <EditUserForm :user="userData" />
+    <EditUserForm :user="userData" @close="closeDialog"/>
   </q-dialog>
 </template>
 
@@ -71,6 +71,11 @@ const selectedRows = ref([]);
 const items = ref([]);
 const registerForm = ref(false);
 const editUserForm = ref(false);
+
+const closeDialog = (status) => {
+  editUserForm.value = status
+  fetchData()
+}
 
 const fetchData = async () => {
   try {

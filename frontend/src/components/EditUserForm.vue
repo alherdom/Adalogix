@@ -20,7 +20,7 @@
             <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
           </template>
         </q-input>
-        <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
+        <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading"/>
         <div class="text-center subtitle-register-form">
           <q-btn flat label="Back to user list" v-close-popup/>
         </div>
@@ -36,6 +36,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "src/stores/users";
 
+const emit = defineEmits(['close'])
+
+function closeDialog() {
+  emit('close', false)
+}
 const userStore = useUserStore();
 const isPwd = ref(false);
 const props = defineProps({
@@ -64,8 +69,8 @@ const sendData = async () => {
     const requestData = {
       id: id.value,
       username: userName.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
+      first_name: firstName.value,
+      last_name: lastName.value,
       role: "SA",
       email: email.value,
     };
@@ -74,6 +79,7 @@ const sendData = async () => {
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {
+      closeDialog()
       userStore.handleEditFormDialog();
       Swal.fire({
         title: "Success",
@@ -84,7 +90,7 @@ const sendData = async () => {
       });
       // emitir evento para cerrar dialog en el padre
       router.push("/users");
-
+      
     } else {
       console.log(response.status);
       alert("Error");

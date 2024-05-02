@@ -64,7 +64,43 @@
         </template>
       </q-input>
     </template>
+    <template v-slot:body="props"  >
+        <q-tr :props="props" @click="props.expand = !props.expand"  >
+          <q-td>
+            <q-checkbox v-model="props.selected" color="grey-8"></q-checkbox>
+          </q-td>
+          <q-td
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            selected="single"
+          >
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props" class="expandedRowTable">
+          <q-td>
+        <q-btn class="actions-btn" color="primary" flat icon="edit" @click="getData(props.row)" />
+        <q-dialog v-model="editUserForm">
+          <EditProductForm :data="rowData" @close="closeDialog"/>
+        </q-dialog>
+      </q-td>
+          <q-td colspan="100%">
+            <p>Description:</p>
+            <p>{{ props.row.description }}</p>
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props" class="expandedRowTable">
+          <q-td colspan="100%">
+            <q-table flat square="" class="expandedRowTable" :rows="parseStore(props.row.stores)" :columns="extendedRowColumns" row-key="name" color="primary" hide-bottom hide-title/>
+          </q-td>
+        </q-tr>
+      </template>    
   </q-table>
+  <template>
+
+  </template>
+  
 </template>
 
 <script setup>
@@ -73,6 +109,7 @@ import { getRequest, deleteRequest } from "../utils/common";
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { exportFile, useQuasar } from "quasar";
+import { EdirProductForm } from "./EditProductForm.vue"
 function wrapCsvValue(val, formatFn, row) {
   let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
   formatted =
@@ -80,6 +117,47 @@ function wrapCsvValue(val, formatFn, row) {
   formatted = formatted.split('"').join('""');
   return `"${formatted}"`;
 }
+
+function parseStore(store) {
+  return JSON.parse(store)
+}
+
+const extendedRowColumns = [
+  {
+  name: "id",
+  required: true,
+  label: "Id",
+  align: "left",
+  field: "id",
+  sortable: true,
+  },
+  {
+  name: "name",
+  required: true,
+  label: "Store",
+  align: "left",
+  field: "name",
+  sortable: true,
+  },
+  {
+  name: "quantity",
+  required: true,
+  label: "Quantity",
+  align: "left",
+  field: "quantity",
+  sortable: true,
+  },
+  {
+  name: "address",
+  required: true,
+  label: "Address",
+  align: "left",
+  field: "address",
+  sortable: true,
+  },
+]
+
+
 
 const $q = useQuasar();
 
@@ -177,7 +255,7 @@ const columns = [
     align: "left",
     field: "volume",
     sortable: true,
-  },
+  }
 ];
 
 const loading = ref(false);
