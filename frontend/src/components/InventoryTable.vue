@@ -65,7 +65,7 @@
       </q-input>
     </template>
     <template v-slot:body="props"  >
-        <q-tr :props="props" @click="props.expand = !props.expand"  >
+        <q-tr :props="props" class="expandibleRow" >
           <q-td>
             <q-checkbox v-model="props.selected" color="grey-8"></q-checkbox>
           </q-td>
@@ -74,17 +74,21 @@
             :key="col.name"
             :props="props"
             selected="single"
+            auto-width="100%"
           >
             {{ col.value }}
           </q-td>
+          <q-td auto-width>
+              <q-btn size="sm" color="primary" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
+          </q-td>
+        </q-tr>
+        <!-- Expandible rows start-->
+        <q-tr v-show="props.expand" :props="props" class="expandedRowTable"> 
+          <q-td colspan="100%">
+            <q-btn class="actions-btn product-edit-btn" color="black" flat icon="edit" @click="editProduct(props.row)" />
+          </q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props" class="expandedRowTable">
-          <q-td>
-        <q-btn class="actions-btn" color="primary" flat icon="edit" @click="getData(props.row)" />
-        <q-dialog v-model="editUserForm">
-          <EditProductForm :data="rowData" @close="closeDialog"/>
-        </q-dialog>
-      </q-td>
           <q-td colspan="100%">
             <p>Description:</p>
             <p>{{ props.row.description }}</p>
@@ -95,10 +99,13 @@
             <q-table flat square="" class="expandedRowTable" :rows="parseStore(props.row.stores)" :columns="extendedRowColumns" row-key="name" color="primary" hide-bottom hide-title/>
           </q-td>
         </q-tr>
+        <!-- Expandible rows end-->
       </template>    
   </q-table>
   <template>
-
+    <q-dialog v-model="editProductForm">
+      <EditProductForm :product="productData" @close="closeDialog"/>
+    </q-dialog>
   </template>
   
 </template>
@@ -120,6 +127,26 @@ function wrapCsvValue(val, formatFn, row) {
 
 function parseStore(store) {
   return JSON.parse(store)
+}
+
+const closeDialog = (status) => {
+  editProductForm.value = status
+  fetchData()
+}
+
+const productData = ref({})
+
+const editProductForm = ref(false)
+
+const editProduct = (productProps) => {
+  productData.value = productProps;
+  editProductForm.value = true;
+};
+
+
+
+function openEditDialog(data) {
+
 }
 
 const extendedRowColumns = [
@@ -255,7 +282,7 @@ const columns = [
     align: "left",
     field: "volume",
     sortable: true,
-  }
+  },
 ];
 
 const loading = ref(false);

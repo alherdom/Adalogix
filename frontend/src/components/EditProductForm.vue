@@ -1,4 +1,5 @@
 <template>
+  <q-card class="register-card">
   <q-card-section class="register-card">
     <div class="text-h5 text-center">Edit</div>
   </q-card-section>
@@ -67,6 +68,7 @@
         />
     </q-form>
   </q-card-section>
+</q-card>
 </template>
 
 <script setup>
@@ -76,38 +78,46 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
-  data: Array,
+  product: Object,
 });
 
+
+
+const emit = defineEmits(['close'])
+
+function closeDialog() {
+  emit('close', false)
+}
+
+const productData = {...props.product}
 const router = useRouter();
-const id = props.data.id;
-const name = ref(props.data.name);
-const description = ref(props.data.description);
-const category = ref(props.data.category);
-const price = ref(props.data.price);
-const quantity = ref(props.data.quantity);
-const weight = ref(props.data.weight)
-const volume = ref(props.data.volume)
+const id = productData.id;
+const name = ref(productData.name);
+const description = ref(productData.description);
+const category = ref(productData.category);
+const price = ref(productData.price);
+const weight = ref(productData.weight)
+const volume = ref(productData.volume)
 const loading = ref(false);
 
 const sendData = async () => {
     try {
         loading.value = true;
         const requestData =  {
-            id: `${id}`,
+            id: id,
             name: name.value,
             description: description.value,
             category: category.value,
             price: price.value,
             weight: weight.value,
             volume: volume.value,
-            quantity: quantity.value
         }
+        console.log(requestData)
         const url = `http://localhost:8000/product/update/${id}/`;
         const response = await patchRequest(requestData, url);
-        console.log(`${response.name}`)
-
+        console.log(response)
         if (response.status === 200) {
+          closeDialog()
           Swal.fire({
             title: "Success",
             text: "Product edited successfully",

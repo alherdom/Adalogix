@@ -47,7 +47,6 @@ const props = defineProps({
   user: Object,
 });
 const userData = { ...props.user };
-console.log(userData);
 const router = useRouter();
 const id = ref(userData.id);
 const userName = ref(userData.username);
