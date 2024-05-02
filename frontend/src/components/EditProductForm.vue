@@ -71,7 +71,7 @@
 
 <script setup>
 import Swal from "sweetalert2";
-import { editRequest } from "../utils/common";
+import { patchRequest } from "../utils/common";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -104,7 +104,7 @@ const sendData = async () => {
             quantity: quantity.value
         }
         const url = `http://localhost:8000/product/update/${id}/`;
-        const response = await editRequest(requestData, url);
+        const response = await patchRequest(requestData, url);
         console.log(`${response.name}`)
 
         if (response.status === 200) {

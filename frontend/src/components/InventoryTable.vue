@@ -109,7 +109,7 @@ import { getRequest, deleteRequest } from "../utils/common";
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { exportFile, useQuasar } from "quasar";
-import { EdirProductForm } from "./EditProductForm.vue"
+import  EditProductForm from "./EditProductForm.vue"
 function wrapCsvValue(val, formatFn, row) {
   let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
   formatted =
