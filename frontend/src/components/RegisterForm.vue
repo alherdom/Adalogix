@@ -1,29 +1,21 @@
 <template>
   <q-card class="register-card">
     <q-card-section>
-      <div class="text-h5 text-center register-form-title">Register user</div>
+      <div class="text-h5 text-center register-form-title">
+        <div class="text-right">
+          <q-btn flat dense icon="close" v-close-popup />
+        </div>
+        Register user
+      </div>
     </q-card-section>
     <q-card-section>
-      <q-form @submit="sendData" class="register-form">
-        <q-input outlined v-model="userName" label="Username" type="text" required />
+      <q-form @submit="sendData" class="register-form" ref="form">
         <q-input outlined v-model="firstName" label="First Name" type="text" required />
         <q-input outlined v-model="lastName" label="Last Name" type="text" required />
-        <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required />
-        <q-input outlined v-model="email" label="Email" type="text" required />
-        <q-input outlined v-model="password" label="New Password" :type="isPwd ? 'password' : 'text'">
-          <template v-slot:append>
-            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-          </template>
-        </q-input>
-        <q-input outlined v-model="confirmPassword" label="Confirm Password" :type="isPwd ? 'password' : 'text'">
-          <template v-slot:append>
-            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-          </template>
-        </q-input>
+        <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required
+          :rules="[val => !!val || 'Required']" lazy-rules />
+        <q-input outlined v-model="email" label="Email" type="text" prefix="" suffix="@gmail.com" required />
         <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
-        <div class="text-center subtitle-register-form">
-          <q-btn flat label="Back to user list" v-close-popup />
-        </div>
       </q-form>
     </q-card-section>
   </q-card>
@@ -33,25 +25,36 @@
 import Swal from "sweetalert2";
 import { postRequest } from "../utils/common";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 
-const isPwd = ref(false);
-const router = useRouter();
+// Variables
 const userName = ref("");
 const firstName = ref("");
 const lastName = ref("");
+const roleOptions = ref([{ label: "Admin", value: "SA" }, { label: "Courier", value: "CO" },]);
 const role = ref("");
-const roleOptions = ref([
-  { label: "Admin", value: "SA" },
-  { label: "Courier", value: "CO" },
-]);
 const email = ref("");
 const password = ref("");
-const confirmPassword = ref("");
 const loading = ref(false);
+const emit = defineEmits(["closeEditForm"]);
+
+// Functions
+const generateUsername = () => {
+  const randomDigits = Math.floor(Math.random() * 900) + 100;
+  userName.value = `${firstName.value.substring(0, 3)}${lastName.value.substring(0, 3)}${randomDigits}`.toLowerCase();
+  return userName.value;
+};
+const generatePassword = () => {
+  const characters = "@#$&¡!¿?*ÇçabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  password.value = Array.from({ length: 12 }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
+  return password.value;
+};
 
 const sendData = async () => {
   try {
+
+    generateUsername();
+    generatePassword();
+    console.log(userName.value, password.value);
     loading.value = true;
     const requestData = {
       username: userName.value,
@@ -72,8 +75,9 @@ const sendData = async () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      router.push("/users");
+      emit("closeEditForm", false);
     } else {
+      console.log(response.status);
       alert("Error");
     }
   } catch (error) {

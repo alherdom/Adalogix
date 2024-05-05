@@ -4,7 +4,7 @@
     flat
     bordered
     title="Inventory Table"
-    :rows="items"
+    :rows="displayedItems"
     :columns="columns"
     :loading="loading"
     row-key="id"
@@ -13,66 +13,100 @@
     :pagination="{ rowsPerPage: 20 }"
   >
     <template v-slot:top>
-      <q-toolbar-title>Inventory Table</q-toolbar-title>
-      <q-btn
-        class="q-ml-sm"
-        color="primary"
-        text-color="black"
-        :disable="loading"
-        no-caps
-        dense
-        flat
-        label="Delete Items"
-        icon="delete"
-        @click="deleteItem"
-      />
-      <q-btn
-        class="q-ml-sm"
-        color="primary"
-        text-color="black"
-        :disable="loading"
-        no-caps
-        dense
-        flat
-        label="Load Data"
-        icon="cloud_upload"
-        @click="exportTable"
-      />
-      <q-btn
-        class="q-ml-sm"
-        color="primary"
-        text-color="black"
-        :disable="loading"
-        no-caps
-        dense
-        flat
-        label="Export CSV"
-        icon="archive"
-        @click="exportTable"
-      />
+      <q-toolbar-title> Inventory Table </q-toolbar-title>
       <q-space />
-      <q-input
-        borderless
-        dense
-        debounce="300"
-        color="primary"
-        v-model="filter"
-        placeholder="Search Items..."
-      >
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
+      <div class="row">
+        <div class="col-12 q-mt-md q-ml-xl q-mr-xl">
+          <q-input
+            outlined
+            rounded
+            dense
+            style="width: 450px"
+            debounce="300"
+            color="primary"
+            v-model="filter"
+            placeholder="Search Item..."
+          >
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
+          </q-input>
+        </div>
+      </div>
+      <q-space />
+      <div class="row">
+        <div class="col-12 q-mt-md q-mr-xl">
+          <q-btn
+            class="q-ml-xl"
+            color="primary"
+            text-color="black"
+            :disable="loading"
+            no-caps
+            dense
+            flat
+            label="Delete Items"
+            icon="delete"
+            @click="deleteItem"
+          />
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            text-color="black"
+            :disable="loading"
+            no-caps
+            dense
+            flat
+            label="Load Items"
+            icon="cloud_upload"
+            @click="fetchData"
+          />
+          <q-btn
+            class="q-ml-sm"
+            color="primary"
+            text-color="black"
+            :disable="loading"
+            no-caps
+            dense
+            flat
+            label="Export CSV"
+            icon="archive"
+            @click="exportTable"
+          />
+        </div>
+      </div>
+    </template>
+    <template v-slot:body-cell-actions="props">
+      <q-td>
+        <q-btn
+          class="actions-btn"
+          color="primary"
+          flat
+          icon="edit"
+          @click="editItem(props.row)"
+        />
+        <q-btn
+          size="xs"
+          color="primary"
+          round
+          dense
+          @click="toggleExpand(props.row)"
+          :icon="isExpanded(props.row) ? 'remove' : 'add'"
+        />
+      </q-td>
     </template>
   </q-table>
+  <q-dialog v-model="editItemForm">
+    <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
+  </q-dialog>
 </template>
 
 <script setup>
 import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
-import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
+import EditItemForm from "./EditItemForm.vue";
+
 function wrapCsvValue(val, formatFn, row) {
   let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
   formatted =
@@ -82,7 +116,6 @@ function wrapCsvValue(val, formatFn, row) {
 }
 
 const $q = useQuasar();
-
 const exportTable = () => {
   const content = [columns.map((col) => wrapCsvValue(col.label))]
     .concat(
@@ -178,18 +211,22 @@ const columns = [
     field: "volume",
     sortable: true,
   },
+  { name: "actions", label: "Actions", align: "center", field: "actions" },
 ];
 
+const itemData = ref({});
 const loading = ref(false);
 const selectedRows = ref([]);
 const items = ref([]);
+const filter = ref("");
+const editItemForm = ref(false);
 
 const fetchData = async () => {
   try {
     loading.value = true;
     const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
-    items.value = response;
+    items.value = response.map((item) => ({ ...item, expanded: false }));
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({
@@ -240,4 +277,34 @@ const deleteItem = async () => {
     }
   });
 };
+
+const editItem = (itemProps) => {
+  itemData.value = itemProps;
+  editItemForm.value = true;
+};
+
+const closeEditItemForm = (value) => {
+  editItemForm.value = value;
+  fetchData();
+};
+
+const toggleExpand = (row) => {
+  row.expanded = !row.expanded;
+};
+
+const isExpanded = (row) => {
+  return row.expanded;
+};
+
+const displayedItems = computed(() => {
+  return items.value.filter((item) => {
+    if (!filter.value) return true;
+    const search = filter.value.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(search) ||
+      item.description.toLowerCase().includes(search) ||
+      item.category.toLowerCase().includes(search)
+    );
+  });
+});
 </script>

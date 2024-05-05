@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
-    <q-header class="myHeader" elevated>
+    <q-header class="myHeader">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" dense icon="menu" />
         <q-toolbar-title class="title"
@@ -47,6 +47,7 @@
       :mini="miniState"
       @mouseover="miniState = false"
       @mouseout="miniState = true"
+      mini-to-overlay
       :width="200"
       :breakpoint="500"
       bordered

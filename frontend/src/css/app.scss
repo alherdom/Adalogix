@@ -41,43 +41,69 @@ a {
   margin-top: 20px;
 }
 
-// REGISTER FORM
-.register-card {
+// REGISTER AND EDIT FORM
+.register-card,
+.edit-card,
+.item-card {
+  border-radius: 10px !important;
   width: 500px;
+}
+
+.edit-form {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  height: 520px;
+}
+
+.item-form {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  height: 692px;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
   height: auto;
-  height: 645px;
+  height: 434px;
 }
 
-.register-form-title {
-  padding-top: 10px;
+.register-form-title,
+.edit-form-title,
+.item-form-title {
+  margin-top: -5px;
+  margin-bottom: -10px;
 }
 
-.register-form .q-input {
-  padding: 0px 20px 20px 20px;
+.register-form .q-input,
+.edit-form .q-input,
+.item-form .q-input {
+  padding: 0px 30px 30px 30px;
 }
 
-.register-btn {
+.register-form .q-select,
+.edit-form .q-select {
+  padding: 0px 30px 30px 30px;
+}
+
+.register-btn,
+.edit-btn,
+.item-btn {
   height: 50px;
-  width: 91%;
+  width: 88%;
   padding: 0px 20px 0px 20px;
   margin: 0 auto;
+  font-size: medium;
+  font-weight: bolder;
 }
 
+// MAIN LAYOUT SIDEBAR AND HEADER
 .q-page-container {
   margin-bottom: 10px;
 }
 
-.subtitle-register-form {
-  margin-top: 20px;
-  margin-bottom: 0px !important;
-}
-
-// MAIN LAYOUT
 .myHeader {
   color: black;
 }
@@ -90,11 +116,6 @@ a {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-}
-
-.exportTable,
-.registerUser {
-  font-weight: 400;
 }
 
 .btn-profile {
