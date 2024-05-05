@@ -47,6 +47,7 @@
       :mini="miniState"
       @mouseover="miniState = false"
       @mouseout="miniState = true"
+      mini-to-overlay
       :width="200"
       :breakpoint="500"
       bordered

@@ -45,7 +45,7 @@ const routes = [
       {
         path: "router",
         name: "router",
-        component: () => import("pages/IndexPage.vue"),
+        component: () => import("pages/RouterPage.vue"),
         meta: { requiresAuth: true, roles: ["admin"] },
       },
       {
