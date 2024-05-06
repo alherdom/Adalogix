@@ -17,7 +17,6 @@
         <q-input outlined v-model="price" label="Price" type="text" />
         <q-input outlined v-model="weight" label="Weight" type="text" />
         <q-input outlined v-model="volume" label="Volume" type="text" />
-
         <q-btn color="primary" label="SEND" type="submit" class="item-btn" :loading="loading" />
       </q-form>
     </q-card-section>
@@ -49,14 +48,16 @@ const sendData = async () => {
     loading.value = true;
     const requestData = {
       id: id.value,
-      username: userName.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
-      role: "SA",
-      email: email.value,
+      name: name.value,
+      description: description.value,
+      quantity: quantity.value,
+      category: category.value,
+      price: price.value,
+      weight: weight.value,
+      volume: volume.value,
     };
     console.log(requestData);
-    const url = `http://localhost:8000/item/update/${id.value}/`;
+    const url = `http://localhost:8000/product/update/${id.value}/`;
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {

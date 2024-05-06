@@ -143,15 +143,25 @@ const isActive = (route) => {
 
 const logout = () => {
   Swal.fire({
-    title: `Bye ${userName}! 👋🏻`,
-    text: "You have been logged out",
-    icon: "success",
-    showConfirmButton: false,
-    timer: 1500,
+    title: "Are you sure you want to leave?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: `Bye ${userName}! 👋🏻`,
+        text: "You have been logged out successfully",
+        icon: "success",
+      });
+      router.push("/login");
+      userStore.clearData();
+      localStorage.clear();
+    }
   });
-  router.push("/login");
-  userStore.clearData();
-  localStorage.clear();
 };
 
 const showProfile = () => {

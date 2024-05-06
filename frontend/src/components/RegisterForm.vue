@@ -13,7 +13,7 @@
         <q-input outlined v-model="firstName" label="First Name" type="text" required />
         <q-input outlined v-model="lastName" label="Last Name" type="text" required />
         <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required
-          :rules="[val => !!val || 'Required']" lazy-rules />
+          :rules="[val => !!val || 'Please, user role is required']" lazy-rules />
         <q-input outlined v-model="email" label="Email" type="text" prefix="" suffix="@gmail.com" required />
         <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
       </q-form>
@@ -54,14 +54,13 @@ const sendData = async () => {
 
     generateUsername();
     generatePassword();
-    console.log(userName.value, password.value);
     loading.value = true;
     const requestData = {
       username: userName.value,
       firstName: firstName.value,
       lastName: lastName.value,
       role: role.value.value,
-      email: email.value,
+      email: email.value + "@gmail.com",
       password: password.value,
     };
     console.log(requestData);

@@ -15,6 +15,9 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        ordering = ['id']
+
 
 class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

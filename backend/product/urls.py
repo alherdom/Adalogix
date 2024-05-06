@@ -7,6 +7,7 @@ from .views import (
     ProductList,
     ProductMultipleDelete,
     ProductUpdateView,
+    ProductUploadFromCSV,
 )
 
 app_name = 'product'
@@ -18,4 +19,5 @@ urlpatterns = [
     path('delete/<int:pk>/', ProductDeleteView.as_view(), name='product_delete'),
     path('delete/multiple/', ProductMultipleDelete.as_view(), name='product_multiple_delete'),
     path('update/<int:pk>/', ProductUpdateView.as_view(), name='product_update'),
+    path('upload/', ProductUploadFromCSV.as_view(), name='product_upload_csv'),
 ]

@@ -21,7 +21,6 @@
             outlined
             rounded
             dense
-            style="width: 450px"
             debounce="300"
             color="primary"
             v-model="filter"
@@ -38,8 +37,6 @@
         <div class="col-12 q-mt-md q-mr-xl">
           <q-btn
             class="q-ml-xl"
-            color="primary"
-            text-color="black"
             :disable="loading"
             no-caps
             dense
@@ -50,20 +47,28 @@
           />
           <q-btn
             class="q-ml-sm"
-            color="primary"
-            text-color="black"
             :disable="loading"
             no-caps
             dense
             flat
             label="Load Items"
             icon="cloud_upload"
-            @click="fetchData"
+            @click="openUploaderDialog"
           />
+          <q-dialog v-model="uploaderDialog">
+            <q-uploader
+              text-color="black"
+              ref="uploader"
+              url="http://localhost:8000/product/upload/"
+              label="Select a CSV file to upload"
+              single-file
+              accept=".csv"
+              @uploaded="handleUpload"
+            >
+            </q-uploader>
+          </q-dialog>
           <q-btn
             class="q-ml-sm"
-            color="primary"
-            text-color="black"
             :disable="loading"
             no-caps
             dense
@@ -78,25 +83,37 @@
     <template v-slot:body-cell-actions="props">
       <q-td>
         <q-btn
-          class="actions-btn"
-          color="primary"
           flat
+          size="sm"
+          color="primary"
           icon="edit"
           @click="editItem(props.row)"
         />
         <q-btn
-          size="xs"
+          flat
+          size="sm"
           color="primary"
-          round
-          dense
-          @click="toggleExpand(props.row)"
-          :icon="isExpanded(props.row) ? 'remove' : 'add'"
+          icon="visibility"
+          @click="productDetail = true"
         />
       </q-td>
     </template>
   </q-table>
   <q-dialog v-model="editItemForm">
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
+  </q-dialog>
+  <q-dialog v-model="productDetail">
+    <q-card style="width: 100%; max-width: 80vw">
+      <q-card-section>
+        <div class="text-h6">Full Width</div>
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        Click/Tap on the backdrop.
+      </q-card-section>
+      <q-card-actions align="right" class="bg-white text-teal">
+        <q-btn flat label="OK" v-close-popup />
+      </q-card-actions>
+    </q-card>
   </q-dialog>
 </template>
 
@@ -106,6 +123,20 @@ import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
 import EditItemForm from "./EditItemForm.vue";
+
+const uploaderDialog = ref(false);
+const openUploaderDialog = () => {
+  uploaderDialog.value = true;
+};
+
+const handleUpload = () => {
+  uploaderDialog.value = false;
+  Swal.fire({
+    icon: "success",
+    title: "Items loaded successfully!",
+  });
+  fetchData();
+};
 
 function wrapCsvValue(val, formatFn, row) {
   let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
@@ -117,10 +148,13 @@ function wrapCsvValue(val, formatFn, row) {
 
 const $q = useQuasar();
 const exportTable = () => {
-  const content = [columns.map((col) => wrapCsvValue(col.label))]
+  let rowsToExport =
+    selectedRows.value.length > 0 ? selectedRows.value : items.value;
+  const columnsToExport = columns.slice(0, -1);
+  const content = [columnsToExport.map((col) => wrapCsvValue(col.label))]
     .concat(
-      items.value.map((row) =>
-        columns
+      rowsToExport.map((row) =>
+        columnsToExport
           .map((col) =>
             wrapCsvValue(
               typeof col.field === "function"
@@ -211,7 +245,7 @@ const columns = [
     field: "volume",
     sortable: true,
   },
-  { name: "actions", label: "Actions", align: "center", field: "actions" },
+  { name: "actions", label: "Actions", align: "left", field: "actions" },
 ];
 
 const itemData = ref({});
@@ -220,6 +254,7 @@ const selectedRows = ref([]);
 const items = ref([]);
 const filter = ref("");
 const editItemForm = ref(false);
+const productDetail = ref(false);
 
 const fetchData = async () => {
   try {

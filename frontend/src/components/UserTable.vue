@@ -21,7 +21,6 @@
             outlined
             rounded
             dense
-            style="width: 450px"
             debounce="300"
             color="primary"
             v-model="filter"
@@ -38,8 +37,6 @@
         <div class="col-12 q-mt-md q-mr-xl">
           <q-btn
             class="q-ml-xl"
-            color="primary"
-            text-color="black"
             :disable="loading"
             no-caps
             dense
@@ -50,8 +47,6 @@
           />
           <q-btn
             class="q-ml-sm"
-            color="primary"
-            text-color="black"
             :disable="loading"
             no-caps
             dense
@@ -62,8 +57,6 @@
           />
           <q-btn
             class="q-ml-sm"
-            color="primary"
-            text-color="black"
             :disable="loading"
             no-caps
             dense
@@ -78,9 +71,9 @@
     <template v-slot:body-cell-actions="props">
       <q-td>
         <q-btn
-          class="actions-btn"
-          color="primary"
           flat
+          size="sm"
+          color="primary"
           icon="edit"
           @click="editUser(props.row)"
         />
@@ -113,10 +106,13 @@ function wrapCsvValue(val, formatFn, row) {
 
 const $q = useQuasar();
 const exportTable = () => {
-  const content = [columns.map((col) => wrapCsvValue(col.label))]
+  let rowsToExport =
+    selectedRows.value.length > 0 ? selectedRows.value : users.value;
+  const columnsToExport = columns.slice(0, -1);
+  const content = [columnsToExport.map((col) => wrapCsvValue(col.label))]
     .concat(
-      items.value.map((row) =>
-        columns
+      rowsToExport.map((row) =>
+        columnsToExport
           .map((col) =>
             wrapCsvValue(
               typeof col.field === "function"
