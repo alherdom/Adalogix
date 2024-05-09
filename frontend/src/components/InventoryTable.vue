@@ -189,6 +189,67 @@ function wrapCsvValue(val, formatFn, row) {
   return `"${formatted}"`;
 }
 
+function parseStore(store) {
+  return JSON.parse(store)
+}
+
+const closeDialog = (status) => {
+  editProductForm.value = status
+  fetchData()
+}
+
+const productData = ref({})
+
+const editProductForm = ref(false)
+
+const editProduct = (productProps) => {
+  productData.value = productProps;
+  editProductForm.value = true;
+};
+
+
+
+function openEditDialog(data) {
+
+}
+
+const extendedRowColumns = [
+  {
+  name: "id",
+  required: true,
+  label: "Id",
+  align: "left",
+  field: "id",
+  sortable: true,
+  },
+  {
+  name: "name",
+  required: true,
+  label: "Store",
+  align: "left",
+  field: "name",
+  sortable: true,
+  },
+  {
+  name: "quantity",
+  required: true,
+  label: "Quantity",
+  align: "left",
+  field: "quantity",
+  sortable: true,
+  },
+  {
+  name: "address",
+  required: true,
+  label: "Address",
+  align: "left",
+  field: "address",
+  sortable: true,
+  },
+]
+
+
+
 const $q = useQuasar();
 const exportTable = () => {
   let rowsToExport =

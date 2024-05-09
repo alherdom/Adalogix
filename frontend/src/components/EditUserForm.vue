@@ -49,8 +49,8 @@ const sendData = async () => {
     const requestData = {
       id: id.value,
       username: userName.value,
-      firstName: firstName.value,
-      lastName: lastName.value,
+      first_name: firstName.value,
+      last_name: lastName.value,
       role: "SA",
       email: email.value,
     };

@@ -21,8 +21,10 @@ class Command(BaseCommand):
                     weight=line['weight'],
                     volume=line['volume'],
                 )
-                store1 = Store.objects.get(id=randint(1, 10))
-                store2 = Store.objects.get(id=randint(1, 10))
+                store_first_id = Store.objects.all().order_by('id').first().id
+                store_last_id = Store.objects.all().order_by('-id').first().id
+                store1 = Store.objects.get(id=randint(store_first_id, store_last_id))
+                store2 = Store.objects.get(id=randint(store_first_id, store_last_id))
                 prod.stores.add(store1, through_defaults={'stock': randint(10, 50)})
                 prod.stores.add(store2, through_defaults={'stock': randint(10, 50)})
                 prod.save()

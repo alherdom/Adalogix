@@ -35,9 +35,15 @@ class ProductList(APIView):
         products_to_return = []
         products = Product.objects.all()
         for product in products:
-            quantity = sum(
-                Inventory.stock for Inventory in Inventory.objects.filter(product=product)
-            )
+            quantity = sum(Inventory.stock for Inventory in Inventory.objects.filter(product=product))
+            stores = []
+            for store in product.stores.all():
+                store_info = {}
+                store_info['id'] = store.id
+                store_info['name'] = store.name
+                store_info['quantity'] = Inventory.objects.get(product=product.id, store=store.id).stock
+                store_info['address'] = store.address
+                stores.append(store_info)
             products_to_return.append(
                 {
                     'id': product.id,
@@ -48,6 +54,7 @@ class ProductList(APIView):
                     'price': product.price,
                     'weight': product.weight,
                     'volume': product.volume,
+                    'stores': json.dumps(stores)
                 }
             )
         return JsonResponse(products_to_return, safe=False)
@@ -82,7 +89,7 @@ class ProductUpdateView(UpdateAPIView):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return JsonResponse(dict(status=200, message='Item successfully updated'))
+        return JsonResponse(dict(status=200, message='Product successfully updated'))
 
 
 class ProductUploadFromCSV(APIView):

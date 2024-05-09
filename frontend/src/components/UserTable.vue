@@ -87,67 +87,6 @@
         </q-tooltip>
       </q-input>
     </template>
-
-    <!-- <template v-slot:top>
-      <q-toolbar-title> Users Table </q-toolbar-title>
-      <q-space />
-      <div class="row">
-        <div class="col-12 q-mt-md q-ml-xl q-mr-xl">
-          <q-input
-            outlined
-            rounded
-            dense
-            push
-            debounce="300"
-            v-model="filter"
-            placeholder="Search User..."
-            class="search-input"
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </div>
-      </div>
-      <q-space />
-      <div class="row">
-        <div class="col-12 q-mt-md q-mr-xl">
-          <q-btn
-          class="q-ml-md q-mr-md q-pa-sm action-butons"
-            :disable="loading"
-            no-caps
-            dense
-            outlined
-            push
-            label="Delete User"
-            icon="delete"
-            @click="deleteUser"
-          />
-          <q-btn
-          class="q-mr-md q-pa-sm action-butons"
-            :disable="loading"
-            no-caps
-            dense
-            outlined
-            push
-            label="Register User"
-            icon="upload"
-            @click="registerForm = true"
-          />
-          <q-btn
-          class="q-pa-sm action-butons"
-            :disable="loading"
-            no-caps
-            dense
-            outlined
-            push
-            label="Export CSV"
-            icon="download"
-            @click="exportTable"
-          />
-        </div>
-      </div>
-    </template> -->
     <template v-slot:body-cell-actions="props">
       <q-td>
         <q-btn
@@ -160,6 +99,8 @@
       </q-td>
     </template>
   </q-table>
+
+  <!-- Dialogs -->
   <q-dialog v-model="registerForm">
     <RegisterForm @closeEditForm="closeEditUserForm" />
   </q-dialog>
@@ -277,6 +218,11 @@ const users = ref([]);
 const filter = ref("");
 const registerForm = ref(false);
 const editUserForm = ref(false);
+
+const closeDialog = (status) => {
+  editUserForm.value = status
+  fetchData()
+}
 
 const fetchData = async () => {
   try {
