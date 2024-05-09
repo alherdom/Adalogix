@@ -2,7 +2,6 @@
   <q-table
     class="my-sticky-header-table"
     flat
-    bordered
     title="Users Table"
     :rows="displayedUsers"
     :columns="columns"
@@ -12,7 +11,84 @@
     selection="multiple"
     :pagination="{ rowsPerPage: 20 }"
   >
-    <template v-slot:top>
+  <template v-slot:top>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="delete"
+        @click="deleteUser"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Delete Users
+        </q-tooltip>
+      </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="person_add"
+        @click="registerForm = true"
+        ><q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Register User
+        </q-tooltip>
+      </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="download"
+        @click="exportTable"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Export Table
+        </q-tooltip>
+      </q-btn>
+      <q-space />
+      <q-input
+        dense
+        filled
+        class="q-mr-sm q-mt-sm"
+        placeholder="Search User..."
+        debounce="300"
+        color="primary"
+        v-model="filter"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+        By username, first name, last name, email, or role
+        </q-tooltip>
+      </q-input>
+    </template>
+
+    <!-- <template v-slot:top>
       <q-toolbar-title> Users Table </q-toolbar-title>
       <q-space />
       <div class="row">
@@ -21,10 +97,11 @@
             outlined
             rounded
             dense
+            push
             debounce="300"
-            color="primary"
             v-model="filter"
             placeholder="Search User..."
+            class="search-input"
           >
             <template v-slot:append>
               <q-icon name="search" />
@@ -36,38 +113,41 @@
       <div class="row">
         <div class="col-12 q-mt-md q-mr-xl">
           <q-btn
-            class="q-ml-xl"
+          class="q-ml-md q-mr-md q-pa-sm action-butons"
             :disable="loading"
             no-caps
             dense
-            flat
-            label="Delete Users"
+            outlined
+            push
+            label="Delete User"
             icon="delete"
             @click="deleteUser"
           />
           <q-btn
-            class="q-ml-sm"
+          class="q-mr-md q-pa-sm action-butons"
             :disable="loading"
             no-caps
             dense
-            flat
+            outlined
+            push
             label="Register User"
-            icon="cloud_upload"
+            icon="upload"
             @click="registerForm = true"
           />
           <q-btn
-            class="q-ml-sm"
+          class="q-pa-sm action-butons"
             :disable="loading"
             no-caps
             dense
-            flat
+            outlined
+            push
             label="Export CSV"
-            icon="archive"
+            icon="download"
             @click="exportTable"
           />
         </div>
       </div>
-    </template>
+    </template> -->
     <template v-slot:body-cell-actions="props">
       <q-td>
         <q-btn
@@ -203,6 +283,7 @@ const fetchData = async () => {
     loading.value = true;
     const url = "http://localhost:8000/user/list";
     const response = await getRequest(url);
+    console.log(response);
     users.value = response.map((user) => ({ ...user }));
   } catch (error) {
     console.error("Error fetching data:", error);

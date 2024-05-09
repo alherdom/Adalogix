@@ -1,8 +1,7 @@
 <template>
   <q-table
-    class="my-sticky-header-table"
     flat
-    bordered
+    class="my-sticky-header-table"
     title="Inventory Table"
     :rows="displayedItems"
     :columns="columns"
@@ -13,72 +12,80 @@
     :pagination="{ rowsPerPage: 20 }"
   >
     <template v-slot:top>
-      <q-toolbar-title> Inventory Table </q-toolbar-title>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="delete"
+        @click="deleteItem"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Delete Items
+        </q-tooltip>
+      </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="upload"
+        @click="openUploaderDialog"
+        ><q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Upload Products
+        </q-tooltip>
+      </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="download"
+        @click="exportTable"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Export Table
+        </q-tooltip>
+      </q-btn>
       <q-space />
-      <div class="row">
-        <div class="col-12 q-mt-md q-ml-xl q-mr-xl">
-          <q-input
-            outlined
-            rounded
-            dense
-            debounce="300"
-            color="primary"
-            v-model="filter"
-            placeholder="Search Item..."
-          >
-            <template v-slot:append>
-              <q-icon name="search" />
-            </template>
-          </q-input>
-        </div>
-      </div>
-      <q-space />
-      <div class="row">
-        <div class="col-12 q-mt-md q-mr-xl">
-          <q-btn
-            class="q-ml-xl"
-            :disable="loading"
-            no-caps
-            dense
-            flat
-            label="Delete Items"
-            icon="delete"
-            @click="deleteItem"
-          />
-          <q-btn
-            class="q-ml-sm"
-            :disable="loading"
-            no-caps
-            dense
-            flat
-            label="Load Items"
-            icon="cloud_upload"
-            @click="openUploaderDialog"
-          />
-          <q-dialog v-model="uploaderDialog">
-            <q-uploader
-              text-color="black"
-              ref="uploader"
-              url="http://localhost:8000/product/upload/"
-              label="Select a CSV file to upload"
-              single-file
-              accept=".csv"
-              @uploaded="handleUpload"
-            >
-            </q-uploader>
-          </q-dialog>
-          <q-btn
-            class="q-ml-sm"
-            :disable="loading"
-            no-caps
-            dense
-            flat
-            label="Export CSV"
-            icon="archive"
-            @click="exportTable"
-          />
-        </div>
-      </div>
+      <q-input
+        dense
+        filled
+        class="q-mr-sm q-mt-sm"
+        placeholder="Search Product..."
+        debounce="300"
+        color="primary"
+        v-model="filter"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+        By name, description or category
+        </q-tooltip>
+      </q-input>
     </template>
     <template v-slot:body-cell-actions="props">
       <q-td>
@@ -94,26 +101,49 @@
           size="sm"
           color="primary"
           icon="visibility"
-          @click="productDetail = true"
+          @click="showProductDetail(props.row)"
         />
       </q-td>
     </template>
   </q-table>
+
+  <!-- Dialogs-->
+  <q-dialog v-model="uploaderDialog">
+    <q-uploader
+      text-color="black"
+      ref="uploader"
+      url="http://localhost:8000/product/upload/"
+      label="Select a CSV file to upload"
+      single-file
+      accept=".csv"
+      @uploaded="handleUpload"
+    >
+    </q-uploader>
+  </q-dialog>
   <q-dialog v-model="editItemForm">
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
   </q-dialog>
   <q-dialog v-model="productDetail">
-    <q-card style="width: 100%; max-width: 80vw">
-      <q-card-section>
-        <div class="text-h6">Full Width</div>
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        Click/Tap on the backdrop.
-      </q-card-section>
-      <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="OK" v-close-popup />
-      </q-card-actions>
-    </q-card>
+    <q-table
+      class="product-detail-table"
+      flat
+      :rows="[productDetailRow]"
+      :columns="columns.slice(0, -1)"
+      :loading="loading"
+      row-key="id"
+      hide-bottom
+    >
+      <template v-slot:bottom-row>
+        <q-btn
+          class="close-product-detail-btn"
+          flat
+          dense
+          size="sm"
+          icon="close"
+          @click="productDetail = false"
+        />
+      </template>
+    </q-table>
   </q-dialog>
 </template>
 
@@ -123,6 +153,19 @@ import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
 import EditItemForm from "./EditItemForm.vue";
+
+const productDetailRows = ref([
+  {
+    id: 1,
+    name: "Product 1",
+    description: "Product 1 Description",
+    quantity: 10,
+    category: "Category 1",
+    price: 100,
+    weight: 10,
+    volume: 10,
+  },
+]);
 
 const uploaderDialog = ref(false);
 const openUploaderDialog = () => {
@@ -255,6 +298,7 @@ const items = ref([]);
 const filter = ref("");
 const editItemForm = ref(false);
 const productDetail = ref(false);
+const productDetailRow = ref({});
 
 const fetchData = async () => {
   try {
@@ -288,8 +332,7 @@ const deleteItem = async () => {
     return;
   }
   Swal.fire({
-    title: "Delete items?",
-    text: "Are you sure you want to delete the selected items?",
+    title: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -323,12 +366,10 @@ const closeEditItemForm = (value) => {
   fetchData();
 };
 
-const toggleExpand = (row) => {
-  row.expanded = !row.expanded;
-};
-
-const isExpanded = (row) => {
-  return row.expanded;
+const showProductDetail = (itemProps) => {
+  console.log(itemProps);
+  productDetailRow.value = itemProps;
+  productDetail.value = true;
 };
 
 const displayedItems = computed(() => {

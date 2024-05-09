@@ -1,10 +1,10 @@
 <template>
   <q-layout view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
-    <q-header class="myHeader">
+    <q-header elevated class="myHeader">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" dense icon="menu" />
         <q-toolbar-title class="title"
-          ><a href="/">Adalogix</a></q-toolbar-title
+          ><a href="/">Adalogix {{ capitalizePath }}</a></q-toolbar-title
         >
         <q-space />
         <q-btn-dropdown
@@ -42,6 +42,7 @@
     </q-header>
 
     <q-drawer
+      elevated
       v-model="drawer"
       show-if-above
       :mini="miniState"
@@ -99,6 +100,12 @@ const miniState = ref(true);
 const userStore = useUserStore();
 const router = useRouter();
 const userName = localStorage.getItem("userName");
+const path = computed(() => {
+  return router.currentRoute.value.path.slice(1);
+});
+const capitalizePath = computed(() => {
+  return path.value.charAt(0).toUpperCase() + path.value.slice(1);
+});
 
 const links = [
   {
@@ -144,10 +151,8 @@ const isActive = (route) => {
 const logout = () => {
   Swal.fire({
     title: "Are you sure you want to leave?",
-    icon: "warning",
+    icon: "question",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
     confirmButtonText: "Yes",
     cancelButtonText: "No",
   }).then((result) => {

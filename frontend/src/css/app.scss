@@ -1,7 +1,11 @@
-// app global css in SCSS form
+// APP GLOBAL CSS IN SCSS FORM
 a {
   text-decoration: none;
   color: inherit;
+}
+
+body {
+  background-color: #EEEEEE;
 }
 
 // LOGIN FORM
@@ -124,29 +128,18 @@ a {
 }
 
 // INVENTORY AND USERS TABLES
-.searchInput {
-  width: 400px;
-  padding: 20px 0px 25px 0px;
-  margin-right: 500px;
-  font-size: 1.1em;
-  position: relative;
-  // margin-right: 100vw;
-}
-
-.myBtns {
-  background-color: black;
-  color: white;
-  padding: 0px 7px 0px 5px;
-}
-
-.myBtns .q-btn__content {
-  font-weight: 400;
-  padding: 2px 5px 2px 5px;
+.q-field--dense .q-field__control {
+  height: 35px;
+  width: 200px;
 }
 
 .my-sticky-header-table {
   // height or max-height is important
-  height: 94vh;
+  height: 93vh;
+
+  .q-table__card {
+    border-radius: 0px;
+  }
 
   .q-table__top,
   .q-table__bottom,
@@ -175,4 +168,23 @@ a {
     // height of all previous header rows
     scroll-margin-top: 48px;
   }
+}
+
+// PRODUCT DETAILS TABLE
+.product-detail-table {
+  scale: 1.1;
+  width: 60%;
+  max-width: 60% !important;
+  height: auto;
+}
+
+.product-detail-table thead {
+  background-color: #EEEEEE;
+}
+
+.close-product-detail-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 2px;
 }
