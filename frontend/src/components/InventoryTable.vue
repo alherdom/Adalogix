@@ -112,7 +112,7 @@
     <q-uploader
       text-color="black"
       ref="uploader"
-      url="http://localhost:8000/product/upload/"
+      url="https://backend.adalogix.es/product/upload/"
       label="Select a CSV file to upload"
       single-file
       accept=".csv"
@@ -364,7 +364,7 @@ const productDetailRow = ref({});
 const fetchData = async () => {
   try {
     loading.value = true;
-    const url = "http://localhost:8000/product/list/";
+    const url = "https://backend.adalogix.es/product/list/";
     const response = await getRequest(url);
     items.value = response.map((item) => ({ ...item, expanded: false }));
   } catch (error) {
@@ -403,7 +403,7 @@ const deleteItem = async () => {
       const requestData = {
         product_ids: selectedRows.value.map((item) => item.id),
       };
-      const url = "http://localhost:8000/product/delete/multiple/";
+      const url = "https://backend.adalogix.es/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {

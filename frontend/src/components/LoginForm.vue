@@ -100,7 +100,7 @@ const sendData = async () => {
       username: username.value,
       password: password.value,
     };
-    const url = "http://localhost:8000/user/login/";
+    const url = "https://backend.adalogix.es/user/login/";
     const response = await postLoginRequest(requestData, url);
     if (response.status === 200) {
       handleSuccessLogin(response);
