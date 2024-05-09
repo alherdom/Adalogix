@@ -1,10 +1,9 @@
 <template>
   <q-table
-    class="my-sticky-header-table"
     flat
-    bordered
+    class="my-sticky-header-table"
     title="Inventory Table"
-    :rows="items"
+    :rows="displayedItems"
     :columns="columns"
     :loading="loading"
     row-key="id"
@@ -13,110 +12,175 @@
     :pagination="{ rowsPerPage: 20 }"
   >
     <template v-slot:top>
-      <q-toolbar-title>Inventory Table</q-toolbar-title>
       <q-btn
-        class="q-ml-sm"
-        color="primary"
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
         text-color="black"
         :disable="loading"
-        no-caps
-        dense
-        flat
-        label="Delete Items"
         icon="delete"
         @click="deleteItem"
-      />
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Delete Items
+        </q-tooltip>
+      </q-btn>
       <q-btn
-        class="q-ml-sm"
-        color="primary"
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
         text-color="black"
         :disable="loading"
-        no-caps
-        dense
-        flat
-        label="Load Data"
-        icon="cloud_upload"
-        @click="exportTable"
-      />
+        icon="upload"
+        @click="openUploaderDialog"
+        ><q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Upload Products
+        </q-tooltip>
+      </q-btn>
       <q-btn
-        class="q-ml-sm"
-        color="primary"
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
         text-color="black"
         :disable="loading"
-        no-caps
-        dense
-        flat
-        label="Export CSV"
-        icon="archive"
+        icon="download"
         @click="exportTable"
-      />
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Export Table
+        </q-tooltip>
+      </q-btn>
       <q-space />
       <q-input
-        borderless
         dense
+        filled
+        class="q-mr-sm q-mt-sm"
+        placeholder="Search Product..."
         debounce="300"
         color="primary"
         v-model="filter"
-        placeholder="Search Items..."
       >
         <template v-slot:append>
           <q-icon name="search" />
         </template>
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+        By name, description or category
+        </q-tooltip>
       </q-input>
     </template>
-    <template v-slot:body="props"  >
-        <q-tr :props="props" class="expandibleRow" >
-          <q-td>
-            <q-checkbox v-model="props.selected" color="grey-8"></q-checkbox>
-          </q-td>
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-            selected="single"
-            auto-width="100%"
-          >
-            {{ col.value }}
-          </q-td>
-          <q-td auto-width>
-              <q-btn size="sm" color="primary" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
-          </q-td>
-        </q-tr>
-        <!-- Expandible rows start-->
-        <q-tr v-show="props.expand" :props="props" class="expandedRowTable"> 
-          <q-td colspan="100%">
-            <q-btn class="actions-btn product-edit-btn" color="black" flat icon="edit" @click="editProduct(props.row)" />
-          </q-td>
-        </q-tr>
-        <q-tr v-show="props.expand" :props="props" class="expandedRowTable">
-          <q-td colspan="100%">
-            <p>Description:</p>
-            <p>{{ props.row.description }}</p>
-          </q-td>
-        </q-tr>
-        <q-tr v-show="props.expand" :props="props" class="expandedRowTable">
-          <q-td colspan="100%">
-            <q-table flat square="" class="expandedRowTable" :rows="parseStore(props.row.stores)" :columns="extendedRowColumns" row-key="name" color="primary" hide-bottom hide-title/>
-          </q-td>
-        </q-tr>
-        <!-- Expandible rows end-->
-      </template>    
+    <template v-slot:body-cell-actions="props">
+      <q-td>
+        <q-btn
+          flat
+          size="sm"
+          color="primary"
+          icon="edit"
+          @click="editItem(props.row)"
+        />
+        <q-btn
+          flat
+          size="sm"
+          color="primary"
+          icon="visibility"
+          @click="showProductDetail(props.row)"
+        />
+      </q-td>
+    </template>
   </q-table>
-  <template>
-    <q-dialog v-model="editProductForm">
-      <EditProductForm :product="productData" @close="closeDialog"/>
-    </q-dialog>
-  </template>
-  
+
+  <!-- Dialogs-->
+  <q-dialog v-model="uploaderDialog">
+    <q-uploader
+      text-color="black"
+      ref="uploader"
+      url="http://localhost:8000/product/upload/"
+      label="Select a CSV file to upload"
+      single-file
+      accept=".csv"
+      @uploaded="handleUpload"
+    >
+    </q-uploader>
+  </q-dialog>
+  <q-dialog v-model="editItemForm">
+    <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
+  </q-dialog>
+  <q-dialog v-model="productDetail">
+    <q-table
+      class="product-detail-table"
+      flat
+      :rows="[productDetailRow]"
+      :columns="columns.slice(0, -1)"
+      :loading="loading"
+      row-key="id"
+      hide-bottom
+    >
+      <template v-slot:bottom-row>
+        <q-btn
+          class="close-product-detail-btn"
+          flat
+          dense
+          size="sm"
+          icon="close"
+          @click="productDetail = false"
+        />
+      </template>
+    </q-table>
+  </q-dialog>
 </template>
 
 <script setup>
 import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
-import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
-import  EditProductForm from "./EditProductForm.vue"
+import EditItemForm from "./EditItemForm.vue";
+
+const productDetailRows = ref([
+  {
+    id: 1,
+    name: "Product 1",
+    description: "Product 1 Description",
+    quantity: 10,
+    category: "Category 1",
+    price: 100,
+    weight: 10,
+    volume: 10,
+  },
+]);
+
+const uploaderDialog = ref(false);
+const openUploaderDialog = () => {
+  uploaderDialog.value = true;
+};
+
+const handleUpload = () => {
+  uploaderDialog.value = false;
+  Swal.fire({
+    icon: "success",
+    title: "Items loaded successfully!",
+  });
+  fetchData();
+};
+
 function wrapCsvValue(val, formatFn, row) {
   let formatted = formatFn !== void 0 ? formatFn(val, row) : val;
   formatted =
@@ -187,12 +251,14 @@ const extendedRowColumns = [
 
 
 const $q = useQuasar();
-
 const exportTable = () => {
-  const content = [columns.map((col) => wrapCsvValue(col.label))]
+  let rowsToExport =
+    selectedRows.value.length > 0 ? selectedRows.value : items.value;
+  const columnsToExport = columns.slice(0, -1);
+  const content = [columnsToExport.map((col) => wrapCsvValue(col.label))]
     .concat(
-      items.value.map((row) =>
-        columns
+      rowsToExport.map((row) =>
+        columnsToExport
           .map((col) =>
             wrapCsvValue(
               typeof col.field === "function"
@@ -283,18 +349,24 @@ const columns = [
     field: "volume",
     sortable: true,
   },
+  { name: "actions", label: "Actions", align: "left", field: "actions" },
 ];
 
+const itemData = ref({});
 const loading = ref(false);
 const selectedRows = ref([]);
 const items = ref([]);
+const filter = ref("");
+const editItemForm = ref(false);
+const productDetail = ref(false);
+const productDetailRow = ref({});
 
 const fetchData = async () => {
   try {
     loading.value = true;
     const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
-    items.value = response;
+    items.value = response.map((item) => ({ ...item, expanded: false }));
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({
@@ -321,8 +393,7 @@ const deleteItem = async () => {
     return;
   }
   Swal.fire({
-    title: "Delete items?",
-    text: "Are you sure you want to delete the selected items?",
+    title: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -345,4 +416,32 @@ const deleteItem = async () => {
     }
   });
 };
+
+const editItem = (itemProps) => {
+  itemData.value = itemProps;
+  editItemForm.value = true;
+};
+
+const closeEditItemForm = (value) => {
+  editItemForm.value = value;
+  fetchData();
+};
+
+const showProductDetail = (itemProps) => {
+  console.log(itemProps);
+  productDetailRow.value = itemProps;
+  productDetail.value = true;
+};
+
+const displayedItems = computed(() => {
+  return items.value.filter((item) => {
+    if (!filter.value) return true;
+    const search = filter.value.toLowerCase();
+    return (
+      item.name.toLowerCase().includes(search) ||
+      item.description.toLowerCase().includes(search) ||
+      item.category.toLowerCase().includes(search)
+    );
+  });
+});
 </script>

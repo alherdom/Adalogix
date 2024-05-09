@@ -1,29 +1,21 @@
 <template>
-  <q-card class="register-card">
+  <q-card class="edit-card">
     <q-card-section>
-      <div class="text-h5 text-center register-form-title">Edit user</div>
+      <div class="text-h5 text-center edit-form-title">
+        <div class="text-right">
+          <q-btn flat dense icon="close" v-close-popup />
+        </div>
+        Edit User
+      </div>
     </q-card-section>
     <q-card-section>
-      <q-form @submit="sendData" class="register-form">
+      <q-form @submit="sendData" class="edit-form">
         <q-input outlined v-model="userName" label="Username" type="text" required />
         <q-input outlined v-model="firstName" label="First Name" type="text" required />
         <q-input outlined v-model="lastName" label="Last Name" type="text" required />
         <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required />
         <q-input outlined v-model="email" label="Email" type="text" required />
-        <q-input outlined v-model="password" label="New Password" :type="isPwd ? 'password' : 'text'">
-          <template v-slot:append>
-            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-          </template>
-        </q-input>
-        <q-input outlined v-model="confirmPassword" label="Confirm Password" :type="isPwd ? 'password' : 'text'">
-          <template v-slot:append>
-            <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
-          </template>
-        </q-input>
-        <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading"/>
-        <div class="text-center subtitle-register-form">
-          <q-btn flat label="Back to user list" v-close-popup/>
-        </div>
+        <q-btn color="primary" label="SEND" type="submit" class="edit-btn" :loading="loading" />
       </q-form>
     </q-card-section>
   </q-card>
@@ -33,21 +25,11 @@
 import Swal from "sweetalert2";
 import { patchRequest } from "../utils/common";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useUserStore } from "src/stores/users";
 
-const emit = defineEmits(['close'])
-
-function closeDialog() {
-  emit('close', false)
-}
-const userStore = useUserStore();
-const isPwd = ref(false);
 const props = defineProps({
   user: Object,
 });
 const userData = { ...props.user };
-const router = useRouter();
 const id = ref(userData.id);
 const userName = ref(userData.username);
 const firstName = ref(userData.first_name);
@@ -57,10 +39,9 @@ const roleOptions = ref([
   { label: "Admin", value: "SA" },
   { label: "Courier", value: "CO" },
 ]);
-const email = ref(props.user.email);
-const password = ref("");
-const confirmPassword = ref("");
+const email = ref(userData.email);
 const loading = ref(false);
+const emit = defineEmits(['closeEditForm'])
 
 const sendData = async () => {
   try {
@@ -78,8 +59,6 @@ const sendData = async () => {
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {
-      closeDialog()
-      userStore.handleEditFormDialog();
       Swal.fire({
         title: "Success",
         text: "User edited successfully",
@@ -87,9 +66,7 @@ const sendData = async () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      // emitir evento para cerrar dialog en el padre
-      router.push("/users");
-      
+      emit("closeEditForm", false);
     } else {
       console.log(response.status);
       alert("Error");

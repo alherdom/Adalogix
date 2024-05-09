@@ -1,26 +1,5 @@
 import { defineStore } from "pinia";
 
-// export const useCounterStore = defineStore("counter", {
-//   // state is the same as data in a component
-//   state: () => ({
-//     counter: 0,
-//   }),
-
-//   // getters are like computed properties but for stores
-//   getters: {
-//     doubleCount(state) {
-//       return state.counter * 2;
-//     },
-//   },
-
-//   // actions are the same as methods in a component
-//   actions: {
-//     increment() {
-//       this.counter++;
-//     },
-//   },
-// });
-
 export const useUserStore = defineStore("user", {
   state: () => ({
     userData: {},
@@ -45,6 +24,6 @@ export const useUserStore = defineStore("user", {
     },
     handleEditFormDialog() {
       this.editFormOpen = !this.editFormOpen;
-    }
+    },
   },
 });
