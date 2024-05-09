@@ -49,6 +49,12 @@ const routes = [
         meta: { requiresAuth: true, roles: ["admin"] },
       },
       {
+        path: "courier-router",
+        name: "courier-router",
+        component: () => import("pages/RouterCourierPage.vue"),
+        meta: { requiresAuth: true, roles: ["courier"] },
+      },
+      {
         path: "chat",
         name: "chat",
         component: () => import("pages/ChatPage.vue"),

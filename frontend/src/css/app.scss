@@ -114,10 +114,8 @@ a {
 
 .product-edit-btn {
   width: 100%;
-  background-color: #FF6C37;
+  background-color: #ff6c37;
 }
-
-
 
 .myBtns {
   background-color: black;
@@ -138,7 +136,7 @@ a {
   .q-table__bottom,
   thead tr:first-child th {
     // bg color is important for th; just specify one
-    background-color: #EEEEEE;
+    background-color: #eeeeee;
   }
 
   thead tr th {
@@ -161,4 +159,13 @@ a {
     // height of all previous header rows
     scroll-margin-top: 48px;
   }
+}
+
+// Router
+
+.router-drawer {
+  padding: 90px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
 }

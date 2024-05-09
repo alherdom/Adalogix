@@ -11,7 +11,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Employee
-        fields = ['id', 'user', 'department', 'phone', 'role']
+        fields = ['id', 'user', 'department', 'phone', 'role', 'available', 'route']
 
     def to_internal_value(self, data):
         principal_data = super().to_internal_value(data) 

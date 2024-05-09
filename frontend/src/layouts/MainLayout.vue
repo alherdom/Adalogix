@@ -115,6 +115,12 @@ const links = [
   },
   { path: "/router", label: "ROUTER", icon: "fmd_good", roles: ["admin"] },
   {
+    path: "/courier-router",
+    label: "ROUTER",
+    icon: "fmd_good",
+    roles: ["courier"],
+  },
+  {
     path: "/chat",
     label: "CHAT",
     icon: "comment",
