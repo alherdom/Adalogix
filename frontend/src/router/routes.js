@@ -27,14 +27,6 @@ const routes = [
         name: "users",
         component: () => import("pages/UsersPage.vue"),
         meta: { requiresAuth: true, roles: ["admin"] },
-        children: [
-          {
-            path: "profile",
-            name: "profile",
-            component: () => import("pages/ProfilePage.vue"),
-            meta: { requiresAuth: true, roles: ["admin"] },
-          },
-        ],
       },
       {
         path: "register",
