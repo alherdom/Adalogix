@@ -188,7 +188,37 @@ This achievement is a testament to our ability to make accurate estimates and to
 
 ### 10. CLAUSULAS. <a name="id10"></a>
 
-Indicar alguna cláusula, como qué sucede en caso de retraso, cómo se realizarán los pagos, cómo se controlará la calidad, etc.
+With the aim of establishing a clear and transparent development for the execution of the project, a series of contractual clauses have been defined that address various aspects related to the development, quality and financial management of the project.
+
+1. Deadlines and Delays:
+
+In the event of delay in the delivery of agreed milestones or deliverables, a mechanism for notification and evaluation of the causes of the delay will be established. Depending on the severity and circumstances of the delay, penalties or schedule adjustments may be applied to ensure timely completion of the project.
+
+2. Payments and Billing:
+
+Project-related payments will be made in accordance with specific milestones or deliverables achieved, as agreed in the contract. A payment schedule will be established that reflects important project milestones and corresponding invoices will be issued based on these milestones.
+
+3. Quality Control:
+
+A comprehensive quality control system will be implemented to ensure that all project products and deliverables meet established standards and requirements. This will include extensive testing, peer reviews and user validations to ensure the quality and functionality of the developed software.
+
+4. Change Management:
+
+A formal process will be established for managing changes to the scope, requirements or any other aspect of the project that may affect its execution. All proposed changes will be evaluated in terms of impact on schedule, budget and quality before implementation.
+
+5. Intellectual Property and Copyright:
+
+Clear clauses related to intellectual property and copyright will be established to ensure that all parties involved in the project maintain ownership and control over their respective intellectual assets. Appropriate use and protection of intellectual property rights related to the project will be agreed upon.
+
+6. Confidentiality and Data Protection:
+
+Appropriate confidentiality and data protection measures will be established to ensure the security and privacy of confidential information shared during the course of the project. Clear provisions will be agreed for the handling and protection of sensitive information of all parties involved.
+
+7. Conflict Resolution:
+
+In the event of disputes or conflicts related to the project, a formal conflict resolution procedure will be established that promotes open communication and the search for mutually satisfactory solutions. Mediation or arbitration options may be considered to resolve disputes quickly and efficiently.
+
+These contractual clauses provide a robust and transparent framework for the execution of the logistics management project, ensuring that all parties involved clearly understand their roles, responsibilities and expectations throughout the project life cycle.
 
 ### 11. PRODUCTO FINAL. <a name="id11"></a>
 
@@ -196,4 +226,38 @@ Describir el producto final obtenido, qué funcionalidades se han implementado, 
 
 ### 12. EXPERIENCIAS APRENDIDAS A TENER EN CUENTA EN PRÓXIMOS PROYECTOS. <a name="id12"></a>
 
+During the development of the Adalogix project, we have acquired a series of valuable experiences that will be fundamental to guide future projects. These lessons learned cover crucial aspects ranging from initial planning to project execution and stick to dates planed.
+
+One of the key points we highlight is the importance of detailed resource planning. We have understood the need to exhaustively evaluate the necessary resources, both in terms of time, personnel, infrastructure and budget. This careful planning allowed us to have a clear view of the project requirements from the beginning and helped us avoid unpleasant surprises along the way. We could have been a little less ambitious at the beginning of the approach so as not to have had to leave behind a functionality, but that ambition is what has led us to achieve the rest of the functionalities in the most optimal way possible.
+
+In addition, we have recognized the importance of continuous learning of new technologies. The willingness to master tools such as Vue.js, Docker and the integration of APIs from services such as Mapbox was fundamental to the success of the project. Investing time in team training and training allowed us to address technical challenges with confidence and effectiveness. We also highlight the adaptation that we have had to make to leave the SSR paradigm and integrate a fronted with the backend acting as an API
+
+Another valuable lesson we have learned is the need for effective time management. Throughout the project, we have experienced the importance of maintaining an appropriate balance in the distribution of work and periodically adjusting the schedule to avoid overloads and meet established deadlines.
+
+Regarding cost estimation, we have observed that an accurate estimate is essential for the viability of the project. It is essential to consider all possible variables and take into account factors such as the free nature of services such as DigitalOcean droplets, which can significantly influence total costs.
+
+Additionally, we have reaffirmed the importance of quality management and change control. Implementing a strong quality control system and effective change management allowed us to deliver a high-quality final product that met the client's requirements.
+
+In terms of communication and collaboration, we have learned that fostering open and collaborative communication within the team and with external stakeholders is essential to keeping the project on track and addressing challenges effectively.
+
+In summary, the experiences learned during the development of the logistics management project have provided us with a solid foundation to face future projects with confidence and effectiveness. These lessons have taught us the importance of detailed planning, continuous learning, effective time and resource management, and open and collaborative communication. With these lessons in mind, we are prepared to address future challenges with determination and success.
+
 ### 13. CONCLUSIONES, COMENTARIOS Y VALORACIÓN FINAL. <a name="id13"></a>
+
+The logistics management project has been a comprehensive learning process that has provided a deep understanding of the challenges and opportunities inherent in software development in a dynamic business environment. Through this project, we have strengthened our ability to address complex problems and consolidated our knowledge in various areas, from software development to resource management and effective communication.
+
+One of the most significant conclusions is the importance of collaboration and teamwork in the success of any project. Our team's ability to collaborate effectively, share knowledge, and address challenges together has been instrumental in overcoming obstacles and achieving our goals. Additionally, we have learned the importance of clear communication and transparency at all stages of the project, from initial planning to final delivery.
+
+Another notable finding is the need for rigorous planning and effective time and resource management. We have experienced the importance of carefully evaluating the resources required and adjusting our planning as necessary to ensure timely, high-quality project delivery. This ability to adapt and respond nimbly to changes in the project environment has been instrumental in staying on course and overcoming unexpected challenges.
+
+Furthermore, we have reaffirmed the importance of quality at all stages of software development. Implementing a robust quality control system and conducting extensive testing has allowed us to deliver a final product that meets the highest standards of quality and customer satisfaction. This attention to quality not only ensures customer satisfaction, but also contributes to the long-term reputation and credibility of our company.
+
+#### Final assessment:
+
+Ultimately, we consider the logistics management project to have been a resounding success. We have managed to develop an innovative and functional software solution that meets customer requirements and offers real value to their business. In addition to meeting the technical and functional objectives of the project, we have strengthened our skills and capabilities as a team and established a solid foundation for future initiatives.
+
+#### Additional comments:
+
+As we reflect on the logistics management project, we are grateful for the lessons learned and experiences gained along the way. We would like to express our gratitude to all team members for their hard work, dedication and commitment to the success of the project. Your contribution has been fundamental to achieving our objectives and we are proud of what we have achieved together.
+
+Looking to the future, we are excited by the opportunities that await us and the prospects for continued growth and development. We will continue to apply the lessons learned in this project to future initiatives, constantly seeking to improve and exceed our clients' expectations. We are eager to face new challenges and achieve new achievements as we continue to move forward as a team and as a company.
