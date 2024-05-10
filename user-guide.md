@@ -115,4 +115,4 @@ To finish the route, just click on the "finish" button at the bottom of the map.
 
 ## Application Screenshots
 
-you can see all the screenshots of the application at this [LINK](img/).
+You can see all the screenshots of the application at this [LINK](img/).
