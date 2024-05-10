@@ -149,7 +149,7 @@ This project has not only expanded our technical skill set, but has also strengt
 
 Furthermore, and although it will be explained later, due to lack of time we have had to leave behind another functionality which was the chat
 
-### 5. DERECHOS DE AUTOR. <a name="id5"></a>
+### 5. COPYRIGHTS. <a name="id5"></a>
 
 En el desarrollo de nuestra plataforma de gestión logística, hemos sido cuidadosos en cuanto al respeto de los derechos de autor, tanto en el contenido multimedia como en el uso de bibliotecas y herramientas de terceros. A continuación, detallamos el origen y las licencias asociadas a cada tipo de contenido utilizado:
 
