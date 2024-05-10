@@ -66,7 +66,7 @@ To build our logistics management web platform, we have carefully selected a set
 
 - Vue3:o offer a dynamic and responsive user experience, we have opted for Vue.js 3 together with the Composition API, a powerful combination that allows us to structure our code in a more intuitive and modular way. With the Composition API, we have created highly functional, interactive user interfaces that allow users to seamlessly interact with our backend. In the first steps of the application, the framework we had selected was React, but to take advantage of the technologies that were going to be used in the internship period we decided to change to Vue.
 
-The Composition API is a set of APIs that allows us to author Vue components using imported functions instead of declaring options. It is an umbrella term that covers the following APIs:
+   The Composition API is a set of APIs that allows us to author Vue components using imported functions instead of declaring options. It is an umbrella term that covers the following APIs:
 
    - Reactivity API, e.g. ref() and reactive(), that allows us to directly create reactive state, computed state, and watchers.
 
@@ -116,7 +116,7 @@ Use modular technologies and architectures that facilitate the integration of ne
 
 Establish open communication channels with users to collect comments and suggestions about the platform, and use this feedback to make continuous improvements and ensure an optimal experience for all users.
 
-### 4. INVESTIGACIÓN. <a name="id4"></a>
+### 4. INVESTIGATION. <a name="id4"></a>
 
 In this project we have used technologies that in one way or another we had seen before, but that does not mean that we have had to investigate. We had to learn about some aspects so that the final product was the best possible. Some of the fields in which we have investigated have been:
 
