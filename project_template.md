@@ -14,9 +14,9 @@ ADALOGIX
 
 <right>
 
-**_Autor/es:_**
-**_Fecha:_**  
-**_Tutor:_**
+**_Author/s:_** Alejandro Hernández, Dimas Abrante, Adrián herrera
+**_Date:_** 10/05/2024
+**_Tutor:_** Alejandro Martín Zarza
 
 </right>
 
