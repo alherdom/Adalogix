@@ -128,30 +128,6 @@ body {
 }
 
 // INVENTORY AND USERS TABLES
-.searchInput {
-  width: 400px;
-  padding: 20px 0px 25px 0px;
-  margin-right: 500px;
-  font-size: 1.1em;
-  position: relative;
-  // margin-right: 100vw;
-}
-
-.product-edit-btn {
-  width: 100%;
-  background-color: #ff6c37;
-}
-
-.myBtns {
-  background-color: black;
-  color: white;
-  padding: 0px 7px 0px 5px;
-}
-
-.myBtns .q-btn__content {
-  font-weight: 400;
-  padding: 2px 5px 2px 5px;
-
 .q-field--dense .q-field__control {
   height: 35px;
   width: 200px;
@@ -169,7 +145,7 @@ body {
   .q-table__bottom,
   thead tr:first-child th {
     // bg color is important for th; just specify one
-    background-color: #eeeeee;
+    background-color: #EEEEEE;
   }
 
   thead tr th {
@@ -194,17 +170,6 @@ body {
   }
 }
 
-
-// Router
-
-.router-drawer {
-  padding: 90px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-
-}
-
 // PRODUCT DETAILS TABLE
 .product-detail-table {
   scale: 1.1;
@@ -222,4 +187,27 @@ body {
   right: 0;
   top: 0;
   margin: 2px;
-}}
+}
+
+// Router
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.search-dropoff-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-router-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
