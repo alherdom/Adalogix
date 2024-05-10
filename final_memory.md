@@ -37,6 +37,8 @@
 
 In an increasingly interconnected and dynamic world, efficiency in logistics management becomes a critical factor for business success. In order to meet this need, we have developed this application that focuses on the optimization of resource management in an inventory, a customized user management with different roles to meet the needs of administrators, store managers and couriers, and a router so that routes can be organized for the delivery of goods and couriers can start the journey knowing all the information they need to know.
 
+Thus, the purpose of this document is to gather information on the most important points of the project development process, such as the technologies we have used, the research processes we have had to carry out, as well as what has been learned in the process, among other issues that will be detailed throughout this document.
+
 #### Inventory management:
 
 Our platform offers a robust inventory management tool that allows companies to maintain precise control of their stock. From product receipt to storage and distribution, our solution facilitates real-time monitoring of stock levels, identification of critical products and optimization of available resources. The developed application is prepared to manage both global stock and the stock of specific warehouses or stores. The optimization also applies to product loading, allowing the company to record stock entries through csv format.
@@ -76,7 +78,13 @@ To build our logistics management web platform, we have carefully selected a set
 
 #### Deployment:
 
-- DigitalOcean Droplet: For our application deployment, we have chosen DigitalOcean, a reliable and easy-to-use cloud infrastructure platform. We have implemented our application in a basic DigitalOcean droplet, which has allowed us to launch our platform quickly and efficiently, guaranteeing optimal uptime and scalability appropriate to our needs.
+- DigitalOcean Droplet: For our application deployment, we have chosen DigitalOcean, a reliable and easy-to-use cloud infrastructure platform. We have implemented our application in a basic DigitalOcean droplet, which has allowed us to launch our platform quickly and efficiently, guaranteeing optimal uptime and scalability appropriate to our needs. With this in mind, the hardware features that have been used for this project have been as follows:
+  
+   - vCPUs: 1vCPU
+   - Memory: 1GB
+   - SSD: 25GB
+   - Transfer: 1TB
+
 
 ### 3. APPLICATION STYLE GUIDE. <a name="id3"></a>
 
@@ -86,6 +94,22 @@ In this section, we generally describe the style guide or standards that we have
 
 The user interface should follow a minimalist approach, with a clean and organized design that makes it easy to navigate and understand the information.
 Sober colors and appropriate contrasts to highlight important elements without distracting the user should be used to develop a clean and easy to use interface.
+
+#### Color palette
+
+In relation to the range of colors used, the following palette of colors has been chosen in order of presence in the application: 
+
+
+| Color    | Code      | Percentage |
+|----------|-----------|-----------|
+| Light gray | #eeeeee |   60%      |
+| White   | #ffffff   |   30%      |
+| Orange  | #ff6c37   |   10%      |
+
+In the following photo you can see this 60/30/10 ratio:
+
+![image](https://github.com/alherdom/Adalogix/assets/90780043/50618410-134c-43bd-8961-88c5b1dbe474)
+
 
 #### Coherence and Consistency:
 
@@ -151,31 +175,34 @@ Furthermore, and although it will be explained later, due to lack of time we hav
 
 ### 5. COPYRIGHTS. <a name="id5"></a>
 
-En el desarrollo de nuestra plataforma de gestión logística, hemos sido cuidadosos en cuanto al respeto de los derechos de autor, tanto en el contenido multimedia como en el uso de bibliotecas y herramientas de terceros. A continuación, detallamos el origen y las licencias asociadas a cada tipo de contenido utilizado:
+In the development of our logistics management platform, we have been careful to respect copyrights, both in multimedia content and in the use of third-party libraries and tools. Below, we detail the origin and licenses associated with each type of content used:
 
-#### Contenido de Terceros Utilizado
+#### Third Party Content Used
 
-Para la construcción de la plataforma, hemos integrado varias bibliotecas y herramientas de terceros, todas bajo licencias de código abierto. A continuación, detallamos cada una junto con su licencia:
+For the construction of the platform, we have integrated several third-party libraries and tools, all under open source licenses. Below, we detail each one along with its license:
 
-- **Django:** Utilizamos la versión 5.0.3 de Django, un framework de desarrollo web de alto nivel en Python, distribuido bajo la Licencia BSD.
-- **Django Rest Framework:** Para la creación de APIs RESTful, empleamos la versión 3.14.0 de Django Rest Framework, también bajo Licencia BSD.
-- **Psycopg2-binary:** Para la conexión con la base de datos PostgreSQL, hemos empleado la versión 2.9.9 de Psycopg2-binary, que está disponible bajo la Licencia LGPL.
-- **pytest y pytest-django:** Utilizamos las versiones 8.1.1 y 4.8.0 respectivamente para escribir y ejecutar pruebas unitarias en nuestro proyecto. Ambas están bajo la licencia MIT.
-- **django-cors-headers:** Para habilitar el acceso de recursos desde un dominio distinto al de la página que los solicita, utilizamos la versión 4.3.1 de esta biblioteca, que se distribuye bajo la licencia BSD.
-- **prettyconf:** Empleamos la versión 2.2.1 de prettyconf para la gestión de variables de entorno de forma más legible y sencilla, con una licencia MIT.
-- **@mui/icons-material:** Esta biblioteca proporciona una amplia gama de iconos para su uso en la interfaz de usuario. Está bajo la licencia MIT.
-- **@quasar/extras y quasar:** Utilizamos estas herramientas para el desarrollo rápido de aplicaciones web responsivas y con un diseño atractivo. Ambas están bajo la licencia MIT.
-- **pinia:** Para la gestión del estado de la aplicación en Vue.js, hemos empleado la versión 2.1.7 de pinia, bajo la licencia MIT.
-- **sweetalert2:** Utilizamos la versión 11.6.13 de sweetalert2 para mostrar ventanas modales personalizadas en la interfaz de usuario. Está bajo la licencia MIT.
-- **tailwindcss:** Esta herramienta nos proporciona un enfoque de desarrollo basado en clases para la creación de estilos personalizados. Utilizamos la versión 3.4.3, bajo la licencia MIT.
-- **vue y vue-router:** Utilizamos estas bibliotecas para el desarrollo de la interfaz de usuario dinámica y la gestión de rutas en la aplicación Vue.js. Ambas están bajo la licencia MIT.
+- **Visual Studio Code:** Visual Studio Code version 1.89 has been used, an IDE ideal for working with Python and all frontend technologies. Visual Studio Code is an open source software distributed under the MIT license.
+- **Prettier:** We have used Prettier 10.4.0 for the formatting of the frontend technologies. This extension is under MIT license.
+- **Eslint:** We have used Eslint 2.4.4, a linting tool for JavaScript used to identify and correct code errors. This technology is under MIT license.
+- **Ruff:** We have used Ruff 0.4.4, an extremely fast Python linter and code formatter. This technology is under MIT license.
+- **Django:** We use version 5.0.3 of Django, a high-level web development framework in Python, distributed under the BSD License.
+- **Django Rest Framework:** For the creation of RESTful APIs, we use Django Rest Framework version 3.14.0, also under BSD License.
+- **Psycopg2-binary:** For the connection to the PostgreSQL database, we have used version 2.9.9 of Psycopg2-binary, which is available under the LGPL License.
+- **pytest and pytest-django:** We used versions 8.1.1 and 4.8.0 respectively to write and run unit tests in our project. Both are under the MIT license.
+- **django-cors-headers:** To enable access to resources from a domain other than that of the page requesting them, we use version 4.3.1 of this library, which is distributed under the BSD license.
+- **Prettyconf:** We use prettyconf version 2.2.1 for managing environment variables in a more readable and simpler way, with an MIT license.
+- **@mui/icons-material:** This library provides a wide range of icons for use in the user interface. It is licensed under the MI license
+- **@quasar/extras y quasar:** We use these tools for the rapid development of responsive and beautifully designed web applications. Both are under the MIT license.
+- **pinia:** For application state management in Vue.js, we have used pinia version 2.1.7, under the MIT license.
+- **sweetalert2:** We used sweetalert2 version 11.6.13 to display custom modal windows in the user interface. It is under the MIT license.
+- **tailwindcss:** This tool provides us with a class-based development approach for creating custom styles. We use version 3.4.3, under the MIT license.
+- **vue and vue-router:** We use these libraries for the development of the dynamic user interface and route management in the Vue.js application. Both are under the MIT license.
 
-Estas bibliotecas y herramientas de terceros fueron seleccionadas por su idoneidad técnica y su compatibilidad con nuestros requisitos de desarrollo. Hemos asegurado que todas las licencias sean compatibles con el uso en nuestro proyecto y hemos cumplido con los términos establecidos por los propietarios de derechos de autor correspondientes.
+These third-party libraries and tools were selected for their technical suitability and compatibility with our development requirements. We have ensured that all licenses are compatible for use in our project and have complied with the terms set by the relevant copyright owners.
 
-#### Licencia y Privacidad del Proyecto
+#### License and Project Privacy
 
-El proyecto será mantenido como privado, lo que significa que su acceso estará limitado a un grupo específico de usuarios autorizados. Para cumplir con estos requisitos, hemos optado por una licencia adecuada que permita el uso privado del software, como la Licencia MIT o la Licencia Apache 2.0, ambas de las cuales son compatibles con la privacidad y el acceso restringido del proyecto.
-
+The project will be kept private, which means that its access will be limited to a specific group of authorized users. To meet these requirements, we have opted for a suitable license that allows private use of the software, such as the MIT License or the Apache License 2.0, both of which are compatible with the privacy and restricted access of the project.
 ### 6. RIESGOS Y MEDIDAS. <a name="id6"></a>
 
 Durante el desarrollo del proyecto de gestión logística, nos hemos enfrentado a diversos desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para mitigar su impacto en el progreso del proyecto. A continuación, se detallan algunos de los problemas que han surgido y las acciones tomadas para abordarlos:
