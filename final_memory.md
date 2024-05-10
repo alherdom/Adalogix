@@ -20,18 +20,18 @@
 
 </center>
 
-1. [**_INTRODUCCIÓN._**](#id1)
-2. [**_TECNOLOGÍAS UTILIZADAS._**](#id2)
-3. [**_GUIA DE ESTILO DE LA WEB._**](#id3)
-4. [**_INVESTIGACIÓN._**](#id4)
-5. [**_DERECHOS DE AUTOR._**](#id5)
-6. [**_RIESGOS Y MEDIDAS._**](#id6)
-7. [**_GRADO DE CUMPLIMIENTO EN ALCANCE._**](#id7)
-8. [**_GRADO DE CUMPLIMIENTO EN TIEMPO._**](#id8)
-9. [**_GRADO DE CUMPLIMIENTO EN COSTE._**](#id9)
-10. [**_PRODUCTO FINAL._**](#id10)
-11. [**_EXPEIRNECIAS APRENDIDAS A TENER EN CUENTA EN PRÓXIMOS PROYECTOS._**](#id11)
-12. [**_CONCLUSIONES, COMENTARIOS Y VALORACIÓN FINAL._**](#id12)
+1. [**_INTRODUCTION._**](#id1)
+2. [**_USED TECHNOLOGIES._**](#id2)
+3. [**_STANDARDS AND WEB STYLE GUIDE._**](#id3)
+4. [**_RESEARCH._**](#id4)
+5. [**_COPYRIGHTS._**](#id5)
+6. [**_RISKS AND MEASURES._**](#id6)
+7. [**_DEGREE OF COMPLIANCE IN SCOPE._**](#id7)
+8. [**_DEGREE OF COMPLIANCE IN TIME._**](#id8)
+9. [**_DEGREE OF COMPLIANCE IN COSTS._**](#id9)
+10. [**_FINAL PRODUCT._**](#id10)
+11. [**_LESSONS LEARNED TO BE TAKEN INTO ACCOUNT IN FUTURE PROJECTS._**](#id11)
+12. [**_LESSONS LEARNED TO BE TAKEN INTO ACCOUNT IN FUTURE PROJECTS._**](#id12)
 
 ### 1. INTRODUCTION. <a name="id1"></a>
 
@@ -51,7 +51,7 @@ Efficient product distribution is essential to meet delivery deadlines and satis
 
 In summary, our web platform offers a comprehensive solution for logistics management, allowing companies to improve operational efficiency, reduce costs and provide exceptional service to their customers. With an intuitive interface and powerful tools, we are committed to helping companies achieve their logistics objectives effectively in an increasingly competitive and demanding business environment.
 
-### 2. TECNOLOGÍAS UTILIZADAS. <a name="id2"></a>
+### 2. USED TECHNOLOGIES. <a name="id2"></a>
 
 To build our logistics management web platform, we have carefully selected a set of advanced technologies that ensure optimal performance, exceptional user experience, and seamless scalability. Also these technologies were selected based on the experience of our development experience.
 
@@ -120,9 +120,15 @@ We faced with the need to build the frontend of the platform with another langua
 
 We also faced the challenge of managing the PostgreSQL database in a controlled and portable environment. This decision was made to avoid the configuration of PostgreSQL database in every system (every developer system and also in production) so we decided to use Docker. We investigated fundamental Docker concepts, such as containers and images, and learned how to deploy and manage a PostgreSQL container for our application.
 
-#### Connection with Mapbox API:
+#### Connection with multiple map APIs::
 
-To integrate mapping capabilities into the platform for developing the router, we dove into Mapbox's documentation and explored how to consume its API to display interactive maps and create delivery routes. We learned how to properly authenticate, send requests, and process responses to incorporate this vital functionality into your application. This was a very important part of investigation because the router was one of our main focus while developing the solution.
+To integrate map capabilities into the platform and develop router functionality, we explored various map API options, including Geoapify, Maptiler, and Maplibre-GL. We studied the documentation provided by these platforms and learned how to consume their APIs to display interactive maps and create delivery routes. This research process was crucial, as the router was one of the main focuses of our development.
+
+By immersing ourselves in these technologies, we gained knowledge on how to properly authenticate, send requests and process responses to incorporate this vital functionality into our application. The choice of these tools was based on their ability to meet the specific requirements of our project and their compatibility with our technical architecture.
+
+This research allowed us to not only expand our technical knowledge, but also to evaluate and select the most appropriate tools for our specific needs. Although we initially considered other options such as Mapbox, we found that Geoapify, Maptiler and Maplibre-GL offered the optimal combination of features and ease of integration for our project.
+
+This process of technology exploration and selection underscored our ability to adapt and make informed decisions in constantly evolving development environments. These experiences not only strengthened our ability to solve technical problems, but also provided us with a solid foundation to address future challenges and continue to grow as a professional team in the technology field.
 
 #### Backend-Frontend Integration:
 
@@ -137,10 +143,30 @@ Furthermore, and although it will be explained later, due to lack of time we hav
 
 ### 5. DERECHOS DE AUTOR. <a name="id5"></a>
 
-Debes tener en cuenta todo el contenido multimedia de la web (imágenes, audio, vídeos, etc.) y también otro tipo contenido usado (librerías, plugins, etc). Para estos contenidos, especificar:
+En el desarrollo de nuestra plataforma de gestión logística, hemos sido cuidadosos en cuanto al respeto de los derechos de autor, tanto en el contenido multimedia como en el uso de bibliotecas y herramientas de terceros. A continuación, detallamos el origen y las licencias asociadas a cada tipo de contenido utilizado:
 
-- Si es de desarrollo propio con qué aplicación se ha desarrollado y con qué licencia se publica
-- Qué material de terceros ha sido utilizado, indicando qué tipo de licencia tiene en cada caso y justificando que puedes usarlo para tu web
+#### Contenido de Terceros Utilizado
+
+Para la construcción de la plataforma, hemos integrado varias bibliotecas y herramientas de terceros, todas bajo licencias de código abierto. A continuación, detallamos cada una junto con su licencia:
+
+- **Django:** Utilizamos la versión 5.0.3 de Django, un framework de desarrollo web de alto nivel en Python, distribuido bajo la Licencia BSD.
+- **Django Rest Framework:** Para la creación de APIs RESTful, empleamos la versión 3.14.0 de Django Rest Framework, también bajo Licencia BSD.
+- **Psycopg2-binary:** Para la conexión con la base de datos PostgreSQL, hemos empleado la versión 2.9.9 de Psycopg2-binary, que está disponible bajo la Licencia LGPL.
+- **pytest y pytest-django:** Utilizamos las versiones 8.1.1 y 4.8.0 respectivamente para escribir y ejecutar pruebas unitarias en nuestro proyecto. Ambas están bajo la licencia MIT.
+- **django-cors-headers:** Para habilitar el acceso de recursos desde un dominio distinto al de la página que los solicita, utilizamos la versión 4.3.1 de esta biblioteca, que se distribuye bajo la licencia BSD.
+- **prettyconf:** Empleamos la versión 2.2.1 de prettyconf para la gestión de variables de entorno de forma más legible y sencilla, con una licencia MIT.
+- **@mui/icons-material:** Esta biblioteca proporciona una amplia gama de iconos para su uso en la interfaz de usuario. Está bajo la licencia MIT.
+- **@quasar/extras y quasar:** Utilizamos estas herramientas para el desarrollo rápido de aplicaciones web responsivas y con un diseño atractivo. Ambas están bajo la licencia MIT.
+- **pinia:** Para la gestión del estado de la aplicación en Vue.js, hemos empleado la versión 2.1.7 de pinia, bajo la licencia MIT.
+- **sweetalert2:** Utilizamos la versión 11.6.13 de sweetalert2 para mostrar ventanas modales personalizadas en la interfaz de usuario. Está bajo la licencia MIT.
+- **tailwindcss:** Esta herramienta nos proporciona un enfoque de desarrollo basado en clases para la creación de estilos personalizados. Utilizamos la versión 3.4.3, bajo la licencia MIT.
+- **vue y vue-router:** Utilizamos estas bibliotecas para el desarrollo de la interfaz de usuario dinámica y la gestión de rutas en la aplicación Vue.js. Ambas están bajo la licencia MIT.
+
+Estas bibliotecas y herramientas de terceros fueron seleccionadas por su idoneidad técnica y su compatibilidad con nuestros requisitos de desarrollo. Hemos asegurado que todas las licencias sean compatibles con el uso en nuestro proyecto y hemos cumplido con los términos establecidos por los propietarios de derechos de autor correspondientes.
+
+#### Licencia y Privacidad del Proyecto
+
+El proyecto será mantenido como privado, lo que significa que su acceso estará limitado a un grupo específico de usuarios autorizados. Para cumplir con estos requisitos, hemos optado por una licencia adecuada que permita el uso privado del software, como la Licencia MIT o la Licencia Apache 2.0, ambas de las cuales son compatibles con la privacidad y el acceso restringido del proyecto.
 
 ### 6. RIESGOS Y MEDIDAS. <a name="id6"></a>
 
@@ -222,7 +248,25 @@ These contractual clauses provide a robust and transparent framework for the exe
 
 ### 11. PRODUCTO FINAL. <a name="id11"></a>
 
-Describir el producto final obtenido, qué funcionalidades se han implementado, que hay que tener en cuenta para usarla, etc. Describirlo como si fuera un pequeño MANUAL DE USO de la aplicación, ya que se usará este punto para corregir el proyecto.
+The implemented functionalities have been described in previous sections. To summarize again, the application has a customized inventory management in which we will be able to see all the products that the company has and also see in which stores they are located among other features that we will describe later. On the other hand, we have the customized management of users with different roles, in which there will be an administrator who can create profiles of workers with their respective role (this includes limited access to certain features depending on the role of the worker). Finally, we have a router where administrators can create delivery routes and assign them to the delivery workers, who will be able to see the assigned route in their routes section as well. Once this summary is done, we will explain the application in detail.
+
+#### Home page
+
+The home page currently only hosts the logo of our project. In future implementations, in this section could appear some of the automations that time has not allowed us to finalize. For example a notice with the products with low stock, a summary of the routes of the last week or a small box with the active users or employees available at the moment. Right now it acts as a welcome page. On the left, you will find a sidebar where the rest of the sections are hosted.
+
+#### Inventory page
+
+As we have already mentioned, our project is made up of several applications that could even work independently of the project. The first one is the inventory. We wanted to make an agile and efficient inventory management so that employees can have an overview of their products. In this section, you will find a table with all the products of the company and its stock in general (counting all the warehouses/stores). In the upper part there is a search engine, which will allow you to search for any product by several fields (Name, description, category). In this same table of products, on the right side there is a section of actions to interact with the products. The pencil button will allow you to edit the products and then save them, and the button on the right will allow you to access the product detail, in which you will see in detail in which stores/warehouses the product is found and how much stock there is in each of them. Also in the upper part there are three buttons to: delete and export to csv products (selecting them in the table on the left) and another one to load products through a CSV (following the structure of the table). Finally, in this section we can also modify how the products are displayed in the table. In the headers, we can sort the products by each of them and at the bottom right, we can also make a dynamic pagination by customizing how many products we want to see per page.
+
+#### Router
+
+The router is another of our applications. In it, the administrator will be able to create routes for the delivery of goods. This section of the application will look different depending on the role of the user, since the deliverymen will not be able to create routes but they will see the route assigned to them by a deliveryman. They will see in detail on the map the route that has been assigned to them ordered by points, where 1 is the warehouse of collection of products and the rest are the places of delivery. When the delivery person finishes his route he has a button at the bottom of the map where he can finish his work and this will automatically put him in the role of available again so that an administrator can assign him a new delivery. Generally speaking, this is all that a delivery person will encounter.
+
+On the other hand, if the user has an administrator role, he will be able to manipulate this section much more. First of all, on the right hand side you will have a small sidebar that will allow you to configure some parameters for the route. First, you will be able to choose the starting point, which are the warehouses/stores that the company has registered. Secondly, you will be able to choose the delivery person to whom the route will be assigned. With the parameters configured, the administrator can begin to make the route. For this, you have two possibilities, first you can click on the map the points you want and these will be added or second you can use the option in the sidebar that allows you to search by street, in which you would put the name of the specific place and should give the add button. Finally, with the route done, the administrator can use the calculate button that is responsible for painting in order the most efficient route according to the points indicated and then you can save the route with the save button. If the administrator makes a mistake or changes his mind during this process, he can restart the process.
+
+#### User management
+
+User management is the last of our applications. It is a section very similar to the inventory one. As mentioned before, in this section the user with administrator role will be able to view, edit and create users for the company. As in the inventory, there is a search bar to be able to search for users by all their fields. Also, on the left side there are checkboxes to download the workers to CSV or to delete them with the buttons above. Another of the functionalities that an administrator can take advantage of is to create users, in which he/she will enter his/her data and the password generated will be sent to the e-mail. Finally, this section also has dynamic pagination and the possibility of editing the user data selected.
 
 ### 12. EXPERIENCIAS APRENDIDAS A TENER EN CUENTA EN PRÓXIMOS PROYECTOS. <a name="id12"></a>
 
