@@ -37,6 +37,8 @@
 
 In an increasingly interconnected and dynamic world, efficiency in logistics management becomes a critical factor for business success. In order to meet this need, we have developed this application that focuses on the optimization of resource management in an inventory, a customized user management with different roles to meet the needs of administrators, store managers and couriers, and a router so that routes can be organized for the delivery of goods and couriers can start the journey knowing all the information they need to know.
 
+Thus, the purpose of this document is to gather information on the most important points of the project development process, such as the technologies we have used, the research processes we have had to carry out, as well as what has been learned in the process, among other issues that will be detailed throughout this document.
+
 #### Inventory management:
 
 Our platform offers a robust inventory management tool that allows companies to maintain precise control of their stock. From product receipt to storage and distribution, our solution facilitates real-time monitoring of stock levels, identification of critical products and optimization of available resources. The developed application is prepared to manage both global stock and the stock of specific warehouses or stores. The optimization also applies to product loading, allowing the company to record stock entries through csv format.
@@ -76,7 +78,12 @@ To build our logistics management web platform, we have carefully selected a set
 
 #### Deployment:
 
-- DigitalOcean Droplet: For our application deployment, we have chosen DigitalOcean, a reliable and easy-to-use cloud infrastructure platform. We have implemented our application in a basic DigitalOcean droplet, which has allowed us to launch our platform quickly and efficiently, guaranteeing optimal uptime and scalability appropriate to our needs.
+- DigitalOcean Droplet: For our application deployment, we have chosen DigitalOcean, a reliable and easy-to-use cloud infrastructure platform. We have implemented our application in a basic DigitalOcean droplet, which has allowed us to launch our platform quickly and efficiently, guaranteeing optimal uptime and scalability appropriate to our needs. With this in mind, the hardware features that have been used for this project have been as follows:
+
+  - vCPUs: 1vCPU
+  - Memory: 1GB
+  - SSD: 25GB
+  - Transfer: 1TB
 
 ### 3. APPLICATION STYLE GUIDE. <a name="id3"></a>
 
@@ -86,6 +93,20 @@ In this section, we generally describe the style guide or standards that we have
 
 The user interface should follow a minimalist approach, with a clean and organized design that makes it easy to navigate and understand the information.
 Sober colors and appropriate contrasts to highlight important elements without distracting the user should be used to develop a clean and easy to use interface.
+
+#### Color palette
+
+In relation to the range of colors used, the following palette of colors has been chosen in order of presence in the application:
+
+| Color      | Code    | Percentage |
+| ---------- | ------- | ---------- |
+| Light gray | #eeeeee | 60%        |
+| White      | #ffffff | 30%        |
+| Orange     | #ff6c37 | 10%        |
+
+In the following photo you can see this 60/30/10 ratio:
+
+![image](https://github.com/alherdom/Adalogix/assets/90780043/50618410-134c-43bd-8961-88c5b1dbe474)
 
 #### Coherence and Consistency:
 
@@ -151,62 +172,66 @@ Furthermore, and although it will be explained later, due to lack of time we hav
 
 ### 5. COPYRIGHTS. <a name="id5"></a>
 
-En el desarrollo de nuestra plataforma de gestión logística, hemos sido cuidadosos en cuanto al respeto de los derechos de autor, tanto en el contenido multimedia como en el uso de bibliotecas y herramientas de terceros. A continuación, detallamos el origen y las licencias asociadas a cada tipo de contenido utilizado:
+In the development of our logistics management platform, we have been careful to respect copyrights, both in multimedia content and in the use of third-party libraries and tools. Below, we detail the origin and licenses associated with each type of content used:
 
-#### Contenido de Terceros Utilizado
+#### Third Party Content Used
 
-Para la construcción de la plataforma, hemos integrado varias bibliotecas y herramientas de terceros, todas bajo licencias de código abierto. A continuación, detallamos cada una junto con su licencia:
+For the construction of the platform, we have integrated several third-party libraries and tools, all under open source licenses. Below, we detail each one along with its license:
 
-- **Django:** Utilizamos la versión 5.0.3 de Django, un framework de desarrollo web de alto nivel en Python, distribuido bajo la Licencia BSD.
-- **Django Rest Framework:** Para la creación de APIs RESTful, empleamos la versión 3.14.0 de Django Rest Framework, también bajo Licencia BSD.
-- **Psycopg2-binary:** Para la conexión con la base de datos PostgreSQL, hemos empleado la versión 2.9.9 de Psycopg2-binary, que está disponible bajo la Licencia LGPL.
-- **pytest y pytest-django:** Utilizamos las versiones 8.1.1 y 4.8.0 respectivamente para escribir y ejecutar pruebas unitarias en nuestro proyecto. Ambas están bajo la licencia MIT.
-- **django-cors-headers:** Para habilitar el acceso de recursos desde un dominio distinto al de la página que los solicita, utilizamos la versión 4.3.1 de esta biblioteca, que se distribuye bajo la licencia BSD.
-- **prettyconf:** Empleamos la versión 2.2.1 de prettyconf para la gestión de variables de entorno de forma más legible y sencilla, con una licencia MIT.
-- **@mui/icons-material:** Esta biblioteca proporciona una amplia gama de iconos para su uso en la interfaz de usuario. Está bajo la licencia MIT.
-- **@quasar/extras y quasar:** Utilizamos estas herramientas para el desarrollo rápido de aplicaciones web responsivas y con un diseño atractivo. Ambas están bajo la licencia MIT.
-- **pinia:** Para la gestión del estado de la aplicación en Vue.js, hemos empleado la versión 2.1.7 de pinia, bajo la licencia MIT.
-- **sweetalert2:** Utilizamos la versión 11.6.13 de sweetalert2 para mostrar ventanas modales personalizadas en la interfaz de usuario. Está bajo la licencia MIT.
-- **tailwindcss:** Esta herramienta nos proporciona un enfoque de desarrollo basado en clases para la creación de estilos personalizados. Utilizamos la versión 3.4.3, bajo la licencia MIT.
-- **vue y vue-router:** Utilizamos estas bibliotecas para el desarrollo de la interfaz de usuario dinámica y la gestión de rutas en la aplicación Vue.js. Ambas están bajo la licencia MIT.
+- **Visual Studio Code:** Visual Studio Code version 1.89 has been used, an IDE ideal for working with Python and all frontend technologies. Visual Studio Code is an open source software distributed under the MIT license.
+- **Prettier:** We have used Prettier 10.4.0 for the formatting of the frontend technologies. This extension is under MIT license.
+- **Eslint:** We have used Eslint 2.4.4, a linting tool for JavaScript used to identify and correct code errors. This technology is under MIT license.
+- **Ruff:** We have used Ruff 0.4.4, an extremely fast Python linter and code formatter. This technology is under MIT license.
+- **Django:** We use version 5.0.3 of Django, a high-level web development framework in Python, distributed under the BSD License.
+- **Django Rest Framework:** For the creation of RESTful APIs, we use Django Rest Framework version 3.14.0, also under BSD License.
+- **Psycopg2-binary:** For the connection to the PostgreSQL database, we have used version 2.9.9 of Psycopg2-binary, which is available under the LGPL License.
+- **pytest and pytest-django:** We used versions 8.1.1 and 4.8.0 respectively to write and run unit tests in our project. Both are under the MIT license.
+- **django-cors-headers:** To enable access to resources from a domain other than that of the page requesting them, we use version 4.3.1 of this library, which is distributed under the BSD license.
+- **Prettyconf:** We use prettyconf version 2.2.1 for managing environment variables in a more readable and simpler way, with an MIT license.
+- **@mui/icons-material:** This library provides a wide range of icons for use in the user interface. It is licensed under the MI license
+- **@quasar/extras y quasar:** We use these tools for the rapid development of responsive and beautifully designed web applications. Both are under the MIT license.
+- **pinia:** For application state management in Vue.js, we have used pinia version 2.1.7, under the MIT license.
+- **sweetalert2:** We used sweetalert2 version 11.6.13 to display custom modal windows in the user interface. It is under the MIT license.
+- **tailwindcss:** This tool provides us with a class-based development approach for creating custom styles. We use version 3.4.3, under the MIT license.
+- **vue and vue-router:** We use these libraries for the development of the dynamic user interface and route management in the Vue.js application. Both are under the MIT license.
 
-Estas bibliotecas y herramientas de terceros fueron seleccionadas por su idoneidad técnica y su compatibilidad con nuestros requisitos de desarrollo. Hemos asegurado que todas las licencias sean compatibles con el uso en nuestro proyecto y hemos cumplido con los términos establecidos por los propietarios de derechos de autor correspondientes.
+These third-party libraries and tools were selected for their technical suitability and compatibility with our development requirements. We have ensured that all licenses are compatible for use in our project and have complied with the terms set by the relevant copyright owners.
 
-#### Licencia y Privacidad del Proyecto
+#### License and Project Privacy
 
-El proyecto será mantenido como privado, lo que significa que su acceso estará limitado a un grupo específico de usuarios autorizados. Para cumplir con estos requisitos, hemos optado por una licencia adecuada que permita el uso privado del software, como la Licencia MIT o la Licencia Apache 2.0, ambas de las cuales son compatibles con la privacidad y el acceso restringido del proyecto.
+The project will be kept private, which means that its access will be limited to a specific group of authorized users. To meet these requirements, we have opted for a suitable license that allows private use of the software, such as the MIT License or the Apache License 2.0, both of which are compatible with the privacy and restricted access of the project.
 
-### 6. RIESGOS Y MEDIDAS. <a name="id6"></a>
+### 6. RISKS AND MEASURES. <a name="id6"></a>
 
-Durante el desarrollo del proyecto de gestión logística, nos hemos enfrentado a diversos desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para mitigar su impacto en el progreso del proyecto. A continuación, se detallan algunos de los problemas que han surgido y las acciones tomadas para abordarlos:
+During the development of the logistics management project, we have faced various challenges and risks that have required a proactive response and specific measures to mitigate their impact on the progress of the project. Some of the issues that have arisen and the actions taken to address them are detailed below:
 
-1. **Desafío en el Aprendizaje de Nuevas Tecnologías:**
+1. **Challenges in Learning New Technologies:**
 
-   - Problema: Uno de los desafíos iniciales fue la necesidad de aprender y dominar nuevas tecnologías, como Vue.js y Docker, que eran fundamentales para el desarrollo del proyecto.
-   - Acción Tomada: Se estableció un plan de capacitación y autoaprendizaje para el equipo, que incluía tutoriales, cursos en línea y sesiones de práctica. Además, se asignaron tareas específicas y se fomentó la colaboración entre los miembros del equipo para compartir conocimientos y resolver desafíos técnicos juntos.
+   - Problem: One of the initial challenges was the need to learn and master new technologies, such as Vue.js and Docker, which were fundamental for the development of the project.
+   - Action Taken: A training and self-learning plan was established for the team, which included tutorials, online courses and practice sessions. In addition, specific tasks were assigned and collaboration among team members was encouraged to share knowledge and solve technical challenges together.
 
-2. **Retrasos en la Implementación de Funcionalidades:**
+2. **Delays in the Implementation of Functionalities:**
 
-   - Problema: Surgieron algunos retrasos en la implementación de ciertas funcionalidades debido a la complejidad técnica o a la falta de claridad en los requisitos.
-   - Acción Tomada: Se realizaron reuniones adicionales con el cliente para aclarar los requisitos y priorizar las funcionalidades críticas. Además, se asignaron recursos adicionales y se reevaluó el plan de desarrollo para optimizar el tiempo y los recursos disponibles.
+   - Problem: There were some delays in the implementation of certain functionalities due to technical complexity or lack of clarity in the requirements.
+   - Action Taken: Additional meetings were held with the client to clarify requirements and prioritize critical functionalities. In addition, additional resources were allocated and the development plan was reevaluated to optimize the time and resources available.
 
-3. **Sobrecarga de Tareas en Momentos Puntuales:**
+3. **Task Overload at Specific Points in Time:**
 
-   - Problema: En algunas etapas del proyecto, hubo una sobrecarga de tareas debido a la acumulación de entregables o a la asignación desigual de trabajo.
-   - Acción Tomada: Se revisó y ajustó el plan de trabajo para distribuir equitativamente las tareas entre los miembros del equipo. Se priorizaron las actividades clave y se asignaron recursos adicionales cuando fue necesario para garantizar la finalización oportuna de los entregables.
+   - Problem: At some stages of the project, there was an overload of tasks due to a backlog of deliverables or unequal allocation of work.
+   - Action Taken: The work plan was reviewed and adjusted to distribute tasks evenly among team members. Prioritized key activities and allocated additional resources where necessary to ensure timely completion of deliverables.
 
-4. **Desafíos en la Integración de Servicios Externos:**
+4. **Challenges in the Integration of External Services:**
 
-   - Problema: Se encontraron dificultades durante la integración de servicios externos, como la API de Mapbox, debido a la falta de documentación clara o a problemas técnicos.
-   - Acción Tomada: Se realizaron pruebas exhaustivas y se trabajó en estrecha colaboración con los proveedores de servicios externos para resolver los problemas identificados. Se estableció una comunicación abierta y transparente para abordar cualquier problema de integración de manera efectiva y garantizar la funcionalidad adecuada del sistema.
+   - Issue: Difficulties were encountered during the integration of external services, such as the Mapbox API, due to lack of clear documentation or technical issues.
+   - Action Taken: Performed extensive testing and worked closely with external service providers to resolve identified issues. Open and transparent communication was established to address any integration issues effectively and ensure proper system functionality.
 
-5. **Combinar el Tiempo del Proyecto con el Tiempo de las Prácticas:**
-   - Problema: Surgieron dificultades para equilibrar el tiempo dedicado al desarrollo del proyecto con el tiempo requerido para completar las prácticas académicas del equipo.
-   - Acción Tomada: Se coordinaron horarios flexibles y se asignaron tareas y responsabilidades de manera que permitieran a los miembros del equipo cumplir con sus obligaciones académicas mientras contribuían al progreso del proyecto. Se priorizó la comunicación abierta y transparente para asegurar una colaboración efectiva y mantener un equilibrio saludable entre el trabajo del proyecto y las prácticas académicas.
+5. **Combine Project Time with Internship Time:**
+   - Problem: Difficulties arose in balancing the time dedicated to project development with the time required to complete the team's academic internships.
+   - Action Taken: Coordinated flexible schedules and assigned tasks and responsibilities in a way that allowed team members to fulfill their academic obligations while contributing to the project's progress. Prioritized open and transparent communication to ensure effective collaboration and maintain a healthy balance between project work and academic internships.
 
-En resumen, a lo largo del desarrollo del proyecto de gestión logística, hemos enfrentado varios desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para abordarlos. Gracias a la colaboración del equipo, la planificación cuidadosa y una comunicación efectiva con el cliente, hemos sido capaces de superar estos desafíos y avanzar hacia la entrega exitosa del proyecto.
+In summary, throughout the development of the logistics management project, we have faced several challenges and risks that have required a proactive response and specific measures to address them. Through team collaboration, careful planning and effective communication with the client, we were able to overcome these challenges and move towards the successful delivery of the project.
 
-### 7. GRADO DE CUMPLIMIENTO EN ALCANCE. <a name="id7"></a>
+### 7. DEGREE OF COMPLIANCE IN SCOPE. <a name="id7"></a>
 
 #### Covered Features:
 
@@ -226,7 +251,7 @@ Non-implementation of chat was mainly due to time, as developing real-time chat 
 
 In general, although most of the projected functionalities have been covered, it is important to evaluate the reasons behind the unimplemented functionalities and consider whether they can be addressed in future iterations of the project.
 
-### 8. GRADO DE CUMPLIMIENTO EN TIEMPO. <a name="id8"></a>
+### 8. DEGREE OF COMPLIANCE ON TIME. <a name="id8"></a>
 
 The development of the logistics management project has mostly followed the established planning, however, there were certain deviations that require attention. In general terms, the pace was maintained and the deadlines were met, with the exception of the chat functionality, which was not completed within the estimated time. This deviation could be attributed to an initial underestimation of the technical complexity or the resources required for its implementation. The fact of also having practice hours has affected not having arrived on time for the chat.
 
@@ -236,7 +261,7 @@ This process highlights the importance of proactive time management and careful 
 
 Despite the aforementioned deviations, the team demonstrated its commitment and ability to adapt to the circumstances, which allowed it to keep the project on track and achieve most of the milestones satisfactorily. These experiences will serve as important learnings for future projects, reinforcing the team's ability to effectively manage time and resources in complex and dynamic projects.
 
-### 9. GRADO DE CUMPLIMIENTO EN COSTE. <a name="id9"></a>
+### 9. DEGREE OF COMPLIANCE IN COST. <a name="id9"></a>
 
 During the development of the logistics management project, we are pleased to report that we have managed to accurately estimate the associated costs and, in fact, we have observed that the expenses have been even lower than initially anticipated. This situation is largely due to the fact that DigitalOcean droplets, which made up a significant portion of our cloud infrastructure costs, turned out to be cheaper than we had anticipated in our financial planning.
 
@@ -246,7 +271,9 @@ The free nature of DigitalOcean droplets has been a pleasant surprise and has co
 
 This achievement is a testament to our ability to make accurate estimates and to efficiently manage our financial resources. We are proud to have demonstrated effective control over project costs and are committed to continuing to maintain this financial discipline throughout the entire project life cycle.
 
-### 10. CLAUSULAS. <a name="id10"></a>
+All costs are in the [preliminary project](https://github.com/alherdom/Adalogix/tree/final-memory?tab=readme-ov-file#6-cost-estimation-).
+
+### 10. CLAUSES. <a name="id10"></a>
 
 With the aim of establishing a clear and transparent development for the execution of the project, a series of contractual clauses have been defined that address various aspects related to the development, quality and financial management of the project.
 
@@ -280,7 +307,7 @@ In the event of disputes or conflicts related to the project, a formal conflict 
 
 These contractual clauses provide a robust and transparent framework for the execution of the logistics management project, ensuring that all parties involved clearly understand their roles, responsibilities and expectations throughout the project life cycle.
 
-### 11. PRODUCTO FINAL. <a name="id11"></a>
+### 11. FINAL PRODUCT. <a name="id11"></a>
 
 The implemented functionalities have been described in previous sections. To summarize again, the application has a customized inventory management in which we will be able to see all the products that the company has and also see in which stores they are located among other features that we will describe later. On the other hand, we have the customized management of users with different roles, in which there will be an administrator who can create profiles of workers with their respective role (this includes limited access to certain features depending on the role of the worker). Finally, we have a router where administrators can create delivery routes and assign them to the delivery workers, who will be able to see the assigned route in their routes section as well. Once this summary is done, we will explain the application in detail.
 
@@ -302,7 +329,7 @@ On the other hand, if the user has an administrator role, he will be able to man
 
 User management is the last of our applications. It is a section very similar to the inventory one. As mentioned before, in this section the user with administrator role will be able to view, edit and create users for the company. As in the inventory, there is a search bar to be able to search for users by all their fields. Also, on the left side there are checkboxes to download the workers to CSV or to delete them with the buttons above. Another of the functionalities that an administrator can take advantage of is to create users, in which he/she will enter his/her data and the password generated will be sent to the e-mail. Finally, this section also has dynamic pagination and the possibility of editing the user data selected.
 
-### 12. EXPERIENCIAS APRENDIDAS A TENER EN CUENTA EN PRÓXIMOS PROYECTOS. <a name="id12"></a>
+### 12. LESSONS LEARNED TO BE TAKEN INTO ACCOUNT IN FUTURE PROJECTS. <a name="id12"></a>
 
 During the development of the Adalogix project, we have acquired a series of valuable experiences that will be fundamental to guide future projects. These lessons learned cover crucial aspects ranging from initial planning to project execution and stick to dates planed.
 
@@ -318,9 +345,11 @@ Additionally, we have reaffirmed the importance of quality management and change
 
 In terms of communication and collaboration, we have learned that fostering open and collaborative communication within the team and with external stakeholders is essential to keeping the project on track and addressing challenges effectively.
 
+On top of all this, we have learned how important it is to prioritize early deployment, as it not only streamlines the development process, but also allows us to identify and address integration challenges and potential bugs early on, promoting a more stable and efficient delivery.
+
 In summary, the experiences learned during the development of the logistics management project have provided us with a solid foundation to face future projects with confidence and effectiveness. These lessons have taught us the importance of detailed planning, continuous learning, effective time and resource management, and open and collaborative communication. With these lessons in mind, we are prepared to address future challenges with determination and success.
 
-### 13. CONCLUSIONES, COMENTARIOS Y VALORACIÓN FINAL. <a name="id13"></a>
+### 13. CONCLUSIONS, COMMENTS AND FINAL ASSESSMENT. <a name="id13"></a>
 
 The logistics management project has been a comprehensive learning process that has provided a deep understanding of the challenges and opportunities inherent in software development in a dynamic business environment. Through this project, we have strengthened our ability to address complex problems and consolidated our knowledge in various areas, from software development to resource management and effective communication.
 
