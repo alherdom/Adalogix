@@ -111,7 +111,6 @@ import { Map, Marker, Popup } from "maplibre-gl";
 import { shallowRef, onMounted, onUnmounted, markRaw, ref, toRaw } from "vue";
 import { getRequest, patchRequest } from "src/utils/common";
 import Swal from "sweetalert2";
-import config from "../utils/keys";
 
 const drawerRight = ref(true);
 const mapContainer = shallowRef(null);
@@ -121,7 +120,7 @@ const agents = ref([{ start_location: [] }]);
 const shipmentsPickup = ref([]);
 const shipmentsDropoff = ref([]);
 const travelMode = "drive";
-const apiKey = config.geoapifyApiKey;
+const apiKey = "96100818ef1a4f1a8a50d609496386fa";
 const options = ref([]);
 const storeOptions = ref([]);
 const selectedEmployee = ref(null);
@@ -420,7 +419,7 @@ const getStores = async () => {
 };
 
 onMounted(() => {
-  const apiKey = config.maptilerApiKey;
+  const apiKey = "GMM53qEv5wFImFPJ6Rgl";
 
   const initialState = {
     lng: -16.549341485486707,
@@ -488,7 +487,7 @@ function sendRequest() {
   };
 
   fetch(
-    `https://api.geoapify.com/v1/routeplanner?apiKey=${config.geoapifyApiKey}`,
+    `https://api.geoapify.com/v1/routeplanner?apiKey=96100818ef1a4f1a8a50d609496386fa`,
     requestOptions
   )
     .then((response) => response.json())

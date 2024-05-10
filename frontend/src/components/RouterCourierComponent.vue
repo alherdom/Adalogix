@@ -32,13 +32,12 @@
 import { Map } from "maplibre-gl";
 import { shallowRef, onMounted, onUnmounted, markRaw, ref, toRaw } from "vue";
 import { getRequest, patchRequest } from "src/utils/common";
-import config from "src/utils/keys";
 import Swal from "sweetalert2";
 
 const mapContainer = shallowRef(null);
 const map = shallowRef(null);
 const travelMode = "drive";
-const apiKey = config.geoapifyApiKey;
+const apiKey = "96100818ef1a4f1a8a50d609496386fa";
 const loading = ref(false);
 const agentPlan = ref({});
 const waypointTable = ref([]);
@@ -181,7 +180,7 @@ const addWaypointsLayer = (agentPlan) => {
 };
 
 onMounted(() => {
-  const apiKey = config.maptilerApiKey;
+  const apiKey = "GMM53qEv5wFImFPJ6Rgl";
 
   const initialState = {
     lng: -16.549341485486707,
