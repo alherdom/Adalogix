@@ -16,7 +16,6 @@
 //  * async/await or return a Promise which resolves
 //  * with the Router instance.
 //  */
-
 // export default route(function (/* { store, ssrContext } */) {
 //   const createHistory = process.env.SERVER
 //     ? createMemoryHistory
@@ -56,7 +55,6 @@
 //   });
 //   return Router;
 // });
-
 import { route } from "quasar/wrappers";
 import { createRouter, createMemoryHistory, createWebHistory } from "vue-router";
 import routes from "./routes";

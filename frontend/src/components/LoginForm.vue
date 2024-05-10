@@ -69,6 +69,7 @@ const handleSuccessLogin = (response) => {
     showConfirmButton: false,
     timer: 2000,
   });
+
   localStorage.setItem("userId", response.id);
   localStorage.setItem("userName", response.name);
   localStorage.setItem("userGroup", response.group);

@@ -188,3 +188,26 @@ body {
   top: 0;
   margin: 2px;
 }
+
+// Router
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.search-dropoff-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-router-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}

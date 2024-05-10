@@ -16,6 +16,7 @@ from .serializers import ProductDetailSerializer, ProductListSerializer
 
 
 class ProductMultipleDelete(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request):
         data = json.loads(request.body)
         product_ids = data['product_ids']
@@ -31,6 +32,7 @@ class ProductListView(ListAPIView):
 
 
 class ProductList(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         products_to_return = []
         products = Product.objects.all()
@@ -93,6 +95,7 @@ class ProductUpdateView(UpdateAPIView):
 
 
 class ProductUploadFromCSV(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         file_field_name = list(request.FILES.keys())[0]
         file = request.FILES[file_field_name]

@@ -63,7 +63,7 @@ const sendData = async () => {
     if (response.status === 200) {
       Swal.fire({
         title: "Success",
-        text: "Item edited successfully",
+        text: "Product edited successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,

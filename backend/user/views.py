@@ -35,7 +35,8 @@ class LoginView(APIView):
                 return JsonResponse({'error': 'User has no role'}, status=401)
             return JsonResponse(
                 dict(
-                    id=user.id,
+                    id = user.employee.id,
+                    user=user.id,
                     name=user.get_full_name(),
                     group=group,
                     status=200,
@@ -101,6 +102,13 @@ class EmployeeListView(ListAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+class AvailableEmployeeListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EmployeeSerializer
+
+    def get_queryset(self):
+        queryset = Employee.objects.filter(available=True, role='CO')
+        return queryset
 
 class EmployeeUpdateView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
@@ -132,6 +140,7 @@ class EmployeeDeleteView(DestroyAPIView):
 
 
 class EmployeeMultipleDelete(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request):
         data = json.loads(request.body)
         employee_ids = data['employee_ids']
