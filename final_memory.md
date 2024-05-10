@@ -203,37 +203,38 @@ These third-party libraries and tools were selected for their technical suitabil
 #### License and Project Privacy
 
 The project will be kept private, which means that its access will be limited to a specific group of authorized users. To meet these requirements, we have opted for a suitable license that allows private use of the software, such as the MIT License or the Apache License 2.0, both of which are compatible with the privacy and restricted access of the project.
-### 6. RIESGOS Y MEDIDAS. <a name="id6"></a>
 
-Durante el desarrollo del proyecto de gestión logística, nos hemos enfrentado a diversos desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para mitigar su impacto en el progreso del proyecto. A continuación, se detallan algunos de los problemas que han surgido y las acciones tomadas para abordarlos:
+### 6. RISKS AND MEASURES. <a name="id6"></a>
 
-1. **Desafío en el Aprendizaje de Nuevas Tecnologías:**
+During the development of the logistics management project, we have faced various challenges and risks that have required a proactive response and specific measures to mitigate their impact on the progress of the project. Some of the issues that have arisen and the actions taken to address them are detailed below:
 
-   - Problema: Uno de los desafíos iniciales fue la necesidad de aprender y dominar nuevas tecnologías, como Vue.js y Docker, que eran fundamentales para el desarrollo del proyecto.
-   - Acción Tomada: Se estableció un plan de capacitación y autoaprendizaje para el equipo, que incluía tutoriales, cursos en línea y sesiones de práctica. Además, se asignaron tareas específicas y se fomentó la colaboración entre los miembros del equipo para compartir conocimientos y resolver desafíos técnicos juntos.
+1. **Challenges in Learning New Technologies:**
 
-2. **Retrasos en la Implementación de Funcionalidades:**
+   - Problem: One of the initial challenges was the need to learn and master new technologies, such as Vue.js and Docker, which were fundamental for the development of the project.
+   - Action Taken: A training and self-learning plan was established for the team, which included tutorials, online courses and practice sessions. In addition, specific tasks were assigned and collaboration among team members was encouraged to share knowledge and solve technical challenges together.
 
-   - Problema: Surgieron algunos retrasos en la implementación de ciertas funcionalidades debido a la complejidad técnica o a la falta de claridad en los requisitos.
-   - Acción Tomada: Se realizaron reuniones adicionales con el cliente para aclarar los requisitos y priorizar las funcionalidades críticas. Además, se asignaron recursos adicionales y se reevaluó el plan de desarrollo para optimizar el tiempo y los recursos disponibles.
+2. **Delays in the Implementation of Functionalities:**
 
-3. **Sobrecarga de Tareas en Momentos Puntuales:**
+   - Problem: There were some delays in the implementation of certain functionalities due to technical complexity or lack of clarity in the requirements.
+   - Action Taken: Additional meetings were held with the client to clarify requirements and prioritize critical functionalities. In addition, additional resources were allocated and the development plan was reevaluated to optimize the time and resources available.
 
-   - Problema: En algunas etapas del proyecto, hubo una sobrecarga de tareas debido a la acumulación de entregables o a la asignación desigual de trabajo.
-   - Acción Tomada: Se revisó y ajustó el plan de trabajo para distribuir equitativamente las tareas entre los miembros del equipo. Se priorizaron las actividades clave y se asignaron recursos adicionales cuando fue necesario para garantizar la finalización oportuna de los entregables.
+3. **Task Overload at Specific Points in Time:**
 
-4. **Desafíos en la Integración de Servicios Externos:**
+   - Problem: At some stages of the project, there was an overload of tasks due to a backlog of deliverables or unequal allocation of work.
+   - Action Taken: The work plan was reviewed and adjusted to distribute tasks evenly among team members. Prioritized key activities and allocated additional resources where necessary to ensure timely completion of deliverables.
 
-   - Problema: Se encontraron dificultades durante la integración de servicios externos, como la API de Mapbox, debido a la falta de documentación clara o a problemas técnicos.
-   - Acción Tomada: Se realizaron pruebas exhaustivas y se trabajó en estrecha colaboración con los proveedores de servicios externos para resolver los problemas identificados. Se estableció una comunicación abierta y transparente para abordar cualquier problema de integración de manera efectiva y garantizar la funcionalidad adecuada del sistema.
+4. **Challenges in the Integration of External Services:**
 
-5. **Combinar el Tiempo del Proyecto con el Tiempo de las Prácticas:**
-   - Problema: Surgieron dificultades para equilibrar el tiempo dedicado al desarrollo del proyecto con el tiempo requerido para completar las prácticas académicas del equipo.
-   - Acción Tomada: Se coordinaron horarios flexibles y se asignaron tareas y responsabilidades de manera que permitieran a los miembros del equipo cumplir con sus obligaciones académicas mientras contribuían al progreso del proyecto. Se priorizó la comunicación abierta y transparente para asegurar una colaboración efectiva y mantener un equilibrio saludable entre el trabajo del proyecto y las prácticas académicas.
+   - Issue: Difficulties were encountered during the integration of external services, such as the Mapbox API, due to lack of clear documentation or technical issues.
+   - Action Taken: Performed extensive testing and worked closely with external service providers to resolve identified issues. Open and transparent communication was established to address any integration issues effectively and ensure proper system functionality.
 
-En resumen, a lo largo del desarrollo del proyecto de gestión logística, hemos enfrentado varios desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para abordarlos. Gracias a la colaboración del equipo, la planificación cuidadosa y una comunicación efectiva con el cliente, hemos sido capaces de superar estos desafíos y avanzar hacia la entrega exitosa del proyecto.
+5. **Combine Project Time with Internship Time:**
+   - Problem: Difficulties arose in balancing the time dedicated to project development with the time required to complete the team's academic internships.
+   - Action Taken: Coordinated flexible schedules and assigned tasks and responsibilities in a way that allowed team members to fulfill their academic obligations while contributing to the project's progress. Prioritized open and transparent communication to ensure effective collaboration and maintain a healthy balance between project work and academic internships.
 
-### 7. GRADO DE CUMPLIMIENTO EN ALCANCE. <a name="id7"></a>
+In summary, throughout the development of the logistics management project, we have faced several challenges and risks that have required a proactive response and specific measures to address them. Through team collaboration, careful planning and effective communication with the client, we were able to overcome these challenges and move towards the successful delivery of the project.
+
+### 7. DEGREE OF COMPLIANCE IN SCOPE. <a name="id7"></a>
 
 #### Covered Features:
 
@@ -253,7 +254,7 @@ Non-implementation of chat was mainly due to time, as developing real-time chat 
 
 In general, although most of the projected functionalities have been covered, it is important to evaluate the reasons behind the unimplemented functionalities and consider whether they can be addressed in future iterations of the project.
 
-### 8. GRADO DE CUMPLIMIENTO EN TIEMPO. <a name="id8"></a>
+### 8. DEGREE OF COMPLIANCE ON TIME. <a name="id8"></a>
 
 The development of the logistics management project has mostly followed the established planning, however, there were certain deviations that require attention. In general terms, the pace was maintained and the deadlines were met, with the exception of the chat functionality, which was not completed within the estimated time. This deviation could be attributed to an initial underestimation of the technical complexity or the resources required for its implementation. The fact of also having practice hours has affected not having arrived on time for the chat.
 
@@ -263,7 +264,7 @@ This process highlights the importance of proactive time management and careful 
 
 Despite the aforementioned deviations, the team demonstrated its commitment and ability to adapt to the circumstances, which allowed it to keep the project on track and achieve most of the milestones satisfactorily. These experiences will serve as important learnings for future projects, reinforcing the team's ability to effectively manage time and resources in complex and dynamic projects.
 
-### 9. GRADO DE CUMPLIMIENTO EN COSTE. <a name="id9"></a>
+### 9. DEGREE OF COMPLIANCE IN COST. <a name="id9"></a>
 
 During the development of the logistics management project, we are pleased to report that we have managed to accurately estimate the associated costs and, in fact, we have observed that the expenses have been even lower than initially anticipated. This situation is largely due to the fact that DigitalOcean droplets, which made up a significant portion of our cloud infrastructure costs, turned out to be cheaper than we had anticipated in our financial planning.
 
@@ -273,7 +274,7 @@ The free nature of DigitalOcean droplets has been a pleasant surprise and has co
 
 This achievement is a testament to our ability to make accurate estimates and to efficiently manage our financial resources. We are proud to have demonstrated effective control over project costs and are committed to continuing to maintain this financial discipline throughout the entire project life cycle.
 
-### 10. CLAUSULAS. <a name="id10"></a>
+### 10. CLAUSES. <a name="id10"></a>
 
 With the aim of establishing a clear and transparent development for the execution of the project, a series of contractual clauses have been defined that address various aspects related to the development, quality and financial management of the project.
 
@@ -307,7 +308,7 @@ In the event of disputes or conflicts related to the project, a formal conflict 
 
 These contractual clauses provide a robust and transparent framework for the execution of the logistics management project, ensuring that all parties involved clearly understand their roles, responsibilities and expectations throughout the project life cycle.
 
-### 11. PRODUCTO FINAL. <a name="id11"></a>
+### 11. FINAL PRODUCT. <a name="id11"></a>
 
 The implemented functionalities have been described in previous sections. To summarize again, the application has a customized inventory management in which we will be able to see all the products that the company has and also see in which stores they are located among other features that we will describe later. On the other hand, we have the customized management of users with different roles, in which there will be an administrator who can create profiles of workers with their respective role (this includes limited access to certain features depending on the role of the worker). Finally, we have a router where administrators can create delivery routes and assign them to the delivery workers, who will be able to see the assigned route in their routes section as well. Once this summary is done, we will explain the application in detail.
 
@@ -329,7 +330,7 @@ On the other hand, if the user has an administrator role, he will be able to man
 
 User management is the last of our applications. It is a section very similar to the inventory one. As mentioned before, in this section the user with administrator role will be able to view, edit and create users for the company. As in the inventory, there is a search bar to be able to search for users by all their fields. Also, on the left side there are checkboxes to download the workers to CSV or to delete them with the buttons above. Another of the functionalities that an administrator can take advantage of is to create users, in which he/she will enter his/her data and the password generated will be sent to the e-mail. Finally, this section also has dynamic pagination and the possibility of editing the user data selected.
 
-### 12. EXPERIENCIAS APRENDIDAS A TENER EN CUENTA EN PRÓXIMOS PROYECTOS. <a name="id12"></a>
+### 12. LESSONS LEARNED TO BE TAKEN INTO ACCOUNT IN FUTURE PROJECTS. <a name="id12"></a>
 
 During the development of the Adalogix project, we have acquired a series of valuable experiences that will be fundamental to guide future projects. These lessons learned cover crucial aspects ranging from initial planning to project execution and stick to dates planed.
 
@@ -347,7 +348,7 @@ In terms of communication and collaboration, we have learned that fostering open
 
 In summary, the experiences learned during the development of the logistics management project have provided us with a solid foundation to face future projects with confidence and effectiveness. These lessons have taught us the importance of detailed planning, continuous learning, effective time and resource management, and open and collaborative communication. With these lessons in mind, we are prepared to address future challenges with determination and success.
 
-### 13. CONCLUSIONES, COMENTARIOS Y VALORACIÓN FINAL. <a name="id13"></a>
+### 13. CONCLUSIONS, COMMENTS AND FINAL ASSESSMENT. <a name="id13"></a>
 
 The logistics management project has been a comprehensive learning process that has provided a deep understanding of the challenges and opportunities inherent in software development in a dynamic business environment. Through this project, we have strengthened our ability to address complex problems and consolidated our knowledge in various areas, from software development to resource management and effective communication.
 
