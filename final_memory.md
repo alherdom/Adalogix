@@ -170,7 +170,33 @@ El proyecto será mantenido como privado, lo que significa que su acceso estará
 
 ### 6. RIESGOS Y MEDIDAS. <a name="id6"></a>
 
-Qué problemas han surgido durante el desarrollo del proyecto y cómo se ha actuado.
+Durante el desarrollo del proyecto de gestión logística, nos hemos enfrentado a diversos desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para mitigar su impacto en el progreso del proyecto. A continuación, se detallan algunos de los problemas que han surgido y las acciones tomadas para abordarlos:
+
+1. **Desafío en el Aprendizaje de Nuevas Tecnologías:**
+
+   - Problema: Uno de los desafíos iniciales fue la necesidad de aprender y dominar nuevas tecnologías, como Vue.js y Docker, que eran fundamentales para el desarrollo del proyecto.
+   - Acción Tomada: Se estableció un plan de capacitación y autoaprendizaje para el equipo, que incluía tutoriales, cursos en línea y sesiones de práctica. Además, se asignaron tareas específicas y se fomentó la colaboración entre los miembros del equipo para compartir conocimientos y resolver desafíos técnicos juntos.
+
+2. **Retrasos en la Implementación de Funcionalidades:**
+
+   - Problema: Surgieron algunos retrasos en la implementación de ciertas funcionalidades debido a la complejidad técnica o a la falta de claridad en los requisitos.
+   - Acción Tomada: Se realizaron reuniones adicionales con el cliente para aclarar los requisitos y priorizar las funcionalidades críticas. Además, se asignaron recursos adicionales y se reevaluó el plan de desarrollo para optimizar el tiempo y los recursos disponibles.
+
+3. **Sobrecarga de Tareas en Momentos Puntuales:**
+
+   - Problema: En algunas etapas del proyecto, hubo una sobrecarga de tareas debido a la acumulación de entregables o a la asignación desigual de trabajo.
+   - Acción Tomada: Se revisó y ajustó el plan de trabajo para distribuir equitativamente las tareas entre los miembros del equipo. Se priorizaron las actividades clave y se asignaron recursos adicionales cuando fue necesario para garantizar la finalización oportuna de los entregables.
+
+4. **Desafíos en la Integración de Servicios Externos:**
+
+   - Problema: Se encontraron dificultades durante la integración de servicios externos, como la API de Mapbox, debido a la falta de documentación clara o a problemas técnicos.
+   - Acción Tomada: Se realizaron pruebas exhaustivas y se trabajó en estrecha colaboración con los proveedores de servicios externos para resolver los problemas identificados. Se estableció una comunicación abierta y transparente para abordar cualquier problema de integración de manera efectiva y garantizar la funcionalidad adecuada del sistema.
+
+5. **Combinar el Tiempo del Proyecto con el Tiempo de las Prácticas:**
+   - Problema: Surgieron dificultades para equilibrar el tiempo dedicado al desarrollo del proyecto con el tiempo requerido para completar las prácticas académicas del equipo.
+   - Acción Tomada: Se coordinaron horarios flexibles y se asignaron tareas y responsabilidades de manera que permitieran a los miembros del equipo cumplir con sus obligaciones académicas mientras contribuían al progreso del proyecto. Se priorizó la comunicación abierta y transparente para asegurar una colaboración efectiva y mantener un equilibrio saludable entre el trabajo del proyecto y las prácticas académicas.
+
+En resumen, a lo largo del desarrollo del proyecto de gestión logística, hemos enfrentado varios desafíos y riesgos que han requerido una respuesta proactiva y medidas específicas para abordarlos. Gracias a la colaboración del equipo, la planificación cuidadosa y una comunicación efectiva con el cliente, hemos sido capaces de superar estos desafíos y avanzar hacia la entrega exitosa del proyecto.
 
 ### 7. GRADO DE CUMPLIMIENTO EN ALCANCE. <a name="id7"></a>
 
