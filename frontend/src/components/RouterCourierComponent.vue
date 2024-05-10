@@ -15,15 +15,15 @@
       >Finish</q-btn
     >
     <q-list bordered separator class="route-table" v-if="waypointTable.length">
-    <template v-for="waypoint, index in waypointTable" :key="index" >
-    <q-item clickable v-ripple>
-      <q-item-section avatar>
-        <q-icon name="fmd_good"></q-icon>
-      </q-item-section>
-      <q-item-section>{{ index + 1}}</q-item-section>
-      <q-item-section side>{{ waypoint }}</q-item-section>
-    </q-item>
-    </template>
+      <template v-for="(waypoint, index) in waypointTable" :key="index">
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="fmd_good"></q-icon>
+          </q-item-section>
+          <q-item-section>{{ index + 1 }}</q-item-section>
+          <q-item-section side>{{ waypoint }}</q-item-section>
+        </q-item>
+      </template>
     </q-list>
   </div>
 </template>
@@ -32,17 +32,17 @@
 import { Map } from "maplibre-gl";
 import { shallowRef, onMounted, onUnmounted, markRaw, ref, toRaw } from "vue";
 import { getRequest, patchRequest } from "src/utils/common";
+import config from "src/utils/keys";
 import Swal from "sweetalert2";
-
 
 const mapContainer = shallowRef(null);
 const map = shallowRef(null);
 const travelMode = "drive";
-const apiKey = "96100818ef1a4f1a8a50d609496386fa";
+const apiKey = config.geoapifyApiKey;
 const loading = ref(false);
 const agentPlan = ref({});
 const waypointTable = ref([]);
-let mapLayers = []
+let mapLayers = [];
 
 const completedRoute = async () => {
   try {
@@ -61,9 +61,9 @@ const completedRoute = async () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      waypointTable.value = []
-      agentPlan.value = {}
-      removeMapLayers()
+      waypointTable.value = [];
+      agentPlan.value = {};
+      removeMapLayers();
     } else {
       alert("Error");
     }
@@ -71,7 +71,7 @@ const completedRoute = async () => {
     console.error(error);
   } finally {
     loading.value = false;
-    }
+  }
 };
 
 const getAgentRoute = async () => {
@@ -91,7 +91,6 @@ const getAgentRoute = async () => {
     });
 
     await generateRouteTable(waypoints);
-    
 
     addWaypointsLayer(rawAgentPlan);
   } catch (error) {
@@ -132,9 +131,9 @@ const addRouteLayer = (routeData) => {
     },
   };
 
-  map.value.addLayer(routeLayer)
+  map.value.addLayer(routeLayer);
 
-  mapLayers.push(routeLayer)
+  mapLayers.push(routeLayer);
 };
 
 const addWaypointsLayer = (agentPlan) => {
@@ -159,9 +158,8 @@ const addWaypointsLayer = (agentPlan) => {
     },
   };
 
-  map.value.addLayer(waypointLayer)
-  mapLayers.push(waypointLayer)
-
+  map.value.addLayer(waypointLayer);
+  mapLayers.push(waypointLayer);
 
   let waypointTextLayer = {
     id: `waypoints-text-of-agent-${agentPlan.agentIndex}`,
@@ -178,13 +176,12 @@ const addWaypointsLayer = (agentPlan) => {
     },
   };
 
-  map.value.addLayer(waypointTextLayer)
-  mapLayers.push(waypointTextLayer)
+  map.value.addLayer(waypointTextLayer);
+  mapLayers.push(waypointTextLayer);
 };
 
-
 onMounted(() => {
-  const apiKey = "GMM53qEv5wFImFPJ6Rgl";
+  const apiKey = config.maptilerApiKey;
 
   const initialState = {
     lng: -16.549341485486707,
@@ -221,16 +218,15 @@ async function generateRoute(points, mode) {
 }
 
 const removeMapLayers = () => {
-  console.log(mapLayers.length)
+  console.log(mapLayers.length);
   if (map.value && mapLayers.length > 0) {
     mapLayers.forEach((layer) => {
       map.value.removeLayer(layer.id);
       map.value.removeSource(layer.source);
     });
-    mapLayers = []
+    mapLayers = [];
   }
 };
-
 </script>
 
 <style scoped>

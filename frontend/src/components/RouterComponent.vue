@@ -18,86 +18,91 @@
     style="z-index: 100"
     class="router-drawer"
   >
-  <div class="q-pa-lg">
-    <div class="q-my-xl flex-container">
-       <q-select
-      filled
-      v-model="selectedEmployee"
-      :options="options"
-      label="Employees"
-      @update:model-value="getAgentRoute(), mainMarkRemove()"
-    >
-    </q-select>
-    <q-select
-      filled
-      v-model="selectedStore"
-      :options="storeOptions"
-      label="Stores"
-      @update:model-value="drawMark(), removeMapLayers()"
-    >
-    </q-select>
-    </div>
-   
+    <div class="q-pa-lg">
+      <div class="q-my-xl flex-container">
+        <q-select
+          filled
+          v-model="selectedEmployee"
+          :options="options"
+          label="Employees"
+          @update:model-value="getAgentRoute(), mainMarkRemove()"
+        >
+        </q-select>
+        <q-select
+          filled
+          v-model="selectedStore"
+          :options="storeOptions"
+          label="Stores"
+          @update:model-value="drawMark(), removeMapLayers()"
+        >
+        </q-select>
+      </div>
 
-    <div class="search-dropoff-container q-pa-sm">
-      <q-input
-        bottom-slots
-        label="Search a place"
-        :dense="dense"
-        v-model="inputAddress"
-        debounce="300"
-        @update:model-value="setAddressOptions"
-        class="input-address"
-      >
-      </q-input>
-      <q-select
-        v-model="selectedAddress"
-        :options="addressOptions"
-        label="Suggested address"
-        class="suggest-address"
-      >
-        <template v-slot:before> <q-icon name="place" /> </template>
-        <template v-slot:after
-          ><q-btn
-            round
-            color="primary"
-            icon="add"
-            size="sm"
-            push
-            @click="drawByAddress"
-        /></template>
-      </q-select>
+      <div class="search-dropoff-container q-pa-sm">
+        <q-input
+          bottom-slots
+          label="Search a place"
+          :dense="dense"
+          v-model="inputAddress"
+          debounce="300"
+          @update:model-value="setAddressOptions"
+          class="input-address"
+        >
+        </q-input>
+        <q-select
+          v-model="selectedAddress"
+          :options="addressOptions"
+          label="Suggested address"
+          class="suggest-address"
+        >
+          <template v-slot:before> <q-icon name="place" /> </template>
+          <template v-slot:after
+            ><q-btn
+              round
+              color="primary"
+              icon="add"
+              size="sm"
+              push
+              @click="drawByAddress"
+          /></template>
+        </q-select>
+      </div>
+      <div class="q-pa-xl sidebar-router-buttons">
+        <q-btn
+          :loading="loading[0]"
+          color="primary"
+          push
+          @click="sendRequest"
+          label="Calculate"
+        />
+        <q-btn
+          :loading="loading[0]"
+          color="primary"
+          @click="deleteRoute()"
+          label="Delete"
+          push
+        />
+        <q-btn
+          :loading="loading[0]"
+          color="primary"
+          @click="saveEmployeeStatus()"
+          label="Save"
+          push
+          :disable="disable"
+        />
+      </div>
     </div>
-    <div class="q-pa-xl sidebar-router-buttons">
-      <q-btn
-        :loading="loading[0]"
-        color="primary"
-        push
-        @click="sendRequest"
-        label="Calculate"
-      />
-      <q-btn
-      :loading="loading[0]"
-      color="primary"
-      @click="saveEmployeeStatus()"
-      label="Save"
-      push
-      :disable="disable"
-    />
-    </div>
-
-  </div>
-  <q-list bordered separator>
-  <template v-for="waypoint, index in waypointTable" :key="index">
-    <q-item clickable v-ripple>
-      <q-item-section avatar>
-        <q-icon name="fmd_good"></q-icon>
-      </q-item-section>
-      <q-item-section>{{ index + 1}}</q-item-section>
-      <q-item-section side>{{ waypoint }}</q-item-section>
-    </q-item>
-  </template>
-</q-list>
+    <q-list bordered separator>
+      <template v-for="(waypoint, index) in waypointTable" :key="index">
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="fmd_good"></q-icon>
+          </q-item-section>
+          <q-item-section>{{ index + 1 }}</q-item-section>
+          <q-item-section side>{{ waypoint }}</q-item-section>
+        </q-item>
+      </template>
+    </q-list>
   </q-drawer>
 </template>
 
@@ -106,7 +111,7 @@ import { Map, Marker, Popup } from "maplibre-gl";
 import { shallowRef, onMounted, onUnmounted, markRaw, ref, toRaw } from "vue";
 import { getRequest, patchRequest } from "src/utils/common";
 import Swal from "sweetalert2";
-import { useRouter } from "vue-router";
+import config from "../utils/keys";
 
 const drawerRight = ref(true);
 const mapContainer = shallowRef(null);
@@ -116,7 +121,7 @@ const agents = ref([{ start_location: [] }]);
 const shipmentsPickup = ref([]);
 const shipmentsDropoff = ref([]);
 const travelMode = "drive";
-const apiKey = "96100818ef1a4f1a8a50d609496386fa";
+const apiKey = config.geoapifyApiKey;
 const options = ref([]);
 const storeOptions = ref([]);
 const selectedEmployee = ref(null);
@@ -126,10 +131,40 @@ const disable = ref(true);
 const inputAddress = ref("");
 const addressOptions = ref([]);
 const selectedAddress = ref("");
-const router = useRouter()
-let mapLayers = []
-let waypointTable = []
+let mapLayers = [];
+const waypointTable = ref([]);
 
+const deleteRoute = async () => {
+  try {
+    loading.value = true;
+    const requestData = {
+      route: null,
+      available: true,
+    };
+    const url = `http://localhost:8000/user/update/${selectedEmployee.value.value}/`;
+    const response = await patchRequest(requestData, url);
+    if (response.status === 200) {
+      Swal.fire({
+        title: "Success",
+        text: "Route delete successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      waypointTable.value = [];
+      agentPlan.value = {};
+      plan.value = {};
+      removeMapLayers();
+      disable.value = true;
+    } else {
+      alert("Error");
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
 const drawByAddress = async () => {
   let lng = selectedAddress.value.lng;
   let lat = selectedAddress.value.lat;
@@ -185,15 +220,15 @@ const saveEmployeeStatus = async () => {
       route: JSON.stringify(toRaw(plan.value)),
     };
     const response = await patchRequest(requestData, url);
-    if ( response.status === 200 ) {
+    if (response.status === 200) {
       Swal.fire({
-      icon: "success",
-      title: "Status save",
-      text: "Status save successfully!",
-      timer: 1500,
-    });
+        icon: "success",
+        title: "Status save",
+        text: "Status save successfully!",
+        timer: 1500,
+      });
     } else {
-      console.log("error")
+      console.log("error");
     }
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -207,32 +242,30 @@ const saveEmployeeStatus = async () => {
   }
 };
 
-const agentPlan = ref({})
-
+const agentPlan = ref({});
 
 // -----------------------------
 
 const getAgentRoute = async () => {
   try {
     loading.value = true;
-    removeMapLayers()
+    removeMapLayers();
     const url = `http://localhost:8000/user/detail/${selectedEmployee.value.value}/`;
     const response = await getRequest(url);
     if (response.available == false) {
       agentPlan.value = JSON.parse(response.route).features[0].properties;
-  
+
       const rawAgentPlan = toRaw(agentPlan.value);
       const waypoints = rawAgentPlan.waypoints.map(
         (waypoint) => waypoint.location
       );
-  
+
       await generateRoute(waypoints, travelMode).then((routeData) => {
         addRouteLayer(routeData);
       });
-  
+
       await generateRouteTable(waypoints);
 
-  
       addWaypointsLayer(rawAgentPlan);
     }
   } catch (error) {
@@ -242,14 +275,13 @@ const getAgentRoute = async () => {
   }
 };
 
-
 const generateRouteTable = async (waypoints) => {
   let url;
   for (let i = 0; i < waypoints.length; i++) {
     let waypoint = waypoints[i];
     url = `https://api.geoapify.com/v1/geocode/reverse?lat=${waypoint[1]}&lon=${waypoint[0]}&apiKey=${apiKey}`;
     let waypointsAddress = await fetch(url).then((response) => response.json());
-    waypointTable.push(waypointsAddress.features[0].properties.formatted);
+    waypointTable.value.push(waypointsAddress.features[0].properties.formatted);
   }
 };
 
@@ -275,9 +307,8 @@ const addWaypointsLayer = (agentPlan) => {
     },
   };
 
-  map.value.addLayer(waypointLayer)
-  mapLayers.push(waypointLayer)
-
+  map.value.addLayer(waypointLayer);
+  mapLayers.push(waypointLayer);
 
   let waypointTextLayer = {
     id: `waypoints-text-of-agent-${agentPlan.agentIndex}`,
@@ -294,8 +325,8 @@ const addWaypointsLayer = (agentPlan) => {
     },
   };
 
-  map.value.addLayer(waypointTextLayer)
-  mapLayers.push(waypointTextLayer)
+  map.value.addLayer(waypointTextLayer);
+  mapLayers.push(waypointTextLayer);
 };
 
 const removeMapLayers = () => {
@@ -304,9 +335,9 @@ const removeMapLayers = () => {
       map.value.removeLayer(layer.id);
       map.value.removeSource(layer.source);
     });
-    mapLayers = []
-}}
-
+    mapLayers = [];
+  }
+};
 
 const getAvaiableEmployees = async () => {
   try {
@@ -349,40 +380,19 @@ const addRouteLayer = (routeData) => {
     },
   };
 
-  map.value.addLayer(routeLayer)
+  map.value.addLayer(routeLayer);
 
-  mapLayers.push(routeLayer)
+  mapLayers.push(routeLayer);
 };
 
 const mainMarkRemove = () => {
-  waypointTable = []
+  waypointTable.value = [];
   if (mainMark.value) {
     mainMark.value.remove();
   }
-}
-
+};
 
 // -----------------------------
-
-// const getAvaiableEmployees = async () => {
-//   try {
-//     loading.value = true;
-//     const url = "http://localhost:8000/user/list/available/";
-//     const response = await getRequest(url);
-//     response.forEach((element) => {
-//       options.value.push({ label: element.username, value: element.id });
-//     });
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//     Swal.fire({
-//       icon: "error",
-//       title: "Oops...",
-//       text: "Something went wrong while fetching data!",
-//     });
-//   } finally {
-//     loading.value = false;
-//   }
-// };
 
 const getStores = async () => {
   try {
@@ -410,7 +420,7 @@ const getStores = async () => {
 };
 
 onMounted(() => {
-  const apiKey = "GMM53qEv5wFImFPJ6Rgl";
+  const apiKey = config.maptilerApiKey;
 
   const initialState = {
     lng: -16.549341485486707,
@@ -435,7 +445,7 @@ onMounted(() => {
 const mainMark = ref(null);
 
 function drawMark() {
-  shipmentsDropoff.value = []
+  shipmentsDropoff.value = [];
   if (mainMark.value) {
     mainMark.value.remove();
   }
@@ -464,12 +474,12 @@ function sendRequest() {
     mode: "drive",
     agents: toRaw(agents.value),
     shipments: toRaw(shipmentsDropoff.value),
-  };  
+  };
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  
+
   const raw = JSON.stringify(requestData);
-  
+
   const requestOptions = {
     method: "POST",
     headers: myHeaders,
@@ -478,94 +488,106 @@ function sendRequest() {
   };
 
   fetch(
-    "https://api.geoapify.com/v1/routeplanner?apiKey=96100818ef1a4f1a8a50d609496386fa",
+    `https://api.geoapify.com/v1/routeplanner?apiKey=${config.geoapifyApiKey}`,
     requestOptions
   )
     .then((response) => response.json())
     .then((response) => {
       plan.value = response;
       let agentPlan = plan.value.features[0].properties;
-      const waypoints = agentPlan.waypoints.map(
-        (waypoint) => toRaw(waypoint.location)
+      const waypoints = agentPlan.waypoints.map((waypoint) =>
+        toRaw(waypoint.location)
       );
-      waypointTable = []
-      generateRoute(waypoints, travelMode /* 'drive', 'truck', ...*/).then(
-        (routeData) => {
-          const layerId = `agent-route-${1}`;
-          agentPlan.routeLayer = layerId;
-          map.value.addSource(layerId, {
-            type: "geojson",
-            data: routeData,
-          });
-          let routeLayer = {
-            id: layerId,
-            type: "line",
-            source: layerId,
-            layout: {
-              "line-cap": "round",
-              "line-join": "round",
-            },
-            paint: {
-              "line-color": "#FF6C37",
-              "line-width": 3,
-            },
-          }
-          map.value.addLayer(routeLayer)
-          mapLayers.push(routeLayer)
-        }
-      );
-      
-      if (markers.value !== null) {
-        for (var i = markers.value.length - 1; i >= 0; i--) {
-          markers.value[i].remove();
-          mainMark.value.remove();
-        }
-      }
+      console.log(waypoints);
 
-      const items = agentPlan.waypoints.map((waypoint, index) =>
-        turf.point(waypoint.location, { index: index + 1 })
-      );
-
-      // create points source + layer
-
-      map.value.addSource(`waypoints-of-agent-${agentPlan.agentIndex}`, {
-        type: "geojson",
-        data: turf.featureCollection(items),
+      const waypointPromises = waypoints.map((waypoint) => {
+        let url = `https://api.geoapify.com/v1/geocode/reverse?lat=${waypoint[1]}&lon=${waypoint[0]}&apiKey=${apiKey}`;
+        return fetch(url).then((response) => response.json());
       });
 
-      let waypointLayer = {
-        id: `waypoints-of-agent-${agentPlan.agentIndex}`,
-        type: "circle",
-        source: `waypoints-of-agent-${agentPlan.agentIndex}`,
-        paint: {
-          "circle-radius": 15,
-          "circle-color": "#FF6C37", // set any color here
-          "circle-stroke-width": 1,
-          "circle-stroke-color": "#777777", // set a darker color here
-        },
-      };
+      Promise.all(waypointPromises).then((waypointsAddress) => {
+        waypointTable.value = waypointsAddress.map(
+          (waypointAddress) => waypointAddress.features[0].properties.formatted
+        );
 
-      let waypointTextLayer ={
-        id: `waypoints-text-of-agent-${agentPlan.agentIndex}`,
-        type: "symbol",
-        source: `waypoints-of-agent-${agentPlan.agentIndex}`,
-        layout: {
-          "text-field": "{index}",
-          "text-allow-overlap": false,
-          "text-font": ["Roboto", "Helvetica Neue", "sans-serif"],
-          "text-size": 15,
-        },
-        paint: {
-          "text-color": "#333333", // set contrast to the color textColor
-        },
-      };
+        generateRoute(waypoints, travelMode /* 'drive', 'truck', ...*/).then(
+          (routeData) => {
+            const layerId = `agent-route-${1}`;
+            agentPlan.routeLayer = layerId;
+            map.value.addSource(layerId, {
+              type: "geojson",
+              data: routeData,
+            });
+            let routeLayer = {
+              id: layerId,
+              type: "line",
+              source: layerId,
+              layout: {
+                "line-cap": "round",
+                "line-join": "round",
+              },
+              paint: {
+                "line-color": "#FF6C37",
+                "line-width": 3,
+              },
+            };
+            map.value.addLayer(routeLayer);
+            mapLayers.push(routeLayer);
+          }
+        );
 
-      map.value.addLayer(waypointLayer)
-      map.value.addLayer(waypointTextLayer)
-      mapLayers.push(waypointLayer)
-      mapLayers.push(waypointTextLayer)
+        if (markers.value !== null) {
+          for (var i = markers.value.length - 1; i >= 0; i--) {
+            markers.value[i].remove();
+            mainMark.value.remove();
+          }
+        }
 
-      disable.value = false;
+        const items = agentPlan.waypoints.map((waypoint, index) =>
+          turf.point(waypoint.location, { index: index + 1 })
+        );
+
+        // create points source + layer
+
+        map.value.addSource(`waypoints-of-agent-${agentPlan.agentIndex}`, {
+          type: "geojson",
+          data: turf.featureCollection(items),
+        });
+
+        let waypointLayer = {
+          id: `waypoints-of-agent-${agentPlan.agentIndex}`,
+          type: "circle",
+          source: `waypoints-of-agent-${agentPlan.agentIndex}`,
+          paint: {
+            "circle-radius": 15,
+            "circle-color": "#FF6C37", // set any color here
+            "circle-stroke-width": 1,
+            "circle-stroke-color": "#777777", // set a darker color here
+          },
+        };
+
+        let waypointTextLayer = {
+          id: `waypoints-text-of-agent-${agentPlan.agentIndex}`,
+          type: "symbol",
+          source: `waypoints-of-agent-${agentPlan.agentIndex}`,
+          layout: {
+            "text-field": "{index}",
+            "text-allow-overlap": false,
+            "text-font": ["Roboto", "Helvetica Neue", "sans-serif"],
+            "text-size": 15,
+          },
+          paint: {
+            "text-color": "#333333", // set contrast to the color textColor
+          },
+        };
+
+        map.value.addLayer(waypointLayer);
+        map.value.addLayer(waypointTextLayer);
+        mapLayers.push(waypointLayer);
+        mapLayers.push(waypointTextLayer);
+
+        disable.value = false;
+      });
     })
     .catch((error) => console.error(error));
 }
@@ -578,7 +600,6 @@ function generateRoute(points, mode) {
 
   return fetch(url).then((resp) => resp.json());
 }
-
 </script>
 
 <style scoped>

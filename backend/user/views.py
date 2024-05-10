@@ -140,6 +140,7 @@ class EmployeeDeleteView(DestroyAPIView):
 
 
 class EmployeeMultipleDelete(APIView):
+    permission_classes = [IsAuthenticated]
     def delete(self, request):
         data = json.loads(request.body)
         employee_ids = data['employee_ids']
