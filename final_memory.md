@@ -274,6 +274,9 @@ The free nature of DigitalOcean droplets has been a pleasant surprise and has co
 
 This achievement is a testament to our ability to make accurate estimates and to efficiently manage our financial resources. We are proud to have demonstrated effective control over project costs and are committed to continuing to maintain this financial discipline throughout the entire project life cycle.
 
+All costs are in the [preliminary project](https://github.com/alherdom/Adalogix/tree/final-memory?tab=readme-ov-file#6-cost-estimation-).
+
+
 ### 10. CLAUSES. <a name="id10"></a>
 
 With the aim of establishing a clear and transparent development for the execution of the project, a series of contractual clauses have been defined that address various aspects related to the development, quality and financial management of the project.
@@ -345,6 +348,8 @@ Regarding cost estimation, we have observed that an accurate estimate is essenti
 Additionally, we have reaffirmed the importance of quality management and change control. Implementing a strong quality control system and effective change management allowed us to deliver a high-quality final product that met the client's requirements.
 
 In terms of communication and collaboration, we have learned that fostering open and collaborative communication within the team and with external stakeholders is essential to keeping the project on track and addressing challenges effectively.
+
+On top of all this, we have learned how important it is to prioritize early deployment, as it not only streamlines the development process, but also allows us to identify and address integration challenges and potential bugs early on, promoting a more stable and efficient delivery.
 
 In summary, the experiences learned during the development of the logistics management project have provided us with a solid foundation to face future projects with confidence and effectiveness. These lessons have taught us the importance of detailed planning, continuous learning, effective time and resource management, and open and collaborative communication. With these lessons in mind, we are prepared to address future challenges with determination and success.
 
