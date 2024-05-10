@@ -14,7 +14,7 @@ ADALOGIX
 
 <right>
 
-**_Autor/es:_**  
+**_Autor/es:_**
 **_Fecha:_**  
 **_Tutor:_**
 
@@ -26,21 +26,21 @@ ADALOGIX
 
 </center>
 
-1. [**_INTRODUCCIÓN._**](#id1)
-2. [**_ORIGEN, CONTEXTUALIZACIÓN Y JUSTIFICACIÓN DEL PROYECTO._**](#id2)
-3. [**_OBJETIVO GENERAL DEL PROYECTO._**](#id3)
-4. [**_DESCRIPCIÓN GENERAL DEL PROYECTO (ALCANCE)._**](#id4)
-5. [**_TAREAS._**](#id5)
-6. [**_CRONOGRAMA._**](#id6)
-7. [**_RESUMEN DE RECURSOS HUMANOS Y MATERIALES._**](#id7)
-8. [**_CONTROL DE RIESGOS._**](#id8)
-9. [**_POLÍTICA DE SEGUIMIENTO, EVALUACIÓN Y CONTROL DE CALIDAD._**](#id9)
-10. [**_CLAUSULAS._**](#id10)
-11. [**_BIBLIOGRAFÍA._**](#id11)
-12. [**_GLOSARIO._**](#id12)
-13. [**_ANEXOS._**](#id13)
+1. [**_INTRODUCTION._**](#id1)
+2. [**_ORIGIN, CONTEXTUALIZATION AND JUSTIFICATION OF THE PROJECT._**](#id2)
+3. [**_GENERAL OBJECTIVE OF THE PROJECT._**](#id3)
+4. [**_GENERAL DESCRIPTION OF THE PROJECT (SCOPE)._**](#id4)
+5. [**_TASKS._**](#id5)
+6. [**_CRONOGRAM._**](#id6)
+7. [**_SUMMARY OF HUMAN AND MATERIAL RESOURCES._**](#id7)
+8. [**_RISK CONTROL._**](#id8)
+9. [**_MONITORING, EVALUATION AND QUALITY CONTROL POLICY._**](#id9)
+10. [**_CLAUSES._**](#id10)
+11. [**_BIBLIOGRAPHY._**](#id11)
+12. [**_GLOSSARY._**](#id12)
+13. [**_ATTACHMENTS._**](#id13)
 
-### 1. INTRODUCCIÓN. <a name="id1"></a>
+### 1. INTRODUCTION. <a name="id1"></a>
 
 In the business environment that we know and that surrounds us, we have detected that the software used by many of them is very outdated and they are not agile at all. In this context, the need arises to develop a technological solution to optimize and streamline the processes related to inventory management, route planning and human resources management in the logistics field.
 
@@ -50,7 +50,7 @@ The platform will be designed to be highly scalable and customizable, which will
 
 In summary, the logistics management project aims to provide companies with a complete and adaptable technological solution to optimize their logistics operations. With a focus on efficiency, scalability and customization, this platform will become an indispensable tool to improve the competitiveness and performance of companies in today's market.
 
-### 2. ORIGEN, CONTEXTUALIZACIÓN Y JUSTIFICACIÓN DEL PROYECTO. <a name="id2"></a>
+### 2. ORIGIN, CONTEXTUALIZATION AND JUSTIFICATION OF THE PROJECT. <a name="id2"></a>
 
 The logistics management project arises as a response to a series of needs and challenges identified in the business environment, which we have known from family and friends who have experienced problems with outdated and poorly optimized software, in addition to a very poor usability.
 
@@ -77,11 +77,11 @@ The justification for carrying out this project lies in the need for companies t
 
 In summary, the logistics management project arises as a response to the needs and challenges identified in the business environment, with the objective of providing a comprehensive technological solution that allows companies to optimize their logistics operations and improve their competitiveness in today's market.
 
-### 3. OBJETIVO GENERAL DEL PROYECTO. <a name="id3"></a>
+### 3. GENERAL OBJECTIVE OF THE PROJECT. <a name="id3"></a>
 
 The main purpose of this project is to develop and implement a complete and robust web platform that optimizes business logistics management. This platform aims to offer an adaptable solution capable of effectively addressing the challenges of the logistics sector. In essence, we seek to optimize and automate key logistics processes, centralize relevant information in a single application, improve the customer and business experience always seeking to reduce the time spent using the software, ensure adaptability and scalability so that the application fits in all logistics companies that would like to use the application, integrate advanced technologies and ensure continuous improvement and constant updating of the platform among other objectives related to increasing productivity for the company. In short, we aspire to create an innovative tool that not only improves operational efficiency and reduces costs, but also boosts business competitiveness and raises customer satisfaction standards in the logistics field.
 
-### 4. DESCRIPCIÓN GENERAL DEL PROYECTO (ALCANCE). <a name="id4"></a>
+### 4. GENERAL DESCRIPTION OF THE PROJECT (SCOPE). <a name="id4"></a>
 
 The project will be developed as a logistics management web application covering multiple aspects of business operations, from inventory management to delivery route planning and coordination of work teams with role differentiation. Each aspect of the project is detailed in greater depth below:
 
@@ -123,7 +123,7 @@ An agile development flow will be implemented, using methodologies such as Scrum
 
 In summary, the logistics management project will be developed as a complete and robust web application that will use modern technologies and development practices to provide an efficient and secure solution for managing enterprise logistics operations. With a focus on modularity, scalability and security, the application will provide an intuitive and functional user experience, improving operational efficiency and business competitiveness in today's marketplace.
 
-### 5. TAREAS. <a name="id5"></a>
+### 5. TASKS. <a name="id5"></a>
 
 All the tasks defined in the project are here:
 
@@ -139,7 +139,7 @@ The schedule has been defined through a github project, in which all the tasks h
 
 And Milestones are defined here: https://github.com/alherdom/Adalogix/milestones
 
-### 7. RESUMEN DE RECURSOS HUMANOS Y MATERIALES. <a name="id7"></a>
+### 7. SUMMARY OF HUMAN AND MATERIAL RESOURCES. <a name="id7"></a>
 
 <center>
 
@@ -176,7 +176,7 @@ And Milestones are defined here: https://github.com/alherdom/Adalogix/milestones
 
 </center>
 
-### 8. CONTROL DE RIESGOS. <a name="id8"></a>
+### 8. RISK CONTROL. <a name="id8"></a>
 
 During project planning and execution, it is crucial to identify and manage potential risks that could affect the success of the project. Three identified risks are listed below, each classified according to their likelihood, impact and risk type, along with the proposed action to mitigate or manage the risk.
 
@@ -236,7 +236,7 @@ During project planning and execution, it is crucial to identify and manage pote
   - Action to be taken:
   - Mitigation Plan: Identify and carefully evaluate the reliability of external suppliers. Establish clear contracts that specify timelines and deliverables, and have alternative plans in case problems arise with expected suppliers.
 
-### 9. POLÍTICA DE SEGUIMIENTO, EVALUACIÓN Y CONTROL DE CALIDAD. <a name="id9"></a>
+### 9. MONITORING, EVALUATION AND QUALITY CONTROL POLICY. <a name="id9"></a>
 
 The project's monitoring, evaluation and quality control policy will focus on ensuring that the objectives are met and that the project progresses in accordance with the established expectations. To this end, the following actions will be implemented:
 
@@ -258,7 +258,7 @@ Quality Reviews: Periodic quality reviews will be conducted to assess compliance
 
 These actions will ensure that the project is executed efficiently, meeting established objectives and maintaining high quality standards at all stages of development.
 
-### 10. CLAUSULAS. <a name="id10"></a>
+### 10. CLAUSES. <a name="id10"></a>
 
 With the aim of establishing a clear and transparent development for the execution of the project, a series of contractual clauses have been defined that address various aspects related to the development, quality and financial management of the project.
 
@@ -285,7 +285,7 @@ In the event of disputes or conflicts related to the project, a formal conflict 
 
 These contractual clauses provide a robust and transparent framework for the execution of the logistics management project, ensuring that all parties involved clearly understand their roles, responsibilities and expectations throughout the project life cycle.
 
-### 11. BIBLIOGRAFÍA. <a name="id11"></a>
+### 11. BIBLIOGRAPHY. <a name="id11"></a>
 
 - Tutorial de Vue.js en español: https://es.vuejs.org/v2/guide/
 - Documentación oficial de PostgreSQL sobre consultas avanzadas: https://www.postgresql.org/docs/current/queries-table-expressions.html
@@ -303,7 +303,7 @@ These contractual clauses provide a robust and transparent framework for the exe
 - Tutorial de Vue Router: https://router.vuejs.org/
 - Comunidad de desarrolladores de Python en Discord: https://discord.gg/python
 
-### 12. GLOSARIO. <a name="id12"></a>
+### 12. GLOSSARY. <a name="id12"></a>
 
 Django: A high-level web framework written in Python that encourages fast and clean development.
 
@@ -364,6 +364,6 @@ Unit Testing: Automated tests that verify the individual behavior of components 
 
 Continuous Integration: A software development practice in which code changes are automatically integrated and tested on a frequent and regular basis.
 
-### 13. ANEXOS. <a name="id13"></a>
+### 13. ATTACHMENTS. <a name="id13"></a>
 
 All the information needed in this section is in the preliminary project.
