@@ -64,13 +64,21 @@ To build our logistics management web platform, we have carefully selected a set
 
 #### Frontend:
 
-- Vue 3: To offer a dynamic and responsive user experience, we have opted for Vue.js 3 together with the Composition API, a powerful combination that allows us to structure our code in a more intuitive and modular way. With the Composition API, we have created highly functional, interactive user interfaces that allow users to seamlessly interact with our backend. In the first steps of the application, the framework we had selected was React, but to take advantage of the technologies that were going to be used in the internship period we decided to change to Vue.
+- Vue3:o offer a dynamic and responsive user experience, we have opted for Vue.js 3 together with the Composition API, a powerful combination that allows us to structure our code in a more intuitive and modular way. With the Composition API, we have created highly functional, interactive user interfaces that allow users to seamlessly interact with our backend. In the first steps of the application, the framework we had selected was React, but to take advantage of the technologies that were going to be used in the internship period we decided to change to Vue.
+
+The Composition API is a set of APIs that allows us to author Vue components using imported functions instead of declaring options. It is an umbrella term that covers the following APIs:
+
+   - Reactivity API, e.g. ref() and reactive(), that allows us to directly create reactive state, computed state, and watchers.
+
+   - Lifecycle Hooks, e.g. onMounted() and onUnmounted(), that allow us to programmatically hook into the component lifecycle.
+   
+   - Dependency Injection, i.e. provide() and inject(), that allow us to leverage Vue's dependency injection system while using Reactivity APIs..
 
 #### Deployment:
 
 - DigitalOcean Droplet: For our application deployment, we have chosen DigitalOcean, a reliable and easy-to-use cloud infrastructure platform. We have implemented our application in a basic DigitalOcean droplet, which has allowed us to launch our platform quickly and efficiently, guaranteeing optimal uptime and scalability appropriate to our needs.
 
-### 3. GUIA DE ESTILO DE LA WEB. <a name="id3"></a>
+### 3. APPLICATION STYLE GUIDE. <a name="id3"></a>
 
 In this section, we generally describe the style guide or standards that we have followed to develop the solution
 
