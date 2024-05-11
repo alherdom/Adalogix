@@ -113,7 +113,7 @@ const sendData = async () => {
             volume: volume.value,
         }
         console.log(requestData)
-        const url = `https://backend.adalogix.es/product/update/${id}/`;
+        const url = `http://localhost:8000/product/update/${id}/`;
         const response = await patchRequest(requestData, url);
         console.log(response)
         if (response.status === 200) {
