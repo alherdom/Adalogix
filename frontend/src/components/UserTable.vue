@@ -227,7 +227,7 @@ const closeDialog = (status) => {
 const fetchData = async () => {
   try {
     loading.value = true;
-    const url = "https://backend.adalogix.es/user/list";
+    const url = "https://backend.adalogix.es/user/list/";
     const response = await getRequest(url);
     console.log(response);
     users.value = response.map((user) => ({ ...user }));
