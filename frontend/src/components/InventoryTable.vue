@@ -108,11 +108,12 @@
   </q-table>
 
   <!-- Dialogs-->
+  <!-- url="https://backend.adalogix.es/product/upload/" -->
   <q-dialog v-model="uploaderDialog">
     <q-uploader
       text-color="black"
       ref="uploader"
-      url="https://backend.adalogix.es/product/upload/"
+      url="http://localhost:8000/product/upload/"
       label="Select a CSV file to upload"
       single-file
       accept=".csv"
@@ -364,7 +365,8 @@ const productDetailRow = ref({});
 const fetchData = async () => {
   try {
     loading.value = true;
-    const url = "https://backend.adalogix.es/product/list/";
+    // const url = "https://backend.adalogix.es/product/list/";
+    const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
     items.value = response.map((item) => ({ ...item, expanded: false }));
   } catch (error) {

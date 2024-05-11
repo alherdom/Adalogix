@@ -53,7 +53,6 @@ const sendData = async () => {
   try {
 
     generateUsername();
-    generatePassword();
     loading.value = true;
     const requestData = {
       username: userName.value,
@@ -61,10 +60,10 @@ const sendData = async () => {
       lastName: lastName.value,
       role: role.value.value,
       email: email.value + "@gmail.com",
-      password: password.value,
     };
     console.log(requestData);
-    const url = "https://backend.adalogix.es/user/register/";
+    // const url = "https://backend.adalogix.es/user/register/";
+    const url = "http://localhost:8000/user/register/";
     const response = await postRequest(requestData, url);
     if (response.status === 200) {
       Swal.fire({
