@@ -11,6 +11,8 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from .serializers import EmployeeSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.core.mail import send_mail
+from .utils import password_generator
 
 
 from .models import Employee
@@ -55,38 +57,95 @@ def user_logout(request: HttpRequest) -> HttpResponse:
     return HttpResponse('logged out')
 
 
+# @csrf_exempt
+# @require_POST
+# def user_registration(request: HttpRequest) -> HttpResponse:
+#     data = json.loads(request.body)
+#     username, password, email, first_name, last_name, role = (
+#         data['username'],
+#         data['password'],
+#         data['email'],
+#         data['firstName'],
+#         data['lastName'],
+#         data['role'],
+#     )
+#     if not all([username, email, first_name, last_name, password, role]):
+#         return HttpResponse('You must fill all the fields', status=400)
+#     if User.objects.filter(username=data['username']):
+#         return HttpResponse('This username is already in use', status=400)
+#     if role not in list(Employee.EmployeeRole):
+#         return HttpResponse('Invalid role', status=400)
+#     new_user = User(
+#         username=username,
+#         password=password,
+#         email=email,
+#         first_name=first_name,
+#         last_name=last_name,
+#     )
+#     new_user.set_password(password)
+#     new_user.save()
+#     Employee.objects.create(user=new_user, role=role)
+#     employee_group = (
+#         Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
+#     )
+#     new_user.groups.add(employee_group)
+#     return JsonResponse(
+#         dict(
+#             username=new_user.username,
+#             id=new_user.id,
+#             status=200,
+#             message='User successfully registered',
+#         )
+#     )
+
 @csrf_exempt
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body)
-    username, password, email, first_name, last_name, role = (
+    username, email, first_name, last_name, role = (
         data['username'],
-        data['password'],
         data['email'],
         data['firstName'],
         data['lastName'],
         data['role'],
     )
-    if not all([username, email, first_name, last_name, password, role]):
+    if not all([username, email, first_name, last_name, role]):
         return HttpResponse('You must fill all the fields', status=400)
-    if User.objects.filter(username=data['username']):
+    if User.objects.filter(username=username):
         return HttpResponse('This username is already in use', status=400)
     if role not in list(Employee.EmployeeRole):
         return HttpResponse('Invalid role', status=400)
-    new_user = User(
-        username=username,
-        password=password,
-        email=email,
-        first_name=first_name,
-        last_name=last_name,
-    )
-    new_user.set_password(password)
-    new_user.save()
+    
+    # Generar la contraseña
+    password = password_generator()
+
+    # Crear el nuevo usuario
+    new_user = User.objects.create_user(username=username, email=email, password=password,
+                                         first_name=first_name, last_name=last_name)
     Employee.objects.create(user=new_user, role=role)
-    employee_group = (
-        Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
-    )
+    employee_group = Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
     new_user.groups.add(employee_group)
+
+    # Enviar correo electrónico al nuevo usuario con la contraseña generada
+    subject = 'Welcome to Adalogix!'
+    message = (
+        f'Hello {first_name}!\n\n'
+        f'We are excited to welcome you to Adalogix, your new favorite platform!\n\n'
+        f'Your username: {username}\n'
+        f'Your password: {password}\n\n'
+        f'You can log in to Adalogix and start exploring all the exciting features we offer!\n\n'
+        f'Click here to login: adalogix.es/login\n\n'
+        f'We hope you have an amazing experience with us!\n\n'
+        f'Best regards,\nThe Adalogix Team'
+    )
+    send_mail(
+        subject,
+        message,
+        'adalogixteam@gmail.com',
+        [email],
+        fail_silently=False,
+    )
+
     return JsonResponse(
         dict(
             username=new_user.username,
@@ -95,7 +154,6 @@ def user_registration(request: HttpRequest) -> HttpResponse:
             message='User successfully registered',
         )
     )
-
 
 class EmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]
