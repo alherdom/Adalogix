@@ -22,9 +22,17 @@
           outlined
           v-model="password"
           label="Password"
-          type="password"
+          :type="isPwd ? 'password' : 'text'"
           required
-        />
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
 
         <q-btn
           color="primary"
@@ -52,6 +60,7 @@ import { useRouter } from "vue-router";
 // Configuration of the component properties
 // The setup function is a new way to define the component properties
 // It is a composition API that allows you to define the component properties in a more organized way
+const isPwd = ref(true);
 const router = useRouter();
 const userStore = useUserStore();
 const username = ref("");
