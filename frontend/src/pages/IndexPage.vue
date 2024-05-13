@@ -1,12 +1,16 @@
 <template>
   <div class="logo">
     <h2>Low Stock Products!</h2>
-    <LowStock class="prueba" />
+    <LowStock />
+  </div>
+  <div class="cards">
+    <AvailableEmployees />
   </div>
 </template>
 
 <script setup>
 import LowStock from "../components/LowStockProducts.vue";
+import AvailableEmployees from "../components/AvailableEmployees.vue";
 </script>
 
 <style scoped>
@@ -15,6 +19,11 @@ import LowStock from "../components/LowStockProducts.vue";
   justify-content: center;
   flex-direction: column;
   height: 80vh;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 img {

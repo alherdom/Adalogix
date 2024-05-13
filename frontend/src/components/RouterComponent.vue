@@ -341,7 +341,7 @@ const removeMapLayers = () => {
 const getAvaiableEmployees = async () => {
   try {
     loading.value = true;
-    const url = "http://localhost:8000/user/list/";
+    const url = "https://backend.adalogix.es/user/list/";
     const response = await getRequest(url);
     response.forEach((element) => {
       options.value.push({ label: element.username, value: element.id });
@@ -396,7 +396,7 @@ const mainMarkRemove = () => {
 const getStores = async () => {
   try {
     loading.value = true;
-    const url = "http://localhost:8000/store/list/";
+    const url = "https://backend.adalogix.es/store/list/";
     const response = await getRequest(url);
     response.forEach((element) => {
       storeOptions.value.push({
