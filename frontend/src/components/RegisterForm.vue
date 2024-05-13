@@ -43,11 +43,6 @@ const generateUsername = () => {
   userName.value = `${firstName.value.substring(0, 3)}${lastName.value.substring(0, 3)}${randomDigits}`.toLowerCase();
   return userName.value;
 };
-const generatePassword = () => {
-  const characters = "@#$&¡!¿?*ÇçabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  password.value = Array.from({ length: 12 }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
-  return password.value;
-};
 
 const sendData = async () => {
   try {
@@ -59,7 +54,7 @@ const sendData = async () => {
       firstName: firstName.value,
       lastName: lastName.value,
       role: role.value.value,
-      email: email.value + "@gmail.com",
+      email: email.value,
     };
     console.log(requestData);
     // const url = "https://backend.adalogix.es/user/register/";

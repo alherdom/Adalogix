@@ -17,6 +17,7 @@ from .serializers import ProductDetailSerializer, ProductListSerializer
 
 class ProductMultipleDelete(APIView):
     permission_classes = [IsAuthenticated]
+
     def delete(self, request):
         data = json.loads(request.body)
         product_ids = data['product_ids']
@@ -25,25 +26,24 @@ class ProductMultipleDelete(APIView):
         return JsonResponse({'status': 200})
 
 
-class ProductListView(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Product.objects.all()
-    serializer_class = ProductListSerializer
-
-
 class ProductList(APIView):
     permission_classes = [IsAuthenticated]
+
     def get(self, request):
         products_to_return = []
         products = Product.objects.all()
         for product in products:
-            quantity = sum(Inventory.stock for Inventory in Inventory.objects.filter(product=product))
+            quantity = sum(
+                Inventory.stock for Inventory in Inventory.objects.filter(product=product)
+            )
             stores = []
             for store in product.stores.all():
                 store_info = {}
                 store_info['id'] = store.id
                 store_info['name'] = store.name
-                store_info['quantity'] = Inventory.objects.get(product=product.id, store=store.id).stock
+                store_info['quantity'] = Inventory.objects.get(
+                    product=product.id, store=store.id
+                ).stock
                 store_info['address'] = store.address
                 stores.append(store_info)
             products_to_return.append(
@@ -56,7 +56,7 @@ class ProductList(APIView):
                     'price': product.price,
                     'weight': product.weight,
                     'volume': product.volume,
-                    'stores': json.dumps(stores)
+                    'stores': json.dumps(stores),
                 }
             )
         return JsonResponse(products_to_return, safe=False)
@@ -95,7 +95,9 @@ class ProductUpdateView(UpdateAPIView):
 
 
 class ProductUploadFromCSV(APIView):
-    permission_classes = [IsAuthenticated]
+    # ToDo: Send token in headers from frontend
+    # permission_classes = [IsAuthenticated]
+
     def post(self, request):
         file_field_name = list(request.FILES.keys())[0]
         file = request.FILES[file_field_name]
@@ -112,5 +114,7 @@ class ProductUploadFromCSV(APIView):
                 weight=row['Weight'],
                 volume=row['Volume'],
             )
-            Inventory.objects.create(product=new_product, store=general_store, stock=row['Quantity'])
+            Inventory.objects.create(
+                product=new_product, store=general_store, stock=row['Quantity']
+            )
         return JsonResponse({'status': 200})

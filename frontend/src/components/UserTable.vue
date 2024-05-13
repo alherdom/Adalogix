@@ -11,7 +11,7 @@
     selection="multiple"
     :pagination="{ rowsPerPage: 20 }"
   >
-  <template v-slot:top>
+    <template v-slot:top>
       <q-btn
         push
         size="12px"
@@ -20,7 +20,7 @@
         text-color="black"
         :disable="loading"
         icon="delete"
-        @click="deleteUser"
+        @click="deleteUsers"
       >
         <q-tooltip
           anchor="bottom middle"
@@ -83,7 +83,7 @@
           transition-show="scale"
           transition-hide="scale"
         >
-        By username, first name, last name, email, or role
+          By username, first name, last name, email, or role
         </q-tooltip>
       </q-input>
     </template>
@@ -95,6 +95,13 @@
           color="primary"
           icon="edit"
           @click="editUser(props.row)"
+        />
+        <q-btn
+          flat
+          size="sm"
+          color="primary"
+          icon="delete"
+          @click="deleteUser(props.row)"
         />
       </q-td>
     </template>
@@ -114,6 +121,7 @@ import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
+import { userColumns } from "src/utils/const";
 import RegisterForm from "./RegisterForm.vue";
 import EditUserForm from "./EditUserForm.vue";
 
@@ -159,70 +167,14 @@ const exportTable = () => {
   }
 };
 
-const columns = [
-  {
-    name: "id",
-    required: true,
-    label: "Id",
-    align: "left",
-    field: "user",
-    sortable: true,
-  },
-  {
-    name: "userName",
-    required: true,
-    label: "Username",
-    align: "left",
-    field: "username",
-    sortable: true,
-  },
-  {
-    name: "role",
-    required: true,
-    label: "Role",
-    align: "left",
-    field: "role",
-    sortable: true,
-  },
-  {
-    name: "firstName",
-    required: true,
-    label: "First Name",
-    align: "left",
-    field: "first_name",
-    sortable: true,
-  },
-  {
-    name: "lastName",
-    required: true,
-    label: "Last Name",
-    align: "left",
-    field: "last_name",
-    sortable: true,
-  },
-  {
-    name: "email",
-    required: true,
-    label: "Email",
-    align: "left",
-    field: "email",
-    sortable: true,
-  },
-  { name: "actions", label: "Edit User", align: "left", field: "actions" },
-];
-
 const userData = ref({});
 const loading = ref(false);
+const columns = userColumns;
 const selectedRows = ref([]);
 const users = ref([]);
 const filter = ref("");
 const registerForm = ref(false);
 const editUserForm = ref(false);
-
-const closeDialog = (status) => {
-  editUserForm.value = status
-  fetchData()
-}
 
 const fetchData = async () => {
   try {
@@ -246,7 +198,39 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const deleteUser = async () => {
+const deleteUser = (user) => {
+  Swal.fire({
+    title: "Delete user?",
+    text: `Are you sure you want to delete ${user.username}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      const requestData = { employee_id: user.user };
+      // const url = `https://backend.adalogix.es/user/delete/${user.user}/`;
+      const url = `http://localhost:8000/user/delete/${user.user}/`;
+      try {
+        const response = await deleteRequest(requestData, url);
+        if (response.status === 200) {
+          fetchData();
+          Swal.fire({
+            title: "Success",
+            text: "User deleted successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    }
+  });
+};
+
+const deleteUsers = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
       title: "No users selected",
@@ -276,6 +260,13 @@ const deleteUser = async () => {
         if (response.status === 200) {
           selectedRows.value = [];
           fetchData();
+          Swal.fire({
+            title: "Success",
+            text: "Users deleted successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       } catch (error) {
         console.error("Error deleting users:", error);

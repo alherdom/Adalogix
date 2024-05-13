@@ -26,3 +26,12 @@ class Employee(models.Model):
 
     class meta:
         ordering = ['id']
+
+class CustomUser(User):
+    class Meta:
+        proxy = True
+        ordering = ['id']
+
+    def __str__(self):
+        return self.username
+

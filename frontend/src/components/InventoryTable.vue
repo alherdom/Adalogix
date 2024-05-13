@@ -20,7 +20,7 @@
         text-color="black"
         :disable="loading"
         icon="delete"
-        @click="deleteItem"
+        @click="deleteItems"
       >
         <q-tooltip
           anchor="bottom middle"
@@ -83,7 +83,7 @@
           transition-show="scale"
           transition-hide="scale"
         >
-        By name, description or category
+          By name, description or category
         </q-tooltip>
       </q-input>
     </template>
@@ -95,6 +95,13 @@
           color="primary"
           icon="edit"
           @click="editItem(props.row)"
+        />
+        <q-btn
+          flat
+          size="sm"
+          color="primary"
+          icon="delete"
+          @click="deleteItem(props.row)"
         />
         <q-btn
           flat
@@ -125,6 +132,9 @@
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
   </q-dialog>
   <q-dialog v-model="productDetail">
+    <ProductDetail :item="itemData" />
+  </q-dialog>
+  <!-- <q-dialog v-model="productDetail">
     <q-table
       class="product-detail-table"
       flat
@@ -145,7 +155,7 @@
         />
       </template>
     </q-table>
-  </q-dialog>
+  </q-dialog> -->
 </template>
 
 <script setup>
@@ -153,20 +163,9 @@ import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
+import { inventoryColumns } from "src/utils/const";
 import EditItemForm from "./EditItemForm.vue";
-
-const productDetailRows = ref([
-  {
-    id: 1,
-    name: "Product 1",
-    description: "Product 1 Description",
-    quantity: 10,
-    category: "Category 1",
-    price: 100,
-    weight: 10,
-    volume: 10,
-  },
-]);
+import ProductDetail from "./ProductDetail.vue";
 
 const uploaderDialog = ref(false);
 const openUploaderDialog = () => {
@@ -177,7 +176,7 @@ const handleUpload = () => {
   uploaderDialog.value = false;
   Swal.fire({
     icon: "success",
-    title: "Items loaded successfully!",
+    title: "Products loaded successfully!",
   });
   fetchData();
 };
@@ -189,67 +188,6 @@ function wrapCsvValue(val, formatFn, row) {
   formatted = formatted.split('"').join('""');
   return `"${formatted}"`;
 }
-
-function parseStore(store) {
-  return JSON.parse(store)
-}
-
-const closeDialog = (status) => {
-  editProductForm.value = status
-  fetchData()
-}
-
-const productData = ref({})
-
-const editProductForm = ref(false)
-
-const editProduct = (productProps) => {
-  productData.value = productProps;
-  editProductForm.value = true;
-};
-
-
-
-function openEditDialog(data) {
-
-}
-
-const extendedRowColumns = [
-  {
-  name: "id",
-  required: true,
-  label: "Id",
-  align: "left",
-  field: "id",
-  sortable: true,
-  },
-  {
-  name: "name",
-  required: true,
-  label: "Store",
-  align: "left",
-  field: "name",
-  sortable: true,
-  },
-  {
-  name: "quantity",
-  required: true,
-  label: "Quantity",
-  align: "left",
-  field: "quantity",
-  sortable: true,
-  },
-  {
-  name: "address",
-  required: true,
-  label: "Address",
-  align: "left",
-  field: "address",
-  sortable: true,
-  },
-]
-
-
 
 const $q = useQuasar();
 const exportTable = () => {
@@ -285,76 +223,9 @@ const exportTable = () => {
   }
 };
 
-const columns = [
-  {
-    name: "id",
-    required: true,
-    label: "Id",
-    align: "left",
-    field: "id",
-    sortable: true,
-  },
-  {
-    name: "name",
-    required: true,
-    label: "Name",
-    align: "left",
-    field: "name",
-    sortable: true,
-  },
-  {
-    name: "description",
-    required: true,
-    label: "Description",
-    align: "left",
-    field: "description",
-    sortable: true,
-  },
-  {
-    name: "quantity",
-    required: true,
-    label: "Quantity",
-    align: "left",
-    field: "quantity",
-    sortable: true,
-  },
-  {
-    name: "category",
-    required: true,
-    label: "Category",
-    align: "left",
-    field: "category",
-    sortable: true,
-  },
-  {
-    name: "price",
-    required: true,
-    label: "Price",
-    align: "left",
-    field: "price",
-    sortable: true,
-  },
-  {
-    name: "weight",
-    required: true,
-    label: "Weight",
-    align: "left",
-    field: "weight",
-    sortable: true,
-  },
-  {
-    name: "volume",
-    required: true,
-    label: "Volume",
-    align: "left",
-    field: "volume",
-    sortable: true,
-  },
-  { name: "actions", label: "Actions", align: "left", field: "actions" },
-];
-
 const itemData = ref({});
 const loading = ref(false);
+const columns = inventoryColumns;
 const selectedRows = ref([]);
 const items = ref([]);
 const filter = ref("");
@@ -368,7 +239,8 @@ const fetchData = async () => {
     // const url = "https://backend.adalogix.es/product/list/";
     const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
-    items.value = response.map((item) => ({ ...item, expanded: false }));
+    items.value = response.map((item) => ({ ...item }));
+    console.log(items.value);
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({
@@ -383,7 +255,7 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const deleteItem = async () => {
+const deleteItems = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
       title: "No items selected",
@@ -405,12 +277,20 @@ const deleteItem = async () => {
       const requestData = {
         product_ids: selectedRows.value.map((item) => item.id),
       };
-      const url = "https://backend.adalogix.es/product/delete/multiple/";
+      // const url = "https://backend.adalogix.es/product/delete/multiple/";
+      const url = "http://localhost:8000/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
           selectedRows.value = [];
           fetchData();
+          Swal.fire({
+            title: "Success",
+            text: "Products deleted successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       } catch (error) {
         console.error("Error deleting items:", error);
@@ -427,12 +307,6 @@ const editItem = (itemProps) => {
 const closeEditItemForm = (value) => {
   editItemForm.value = value;
   fetchData();
-};
-
-const showProductDetail = (itemProps) => {
-  console.log(itemProps);
-  productDetailRow.value = itemProps;
-  productDetail.value = true;
 };
 
 const displayedItems = computed(() => {
