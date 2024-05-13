@@ -5,7 +5,7 @@
         <div class="text-right">
           <q-btn flat dense icon="close" v-close-popup />
         </div>
-        Edit Item
+        Edit Product
       </div>
     </q-card-section>
     <q-card-section>

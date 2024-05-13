@@ -60,6 +60,7 @@
             v-for="(link, index) in filteredLinks"
             :key="link.path"
             :to="link.path"
+            class="link"
           >
             <q-item :active="isActive(link.path)" clickable v-ripple>
               <q-item-section avatar>
@@ -77,7 +78,7 @@
             <q-item-section avatar>
               <q-icon name="exit_to_app" />
             </q-item-section>
-            <q-item-section> LOGOUT </q-item-section>
+            <q-item-section class="link"> Logout </q-item-section>
           </q-item>
           <q-separator />
         </q-list>
@@ -92,6 +93,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import Swal from "sweetalert2";
+import { links } from "../utils/const";
 import { useUserStore } from "../stores/users";
 import { useRouter } from "vue-router";
 
@@ -106,41 +108,6 @@ const path = computed(() => {
 const capitalizePath = computed(() => {
   return path.value.charAt(0).toUpperCase() + path.value.slice(1);
 });
-
-const links = [
-  {
-    path: "/",
-    label: "HOME",
-    icon: "cottage",
-    roles: ["admin", "courier"],
-  },
-  {
-    path: "/inventory",
-    label: "INVENTORY",
-    icon: "inventory",
-    roles: ["admin"],
-  },
-  { path: "/router", label: "ROUTER", icon: "fmd_good", roles: ["admin"] },
-  {
-    path: "/courier-router",
-    label: "ROUTER",
-    icon: "fmd_good",
-    roles: ["courier"],
-  },
-  {
-    path: "/chat",
-    label: "CHAT",
-    icon: "comment",
-    roles: ["admin", "courier"],
-  },
-  { path: "/users", label: "USERS", icon: "people_alt", roles: ["admin"] },
-  {
-    path: "/settings",
-    label: "SETTINGS",
-    icon: "settings",
-    roles: ["admin", "courier"],
-  },
-];
 
 const filteredLinks = computed(() => {
   const userRole = localStorage.getItem("userGroup");

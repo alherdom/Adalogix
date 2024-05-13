@@ -1,8 +1,43 @@
+export const links = [
+  {
+    path: "/",
+    label: "Home",
+    icon: "cottage",
+    roles: ["admin", "courier"],
+  },
+  {
+    path: "/inventory",
+    label: "Inventory",
+    icon: "inventory",
+    roles: ["admin"],
+  },
+  { path: "/router", label: "Router", icon: "fmd_good", roles: ["admin"] },
+  {
+    path: "/courier-router",
+    label: "Router",
+    icon: "fmd_good",
+    roles: ["courier"],
+  },
+  {
+    path: "/chat",
+    label: "Chat",
+    icon: "comment",
+    roles: ["admin", "courier"],
+  },
+  { path: "/users", label: "Users", icon: "people_alt", roles: ["admin"] },
+  {
+    path: "/settings",
+    label: "Settings",
+    icon: "settings",
+    roles: ["admin", "courier"],
+  },
+];
+
 export const inventoryColumns = [
   {
     name: "id",
     required: true,
-    label: "Id",
+    label: "Product Code",
     align: "left",
     field: "id",
     sortable: true,
@@ -26,7 +61,7 @@ export const inventoryColumns = [
   {
     name: "quantity",
     required: true,
-    label: "Quantity",
+    label: "Total Stock",
     align: "left",
     field: "quantity",
     sortable: true,
@@ -63,14 +98,6 @@ export const inventoryColumns = [
     field: "volume",
     sortable: true,
   },
-  {
-    name: "store",
-    required: true,
-    label: "Store",
-    align: "left",
-    field: "store",
-    sortable: true,
-  },
   { name: "actions", label: "Actions", align: "left", field: "actions" },
 ];
 
@@ -78,7 +105,7 @@ export const userColumns = [
   {
     name: "id",
     required: true,
-    label: "Id",
+    label: "User Code",
     align: "left",
     field: "user",
     sortable: true,
@@ -124,4 +151,39 @@ export const userColumns = [
     sortable: true,
   },
   { name: "actions", label: "Actions", align: "left", field: "actions" },
+];
+
+export const storeColumns = [
+  {
+    name: "id",
+    required: true,
+    label: "Store Code",
+    align: "left",
+    field: "id",
+    sortable: true,
+  },
+  {
+    name: "name",
+    required: true,
+    label: "Name",
+    align: "left",
+    field: "name",
+    sortable: true,
+  },
+  {
+    name: "address",
+    required: true,
+    label: "Address",
+    align: "left",
+    field: "address",
+    sortable: true,
+  },
+  {
+    name: "sotck",
+    required: true,
+    label: "Stock",
+    align: "left",
+    field: "stock",
+    sortable: true,
+  },
 ];

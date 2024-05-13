@@ -4,7 +4,7 @@
     class="my-sticky-header-table"
     title="Inventory Table"
     :rows="displayedItems"
-    :columns="columns"
+    :columns="inventoryColumns"
     :loading="loading"
     row-key="id"
     v-model:selected="selectedRows"
@@ -108,7 +108,7 @@
           size="sm"
           color="primary"
           icon="visibility"
-          @click="showProductDetail(props.row)"
+          @click="productDetail(props.row)"
         />
       </q-td>
     </template>
@@ -131,31 +131,9 @@
   <q-dialog v-model="editItemForm">
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
   </q-dialog>
-  <q-dialog v-model="productDetail">
-    <ProductDetail :item="itemData" />
+  <q-dialog v-model="showProductDetail">
+    <ProductDetail :item="itemData" @closeProductDetail="closeProductDetailTable"/>
   </q-dialog>
-  <!-- <q-dialog v-model="productDetail">
-    <q-table
-      class="product-detail-table"
-      flat
-      :rows="[productDetailRow]"
-      :columns="columns.slice(0, -1)"
-      :loading="loading"
-      row-key="id"
-      hide-bottom
-    >
-      <template v-slot:bottom-row>
-        <q-btn
-          class="close-product-detail-btn"
-          flat
-          dense
-          size="sm"
-          icon="close"
-          @click="productDetail = false"
-        />
-      </template>
-    </q-table>
-  </q-dialog> -->
 </template>
 
 <script setup>
@@ -225,13 +203,12 @@ const exportTable = () => {
 
 const itemData = ref({});
 const loading = ref(false);
-const columns = inventoryColumns;
 const selectedRows = ref([]);
 const items = ref([]);
 const filter = ref("");
 const editItemForm = ref(false);
-const productDetail = ref(false);
-const productDetailRow = ref({});
+const showProductDetail = ref(false);
+
 
 const fetchData = async () => {
   try {
@@ -255,11 +232,42 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
+const deleteItem = async (item) => {
+  Swal.fire({
+    title: `Are you sure you want to delete ${item.name}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      // const url = `https://backend.adalogix.es/product/delete/${item.id}/`;
+      const requestData = { product_id: item.id };
+      const url = `http://localhost:8000/product/delete/${item.id}/`;
+      try {
+        const response = await deleteRequest(requestData, url);
+        if (response.status === 200) {
+          fetchData();
+          Swal.fire({
+            title: "Success",
+            text: "Product deleted successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      }
+    }
+  });
+};
+
 const deleteItems = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
-      title: "No items selected",
-      text: "Please select items to delete",
+      title: "No products selected",
+      text: "Please select products to delete",
       icon: "error",
       showConfirmButton: false,
       timer: 1500,
@@ -307,6 +315,15 @@ const editItem = (itemProps) => {
 const closeEditItemForm = (value) => {
   editItemForm.value = value;
   fetchData();
+};
+
+const productDetail = (itemProps) => {
+  itemData.value = itemProps;
+  showProductDetail.value = true;
+};
+
+const closeProductDetailTable = (value) => {
+  showProductDetail.value = value;
 };
 
 const displayedItems = computed(() => {

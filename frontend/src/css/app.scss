@@ -127,6 +127,10 @@ body {
   width: 100px;
 }
 
+.link {
+  font-size: 1.1em;
+}
+
 // INVENTORY AND USERS TABLES
 .q-field--dense .q-field__control {
   height: 35px;
@@ -172,9 +176,9 @@ body {
 
 // PRODUCT DETAILS TABLE
 .product-detail-table {
-  scale: 1.1;
-  width: 60%;
-  max-width: 60% !important;
+  scale: 1.05;
+  width: 50%;
+  max-width: 50% !important;
   height: auto;
 }
 

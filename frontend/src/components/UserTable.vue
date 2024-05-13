@@ -4,7 +4,7 @@
     flat
     title="Users Table"
     :rows="displayedUsers"
-    :columns="columns"
+    :columns="userColumns"
     :loading="loading"
     row-key="user"
     v-model:selected="selectedRows"
@@ -169,7 +169,6 @@ const exportTable = () => {
 
 const userData = ref({});
 const loading = ref(false);
-const columns = userColumns;
 const selectedRows = ref([]);
 const users = ref([]);
 const filter = ref("");
@@ -200,8 +199,7 @@ onMounted(fetchData);
 
 const deleteUser = (user) => {
   Swal.fire({
-    title: "Delete user?",
-    text: `Are you sure you want to delete ${user.username}?`,
+    title: `Are you sure you want to delete ${user.username}?`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -242,8 +240,8 @@ const deleteUsers = async () => {
     return;
   }
   Swal.fire({
-    title: "Delete users?",
-    text: "Are you sure you want to delete the selected users?",
+    title: "Delete user",
+    text: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",

@@ -1,46 +1,60 @@
 <template>
-  <div>
-    <q-table
-      :rows="stores"
-      :columns="columns"
-      row-key="id"
-      :pagination="true"
-      :rows-per-page-options="[5, 10, 15]"
-    >
-      <template v-slot:body-cell-quantity="props">
-        <q-td :props="props">
-          {{ props.row.quantity }}
-        </q-td>
-      </template>
-    </q-table>
-  </div>
+  <q-table
+    class="product-detail-table"
+    flat
+    :rows="stores"
+    :columns="storeColumns"
+    :loading="loading"
+    row-key="id"
+    hide-bottom
+  >
+    <template v-slot:bottom-row>
+      <q-btn
+        class="close-product-detail-btn"
+        flat
+        dense
+        size="sm"
+        icon="close"
+        v-close-popup
+      />
+    </template>
+  </q-table>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from "vue";
+import { getRequest } from "src/utils/common";
+import { storeColumns } from "src/utils/const";
 
-const productId = props.productId;
+const props = defineProps({
+  item: Object,
+});
+
+const itemData = { ...props.item };
+const productId = ref(itemData.id);
 const stores = ref([]);
-const columns = [
-  { name: 'name', label: 'Name', align: 'left', field: 'name' },
-  { name: 'quantity', label: 'Quantity', align: 'left', field: 'quantity' },
-  { name: 'address', label: 'Address', align: 'left', field: 'address' }
-];
+const loading = ref(false);
+const emit = defineEmits(["closeProductDetail"]);
 
-// http://localhost:8000/products/1/stores/
-const fetchStores = async () => {
+const fetchData = async () => {
   try {
-    const response = await fetch(`/api/products/${productId}/stores/`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    const data = await response.json();
-    stores.value = data;
+    loading.value = true;
+    // const url = `https://backend.adalogix.es/store/product/?product_id=${productId.value}`;
+    const url = `http://localhost:8000/store/product/?product_id=${productId.value}`;
+    const response = await getRequest(url);
+    stores.value = response.map((store) => ({ ...store }));
+    console.log(stores.value);
   } catch (error) {
-    console.error('Error fetching stores:', error);
+    console.error("Error fetching data:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Something went wrong while fetching data!",
+    });
+  } finally {
+    loading.value = false;
   }
 };
 
-onMounted(fetchStores);
-watch(() => props.productId, fetchStores);
+onMounted(fetchData);
 </script>
