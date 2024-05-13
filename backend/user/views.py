@@ -2,20 +2,19 @@ import json
 
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import Group, User
+from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
-from .serializers import EmployeeSerializer
+from rest_framework.generics import DestroyAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
-from django.core.mail import send_mail
-from .utils import password_generator
-
+from rest_framework.views import APIView
 
 from .models import Employee
+from .serializers import EmployeeSerializer
+from .utils import password_generator
 
 
 class LoginView(APIView):
@@ -37,7 +36,7 @@ class LoginView(APIView):
                 return JsonResponse({'error': 'User has no role'}, status=401)
             return JsonResponse(
                 dict(
-                    id = user.employee.id,
+                    id=user.employee.id,
                     user=user.id,
                     name=user.get_full_name(),
                     group=group,
@@ -98,6 +97,7 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 #         )
 #     )
 
+
 @csrf_exempt
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
@@ -115,15 +115,22 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         return HttpResponse('This username is already in use', status=400)
     if role not in list(Employee.EmployeeRole):
         return HttpResponse('Invalid role', status=400)
-    
+
     # Generar la contraseña
     password = password_generator()
 
     # Crear el nuevo usuario
-    new_user = User.objects.create_user(username=username, email=email, password=password,
-                                         first_name=first_name, last_name=last_name)
+    new_user = User.objects.create_user(
+        username=username,
+        email=email,
+        password=password,
+        first_name=first_name,
+        last_name=last_name,
+    )
     Employee.objects.create(user=new_user, role=role)
-    employee_group = Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
+    employee_group = (
+        Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
+    )
     new_user.groups.add(employee_group)
 
     # Enviar correo electrónico al nuevo usuario con la contraseña generada
@@ -155,10 +162,12 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         )
     )
 
+
 class EmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
 
 class AvailableEmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -167,6 +176,7 @@ class AvailableEmployeeListView(ListAPIView):
     def get_queryset(self):
         queryset = Employee.objects.filter(available=True, role='CO')
         return queryset
+
 
 class EmployeeUpdateView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
@@ -199,6 +209,7 @@ class EmployeeDeleteView(DestroyAPIView):
 
 class EmployeeMultipleDelete(APIView):
     permission_classes = [IsAuthenticated]
+
     def delete(self, request):
         data = json.loads(request.body)
         employee_ids = data['employee_ids']

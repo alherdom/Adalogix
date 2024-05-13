@@ -16,4 +16,6 @@ class Command(BaseCommand):
                     name=line['name'],
                     address=line['address'],
                     capacity=line['capacity'],
+                    latitude=line['latitude'],
+                    longitude=line['longitude'],
                 )
