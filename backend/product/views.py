@@ -136,7 +136,7 @@ class LowStockProducts(APIView):
             quantity = sum(
                 Inventory.stock for Inventory in Inventory.objects.filter(product=product)
             )
-            if quantity <= 15:
+            if quantity <= 30:
                 stores = []
                 for store in product.stores.all():
                     store_info = {}
