@@ -112,7 +112,7 @@ const routes = [
       {
         path: "router",
         name: "router",
-        component: () => import("pages/RouterPage.vue"),
+        component: () => import("pages/NewRouterPage.vue"),
         meta: { requiresAuth: true, roles: ["admin"] },
       },
       {

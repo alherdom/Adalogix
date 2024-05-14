@@ -97,7 +97,7 @@
         <q-item clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="fmd_good"></q-icon>
-          </q-item-section>
+            </q-item-section>
           <q-item-section>{{ index + 1 }}</q-item-section>
           <q-item-section side>{{ waypoint }}</q-item-section>
         </q-item>
@@ -497,7 +497,6 @@ function sendRequest() {
       const waypoints = agentPlan.waypoints.map((waypoint) =>
         toRaw(waypoint.location)
       );
-      console.log(waypoints);
 
       const waypointPromises = waypoints.map((waypoint) => {
         let url = `https://api.geoapify.com/v1/geocode/reverse?lat=${waypoint[1]}&lon=${waypoint[0]}&apiKey=${apiKey}`;
@@ -541,6 +540,8 @@ function sendRequest() {
             mainMark.value.remove();
           }
         }
+
+        console.log(agentPlan.waypoints);
 
         const items = agentPlan.waypoints.map((waypoint, index) =>
           turf.point(waypoint.location, { index: index + 1 })

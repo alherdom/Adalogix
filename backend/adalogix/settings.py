@@ -143,7 +143,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost:9000',
     'http://localhost:9001',
-    'https://backend.adalogix.es/user/login/',
+    # 'https://backend.adalogix.es/user/login/',
     'http://localhost:8000',
 ]
 

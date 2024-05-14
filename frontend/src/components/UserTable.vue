@@ -227,7 +227,7 @@ const closeDialog = (status) => {
 const fetchData = async () => {
   try {
     loading.value = true;
-    const url = "https://backend.adalogix.es/user/list";
+    const url = "http://localhost:8000/user/list";
     const response = await getRequest(url);
     console.log(response);
     users.value = response.map((user) => ({ ...user }));
@@ -268,7 +268,7 @@ const deleteUser = async () => {
       const requestData = {
         employee_ids: selectedRows.value.map((item) => item.user),
       };
-      const url = "https://backend.adalogix.es/user/delete/multiple/";
+      const url = "http://localhost:8000/user/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {

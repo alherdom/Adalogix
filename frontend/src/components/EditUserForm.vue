@@ -55,7 +55,7 @@ const sendData = async () => {
       email: email.value,
     };
     console.log(requestData);
-    const url = `https:/backend.adalogix.es/user/update/${id.value}/`;
+    const url = `http://localhost:8000/user/update/${id.value}/`;
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {
