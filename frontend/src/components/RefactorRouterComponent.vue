@@ -61,23 +61,40 @@
           @click="setDropoffPoint"
       /></template>
     </q-select>
-    <q-btn color="primary" push @click="drawLayers" label="Calculate" />
+    <q-btn color="primary" push @click="drawLayers" label="Calculate"/>
+    <q-btn color="primary" push @click="deleteRoute" label="Delete"/>
     <q-scroll-area style="height: 65%; max-width: 98%">
-      <div v-for="(point, index) in pointsTable" :key="index">
-        <q-item>
-          <q-item-section avatar v-if="!calculated">
-            <q-icon name="fmd_good"></q-icon>
+      <q-item v-if="startPointTable">
+        <q-item-section avatar v-if="!calculated">
+            <q-icon name="fmd_good" color="primary"></q-icon>
           </q-item-section>
           <q-item-section
             v-if="calculated"
             style="margin-right: -200px; font-weight: bold"
-            >{{ index + 1 }}</q-item-section
+            >1</q-item-section
+          >
+          <q-item-section style="margin-left: -20px">{{
+            startPointTable
+          }}</q-item-section>
+          <q-item-section avatar v-if="!calculated" class="delete-dropoff-btn">
+            <q-btn icon="close" round size="sm" flat @click="deleteStartPoint()"></q-btn>
+          </q-item-section>
+      </q-item>
+      <div v-for="(point, index) in dropoffPointsTable" :key="index">
+        <q-item v-if="point">
+          <q-item-section avatar v-if="!calculated">
+            <q-icon name="fmd_good" color="info"></q-icon>
+          </q-item-section>
+          <q-item-section
+            v-if="calculated"
+            style="margin-right: -200px; font-weight: bold"
+            >{{ index + 2 }}</q-item-section
           >
           <q-item-section style="margin-left: -20px">{{
             point
           }}</q-item-section>
           <q-item-section avatar v-if="!calculated" class="delete-dropoff-btn">
-            <q-btn icon="close" round size="sm" flat></q-btn>
+            <q-btn icon="close" round size="sm" flat @click="deleteDropoffPoint(index)"></q-btn>
           </q-item-section>
         </q-item>
       </div>
@@ -88,6 +105,7 @@
 
 <script setup>
 import { Map, Marker, Popup } from "maplibre-gl";
+import { event } from "quasar";
 import { getRequest } from "src/utils/common";
 import config from "src/utils/keys";
 import { markRaw, onMounted, ref, shallowRef, toRaw } from "vue";
@@ -100,8 +118,10 @@ const maptilerApiKey = config.maptilerApiKey;
 const geoapifyApiKey = config.geoapifyApiKey;
 const map = shallowRef(null);
 const mapContainer = shallowRef(null);
-const pointsTable = ref([]);
+const dropoffPointsTable = ref([]);
+const startPointTable = ref(null)
 const calculated = ref(false);
+const layers = ref([])
 
 // Finish Global constants
 
@@ -205,7 +225,7 @@ const drawMark = (lng, lat, color) => {
 
 const saveStartPointInfo = (lng, lat, address) => {
   startPointInfo.value = [parseFloat(lng), parseFloat(lat)];
-  pointsTable.value.push(address);
+  startPointTable.value = address
 };
 
 const setStartPoint = async () => {
@@ -223,7 +243,6 @@ const setStartPoint = async () => {
   }).setText(addres);
 
   startPoint.value = drawMark(lng, lat, color).setPopup(info);
-  console.log(startPoint.value);
   saveStartPointInfo(lng, lat, addres);
 };
 
@@ -254,7 +273,7 @@ const setAddressOptions = async () => {
 const saveDropoffPointInfo = (lng, lat, address) => {
   let dropoffId = dropoffPoints.value.length;
   dropoffPointsInfo.value[`order_${dropoffId}`] = [lng, lat];
-  pointsTable.value.push(address);
+  dropoffPointsTable.value.push(address);
 };
 
 const setDropoffPoint = () => {
@@ -271,7 +290,8 @@ const setDropoffPoint = () => {
 
 const getCalculatedRoute = async () => {
   calculated.value = true;
-  pointsTable.value = [];
+  dropoffPointsTable.value = [];
+
   let agentData = [
     {
       start_location: toRaw(startPointInfo.value),
@@ -315,14 +335,16 @@ const getCalculatedRoute = async () => {
   );
 
   let waypoints = calculatedRouteData.features[0].properties.waypoints;
-  waypoints.forEach(async (waypoint) => {
-    let lng = waypoint.location[0];
-    let lat = waypoint.location[1];
-    let address = await getAddressByCoords(lng, lat);
-    pointsTable.value.push(address);
-  });
-
-  return calculatedRouteData;
+  for (const waypoint of waypoints) {
+    let lng = waypoint.location[0]
+    let lat = waypoint.location[1]
+    let address = await getAddressByCoords(lng, lat)
+    // The 0 is the startPoint and it's already in the startPointTable
+    if (waypoints.indexOf(waypoint) !== 0) {
+      dropoffPointsTable.value.push(address)
+    }
+  }
+  return calculatedRouteData
 };
 
 const setRouteWaypoints = async () => {
@@ -423,6 +445,7 @@ const drawLayers = async () => {
   });
   const routeLayer = await generateRouteLayer();
   const pointsLayer = await generatePointsLayer();
+  layers.value.push(routeLayer, pointsLayer[0], pointsLayer[1])
   map.value.addLayer(routeLayer);
   map.value.addLayer(pointsLayer[0]);
   map.value.addLayer(pointsLayer[1]);
@@ -434,6 +457,31 @@ const getAddressByCoords = async (lng, lat) => {
     response.json()
   );
   return reverseAddressResponse.results[0].formatted;
+};
+
+const deleteDropoffPoint = (index) => {
+    dropoffPoints.value[index].remove()
+    delete dropoffPointsInfo.value[`order_${index + 1}`]
+    dropoffPointsTable.value[index] = null
+}
+
+const deleteStartPoint = () => {
+  startPoint.value.remove()
+  startPointInfo.value = null
+  startPointTable.value = null
+}
+
+const deleteRoute = () => {
+  layers.value.forEach((layer) => {
+    map.value.removeLayer(layer.id); 
+    map.value.removeSource(layer.source)
+  });
+  layers.value = []; 
+  startPointInfo.value = null
+  startPointTable.value = null
+  dropoffPointsInfo.value = []
+  dropoffPointsTable.value = []
+  calculated.value = false
 };
 
 // Finish Admin functions
