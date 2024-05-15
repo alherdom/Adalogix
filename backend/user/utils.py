@@ -12,7 +12,7 @@ def password_generator(length=8):
 
 def send_registration_email(firstname, lastname, mail, username, password):
     html_content = render_to_string(
-        'register_mail.html',
+        'password_mail.html',
         {
             'firstname': firstname,
             'lastname': lastname,
@@ -24,6 +24,33 @@ def send_registration_email(firstname, lastname, mail, username, password):
     text_content = strip_tags(html_content)
 
     subject = 'Welcome to Adalogix! \U0001f44b'
+    from_email = 'adalogixteam@gmail.com'
+    to_email = mail
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])
+    msg.attach_alternative(html_content, 'text/html')
+
+    with open('user/templates/logo.png', 'rb') as f:
+        image_data = f.read()
+        msg_img = MIMEImage(image_data)
+        msg_img.add_header('Content-ID', '<logo_image>')
+        msg.attach(msg_img)
+    msg.send()
+
+
+def send_reset_password_email(firstname, lastname, mail, username, password):
+    html_content = render_to_string(
+        'reset_password_mail.html',
+        {
+            'firstname': firstname,
+            'lastname': lastname,
+            'mail': mail,
+            'username': username,
+            'password': password,
+        },
+    )
+    text_content = strip_tags(html_content)
+
+    subject = 'Password reset \U0001F513'  # Replace \U+1F513 with \U0001F513
     from_email = 'adalogixteam@gmail.com'
     to_email = mail
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to_email])

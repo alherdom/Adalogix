@@ -14,7 +14,7 @@
         <q-input outlined v-model="lastName" label="Last Name" type="text" required />
         <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required
           :rules="[val => !!val || 'Please, user role is required']" lazy-rules />
-        <q-input outlined v-model="email" label="Email" type="text" prefix="" suffix="@gmail.com" required />
+        <q-input outlined v-model="email" label="Email" type="email" required />
         <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
       </q-form>
     </q-card-section>
@@ -33,7 +33,6 @@ const lastName = ref("");
 const roleOptions = ref([{ label: "Admin", value: "SA" }, { label: "Courier", value: "CO" },]);
 const role = ref("");
 const email = ref("");
-const password = ref("");
 const loading = ref(false);
 const emit = defineEmits(["closeEditForm"]);
 

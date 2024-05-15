@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
 from .serializers import EmployeeSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
-from .utils import password_generator, send_registration_email
+from .utils import password_generator, send_registration_email, send_reset_password_email
 
 
 from .models import Employee
@@ -97,6 +97,19 @@ def user_registration(request: HttpRequest) -> HttpResponse:
             message='User successfully registered, email sent with credentials',
         )
     )
+
+
+def reset_password(request: HttpRequest) -> HttpResponse:
+    data = json.loads(request.body)
+    username = data['username']
+    if not User.objects.filter(username=username):
+        return JsonResponse({'error': 'User not found'}, status=404)
+    user = User.objects.get(username=username)
+    password = password_generator()
+    user.set_password(password)
+    user.save()
+    send_reset_password_email(user.first_name, user.last_name, user.email, user.username, password)
+    return JsonResponse({'status': 200, 'message': 'Password reset email sent'})
 
 
 class EmployeeListView(ListAPIView):

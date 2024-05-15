@@ -83,11 +83,12 @@
           Refresh Table
         </q-tooltip>
       </q-btn>
+      <!-- Right actions -->
       <q-space />
       <q-input
         dense
         filled
-        class="q-mr-sm q-mt-sm"
+        class="q-mt-sm q-pl-sm q-pt-xs"
         placeholder="Search User..."
         debounce="300"
         color="primary"
@@ -105,6 +106,7 @@
         </q-tooltip>
       </q-input>
     </template>
+    <!-- Row actions -->
     <template v-slot:body-cell-actions="props">
       <q-td>
         <q-btn

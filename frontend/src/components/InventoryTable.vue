@@ -83,13 +83,13 @@
           Refresh Table
         </q-tooltip>
       </q-btn>
+      <CodeScanner @decodedValues="handleDecodedValues" />
       <!-- Right actions -->
       <q-space />
-      <CodeScanner @decodedValues="handleDecodedValues" />
       <q-input
         dense
         filled
-        class="q-mr-sm q-mt-sm q-pl-sm"
+        class="q-mt-sm q-pl-sm q-pt-xs"
         placeholder="Search Product..."
         debounce="300"
         color="primary"
@@ -107,6 +107,7 @@
         </q-tooltip>
       </q-input>
     </template>
+    <!-- Row actions -->
     <template v-slot:body-cell-actions="props">
       <q-td>
         <q-btn
