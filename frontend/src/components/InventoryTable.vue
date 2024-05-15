@@ -27,7 +27,7 @@
           transition-show="scale"
           transition-hide="scale"
         >
-          Delete Items
+          Delete Products
         </q-tooltip>
       </q-btn>
       <q-btn
@@ -65,11 +65,48 @@
           Export Table
         </q-tooltip>
       </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="refresh"
+        @click="fetchData"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Refresh Table
+        </q-tooltip>
+      </q-btn>
+      <!-- Right actions -->
       <q-space />
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="qr_code_scanner"
+        @click="openScanner"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Code Reader
+        </q-tooltip>
+      </q-btn>
       <q-input
         dense
         filled
-        class="q-mr-sm q-mt-sm"
+        class="q-mr-sm q-mt-sm q-pl-sm"
         placeholder="Search Product..."
         debounce="300"
         color="primary"
@@ -132,7 +169,16 @@
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
   </q-dialog>
   <q-dialog v-model="showProductDetail">
-    <ProductDetail :item="itemData" @closeProductDetail="closeProductDetailTable"/>
+    <ProductDetail
+      :item="itemData"
+      @closeProductDetail="closeProductDetailTable"
+    />
+  </q-dialog>
+  <q-dialog v-model="openScanner">
+    <CodeScanner
+      @toggleScanner="toggleScanner"
+      @handleDecodedContent="handleDecodedContent"
+    />
   </q-dialog>
 </template>
 
@@ -144,6 +190,16 @@ import { exportFile, useQuasar } from "quasar";
 import { inventoryColumns } from "src/utils/const";
 import EditItemForm from "./EditItemForm.vue";
 import ProductDetail from "./ProductDetail.vue";
+import CodeScanner from "./CodeScanner.vue";
+
+const scannerActive = ref(false);
+const decodedContent = ref("");
+const toggleScanner = () => {
+  scannerActive.value = !scannerActive.value;
+};
+const handleDecodedContent = (content) => {
+  decodedContent.value = content;
+};
 
 const uploaderDialog = ref(false);
 const openUploaderDialog = () => {
@@ -208,7 +264,6 @@ const items = ref([]);
 const filter = ref("");
 const editItemForm = ref(false);
 const showProductDetail = ref(false);
-
 
 const fetchData = async () => {
   try {

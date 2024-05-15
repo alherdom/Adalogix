@@ -65,6 +65,24 @@
           Export Table
         </q-tooltip>
       </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="refresh"
+        @click="fetchData"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Refresh Table
+        </q-tooltip>
+      </q-btn>
       <q-space />
       <q-input
         dense
