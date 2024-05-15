@@ -85,24 +85,7 @@
       </q-btn>
       <!-- Right actions -->
       <q-space />
-      <q-btn
-        push
-        size="12px"
-        class="q-ml-sm q-mt-sm"
-        color="white"
-        text-color="black"
-        :disable="loading"
-        icon="qr_code_scanner"
-        @click="openScanner"
-      >
-        <q-tooltip
-          anchor="bottom middle"
-          transition-show="scale"
-          transition-hide="scale"
-        >
-          Code Reader
-        </q-tooltip>
-      </q-btn>
+      <CodeScanner @decodedValues="handleDecodedValues" />
       <q-input
         dense
         filled
@@ -174,12 +157,6 @@
       @closeProductDetail="closeProductDetailTable"
     />
   </q-dialog>
-  <q-dialog v-model="openScanner">
-    <CodeScanner
-      @toggleScanner="toggleScanner"
-      @handleDecodedContent="handleDecodedContent"
-    />
-  </q-dialog>
 </template>
 
 <script setup>
@@ -192,13 +169,8 @@ import EditItemForm from "./EditItemForm.vue";
 import ProductDetail from "./ProductDetail.vue";
 import CodeScanner from "./CodeScanner.vue";
 
-const scannerActive = ref(false);
-const decodedContent = ref("");
-const toggleScanner = () => {
-  scannerActive.value = !scannerActive.value;
-};
-const handleDecodedContent = (content) => {
-  decodedContent.value = content;
+const handleDecodedValues = (value) => {
+  console.log("Decoded value:", value);
 };
 
 const uploaderDialog = ref(false);
@@ -272,7 +244,6 @@ const fetchData = async () => {
     const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
     items.value = response.map((item) => ({ ...item }));
-    console.log(items.value);
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({

@@ -15,6 +15,7 @@
         dense
         size="sm"
         icon="close"
+        @click="emit('closeProductDetail')"
         v-close-popup
       />
     </template>
@@ -22,25 +23,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import Swal from "sweetalert2";
+import { ref, onMounted, watch } from "vue";
 import { getRequest } from "src/utils/common";
 import { storeColumns } from "src/utils/const";
 
 const props = defineProps({
+  productId: String,
   item: Object,
 });
 
-const itemData = { ...props.item };
-const productId = ref(itemData.id);
+const emit = defineEmits(["closeProductDetail"]);
 const stores = ref([]);
 const loading = ref(false);
-const emit = defineEmits(["closeProductDetail"]);
 
-const fetchData = async () => {
+const fetchData = async (id) => {
   try {
     loading.value = true;
-    // const url = `https://backend.adalogix.es/store/product/?product_id=${productId.value}`;
-    const url = `http://localhost:8000/store/product/?product_id=${productId.value}`;
+    const url = `http://localhost:8000/store/product/?product_id=${id}`;
     const response = await getRequest(url);
     stores.value = response.map((store) => ({ ...store }));
     console.log(stores.value);
@@ -56,5 +56,14 @@ const fetchData = async () => {
   }
 };
 
-onMounted(fetchData);
+const loadProductData = () => {
+  const id = props.item?.id || props.productId;
+  if (id) {
+    fetchData(id);
+  }
+};
+
+onMounted(loadProductData);
+watch(() => props.productId, loadProductData);
+watch(() => props.item, loadProductData);
 </script>

@@ -1,57 +1,95 @@
 <template>
-  <div>
-    <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream>
-    <table v-if="productData">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Precio</th>
-          <th>Stock</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ productData.name }}</td>
-          <td>{{ productData.description }}</td>
-          <td>{{ productData.price }}</td>
-          <td>{{ productData.stock }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <q-btn
+    push
+    size="12px"
+    class="q-ml-sm q-mt-sm"
+    color="white"
+    text-color="black"
+    :disable="loading"
+    icon="qr_code_scanner"
+    @click="openDialog = true"
+  >
+    <q-tooltip
+      anchor="bottom middle"
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      Code Reader
+    </q-tooltip>
+  </q-btn>
+  <q-dialog v-model="openDialog" persistent>
+    <q-card :disable="loading" class="dialog-qr">
+      <q-card-section class="row">
+        <q-card-title class="text-h6" style="font-weight: 400"
+          >Scan QR Code</q-card-title
+        >
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
+      <StreamBarcodeReader @decode="handleDecode" />
+      <q-card-section class="row q-py-xs">
+        <div v-if="errorMessage" class="text-negative">
+          {{ errorMessage }}
+        </div>
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+  <q-dialog v-model="showProductDetail">
+    <ProductDetail
+      :productId="productId"
+      @closeProductDetail="closeProductDetailTable"
+    />
+  </q-dialog>
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
-import { QrcodeStream } from 'vue-qrcode-reader';
+import { ref } from "vue";
+import { StreamBarcodeReader } from "vue-barcode-reader";
+import ProductDetail from "./ProductDetail.vue";
 
-const emits = defineEmits(['decoded']);
-const productData = ref(null);
+const loading = ref(false);
+const openDialog = ref(false);
+const productId = ref(null);
+const showProductDetail = ref(false);
+const errorMessage = ref("");
 
-const onDecode = async (content) => {
-  emits('decoded', content);
-  await fetchProductData(content);
-};
-
-const fetchProductData = async (qrCodeContent) => {
+const handleDecode = (value) => {
   try {
-    const response = await fetch(`/api/products/${qrCodeContent}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+    if (typeof value !== "string") {
+      throw new Error("Invalid value type");
     }
-    const data = await response.json();
-    productData.value = data;
+
+    const match = value.match(/^\d{3}$/);
+    if (!match) {
+      errorMessage.value = "Please scan a valid product code";
+      setTimeout(() => {
+        errorMessage.value = "";
+      }, 3000);
+      return;
+    }
+
+    productId.value = value;
+    errorMessage.value = ""; // Clear any previous error message
+    openDialog.value = false;
+    showProductDetail.value = true;
   } catch (error) {
-    console.error('Error fetching product data:', error);
+    errorMessage.value = "An error occurred while decoding the QR code!";
+    setTimeout(() => {
+      errorMessage.value = "";
+    }, 3000);
   }
 };
 
-const onInit = (promise) => {
-  promise.catch(error => {
-    console.error(error);
-    // Manejo de errores de inicialización
-  });
+const closeProductDetailTable = () => {
+  productId.value = null;
+  errorMessage.value = "";
+  showProductDetail.value = false;
 };
 </script>
 
+<style scoped>
+.text-negative {
+  color: #c10015;
+  font-size: 15px;
+}
+</style>
