@@ -27,12 +27,6 @@ class ProductMultipleDelete(APIView):
         return JsonResponse({'status': 200})
 
 
-class ProductListView(ListAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Product.objects.all()
-    serializer_class = ProductListSerializer
-
-
 class ProductList(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -102,7 +96,8 @@ class ProductUpdateView(UpdateAPIView):
 
 
 class ProductUploadFromCSV(APIView):
-    permission_classes = [IsAuthenticated]
+    # ToDo: Send token in headers from frontend
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request):
         file_field_name = list(request.FILES.keys())[0]

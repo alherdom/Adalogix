@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Template</title>
+  <style>
+    body {
+      color: #000000;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 2.5;
+    }
+
+    .container {
+      height: 640px;
+      width: 570px;
+      margin: 0 auto;
+      border: 1px solid lightgrey;
+      border-radius: 10px;
+      padding: 0px 50px 0px 50px;
+      background-color: #FFFFFF;
+    }
+
+    img {
+      margin-top: 20px;
+      width: 70px;
+      height: 70px;
+    }
+
+    h4 {
+      margin-top: 15px;
+      margin-left: 5px;
+      color: #000000;
+      font-weight: 400;
+      margin-bottom: 0px;
+    }
+
+    h2 {
+      color: #000000;
+      text-align: center;
+      margin-top: 10px
+    }
+
+    a {
+      text-decoration: none;
+      color: #000000;
+    }
+
+    ul {
+      text-align: center;
+      list-style-type: none;
+      padding: 0;
+      color: #000000;
+    }
+
+    li {
+      color: #000000;
+      font-size: 16px;
+      margin-left: 20px;
+    }
+
+    .container-button {
+      text-align: center;
+    }
+
+    button {
+      color: #000000;
+      font-weight: 600;
+      font-size: 15px;
+      background-color: #FF6C37;
+      border: none;
+      border-radius: 7px;
+      width: 200px;
+      height: 35px;
+      text-align: center;;
+      transform: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+      border-bottom: 4px solid #D95C2F;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    p {
+      color: #000000;
+      font-size: 16px;
+    }
+
+    i {
+      color: #FF6C37;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div style="text-align: center;">
+      <img src="cid:logo_image">
+    </div>
+    <div>
+      <h2>Hello {{firstname}} {{lastname}}!</h2>
+    </div>
+    <p>Welcome to Adalogix! We're thrilled to have you on board. Your account has been successfully created. Below are
+      your login details:</p>
+    <p style="text-align: center;"><strong>Username:</strong> {{username}} <strong>Password:</strong> {{password}}</p>
+    <div class="container-button">
+      <a href="http://adalogix.es/login/"><button>Log in Now</button></a>
+    </div>
+    <p>If you have any questions or need assistance, don't hesitate to reach out to us. We're here to support you every
+      step of the way.</p>
+    <br>
+    <p>Best regards,<br><i>Adalogix Team!</i></p>
+  </div>
+</body>
+
+
+</html>

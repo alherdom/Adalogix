@@ -34,11 +34,8 @@ const id = ref(userData.id);
 const userName = ref(userData.username);
 const firstName = ref(userData.first_name);
 const lastName = ref(userData.last_name);
+const roleOptions = ref([{ label: "Admin", value: "SA" }, { label: "Courier", value: "CO" },]);
 const role = ref({ label: userData.role, value: userData.role });
-const roleOptions = ref([
-  { label: "Admin", value: "SA" },
-  { label: "Courier", value: "CO" },
-]);
 const email = ref(userData.email);
 const loading = ref(false);
 const emit = defineEmits(['closeEditForm'])
@@ -51,11 +48,12 @@ const sendData = async () => {
       username: userName.value,
       first_name: firstName.value,
       last_name: lastName.value,
-      role: "SA",
+      role: role.value.value,
       email: email.value,
     };
     console.log(requestData);
-    const url = `https:/backend.adalogix.es/user/update/${id.value}/`;
+    // const url = `https:/backend.adalogix.es/user/update/${id.value}/`;
+    const url = `http://localhost:8000/user/update/${id.value}/`;
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {

@@ -8,9 +8,18 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+<<<<<<< HEAD
 from rest_framework.generics import DestroyAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+=======
+from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
+from .serializers import EmployeeSerializer, UserSerializer
+from rest_framework.permissions import IsAuthenticated
+from .utils import password_generator, send_registration_email
+
+>>>>>>> feat/I-77-generate-email-password
 
 from .models import Employee
 from .serializers import EmployeeSerializer
@@ -56,6 +65,7 @@ def user_logout(request: HttpRequest) -> HttpResponse:
     return HttpResponse('logged out')
 
 
+<<<<<<< HEAD
 # @csrf_exempt
 # @require_POST
 # def user_registration(request: HttpRequest) -> HttpResponse:
@@ -98,6 +108,8 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 #     )
 
 
+=======
+>>>>>>> feat/I-77-generate-email-password
 @csrf_exempt
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
@@ -116,10 +128,7 @@ def user_registration(request: HttpRequest) -> HttpResponse:
     if role not in list(Employee.EmployeeRole):
         return HttpResponse('Invalid role', status=400)
 
-    # Generar la contraseña
     password = password_generator()
-
-    # Crear el nuevo usuario
     new_user = User.objects.create_user(
         username=username,
         email=email,
@@ -132,33 +141,14 @@ def user_registration(request: HttpRequest) -> HttpResponse:
         Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
     )
     new_user.groups.add(employee_group)
-
-    # Enviar correo electrónico al nuevo usuario con la contraseña generada
-    subject = 'Welcome to Adalogix!'
-    message = (
-        f'Hello {first_name}!\n\n'
-        f'We are excited to welcome you to Adalogix, your new favorite platform!\n\n'
-        f'Your username: {username}\n'
-        f'Your password: {password}\n\n'
-        f'You can log in to Adalogix and start exploring all the exciting features we offer!\n\n'
-        f'Click here to login: adalogix.es/login\n\n'
-        f'We hope you have an amazing experience with us!\n\n'
-        f'Best regards,\nThe Adalogix Team'
-    )
-    send_mail(
-        subject,
-        message,
-        'adalogixteam@gmail.com',
-        [email],
-        fail_silently=False,
-    )
+    send_registration_email(first_name, last_name, email, username, password)
 
     return JsonResponse(
         dict(
             username=new_user.username,
             id=new_user.id,
             status=200,
-            message='User successfully registered',
+            message='User successfully registered, email sent with credentials',
         )
     )
 
@@ -201,18 +191,23 @@ class EmployeeDetailView(RetrieveAPIView):
     serializer_class = EmployeeSerializer
 
 
-class EmployeeDeleteView(DestroyAPIView):
+class UserDeleteView(DestroyAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return JsonResponse({'status': 200})
 
 
-class EmployeeMultipleDelete(APIView):
+class UserMultipleDelete(APIView):
     permission_classes = [IsAuthenticated]
 
     def delete(self, request):
         data = json.loads(request.body)
         employee_ids = data['employee_ids']
         for employee_id in employee_ids:
-            Employee.objects.get(user=employee_id).delete()
+            User.objects.get(id=employee_id).delete()
         return JsonResponse({'status': 200})

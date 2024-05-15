@@ -40,4 +40,3 @@ class EmployeeSerializer(serializers.ModelSerializer):
         representation['email'] = instance.user.email
 
         return representation
-    
