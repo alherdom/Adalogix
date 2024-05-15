@@ -1,11 +1,6 @@
-name,address,capacity
-ElectroMart,123 Main Street,200
-TechCity,456 Elm Street,150
-GadgetZone,789 Oak Street,100
-ApplianceWorld,101 Maple Avenue,300
-SmartBuy,202 Pine Street,250
-ElectronicsEmporium,303 Cedar Street,180
-TechHub,404 Birch Street,220
-GizmoGallery,505 Walnut Street,120
-DigitalDreams,606 Spruce Street,280
-HomeTech,707 Cherry Street,170
+name,latitude,longitude,address,capacity
+Adalogix Electronics,28.4694,-16.2542,"Calle San Antonio, 23 38001 Santa Cruz de Tenerife",100
+Adalogix Tech Hub,28.2995,-16.5623,"Calle Castillo, 22, 38660 Adeje",110
+Adalogix outlet,28.3212,-16.4113,"Avenida Marítima, 35, 38300 La Orotava",90
+Adalogix Innovation,28.1423,-16.7539,"Calle Grande, 14, 38400 Puerto de la Cruz",10
+Adalogix Depot,28.3241,-16.3748,"Calle Méndez Núñez, 47, 38300 La Laguna",400
