@@ -12,6 +12,8 @@ class Employee(models.Model):
     department = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=9, blank=True, null=True)
     role = models.CharField(max_length=2, choices=EmployeeRole.choices)
+    available = models.BooleanField(default=True)
+    route = models.TextField(blank=True, null=True)
 
     def is_store_admin(self):
         return self.role == 'SA'
@@ -24,3 +26,12 @@ class Employee(models.Model):
 
     class meta:
         ordering = ['id']
+
+class CustomUser(User):
+    class Meta:
+        proxy = True
+        ordering = ['id']
+
+    def __str__(self):
+        return self.username
+

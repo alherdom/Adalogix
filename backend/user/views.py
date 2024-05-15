@@ -9,8 +9,9 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView, DestroyAPIView
-from .serializers import EmployeeSerializer
+from .serializers import EmployeeSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
+from .utils import password_generator, send_registration_email
 
 
 from .models import Employee
@@ -35,7 +36,8 @@ class LoginView(APIView):
                 return JsonResponse({'error': 'User has no role'}, status=401)
             return JsonResponse(
                 dict(
-                    id=user.id,
+                    id=user.employee.id,
+                    user=user.id,
                     name=user.get_full_name(),
                     group=group,
                     status=200,
@@ -58,40 +60,41 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 @require_POST
 def user_registration(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body)
-    username, password, email, first_name, last_name, role = (
+    username, email, first_name, last_name, role = (
         data['username'],
-        data['password'],
         data['email'],
         data['firstName'],
         data['lastName'],
         data['role'],
     )
-    if not all([username, email, first_name, last_name, password, role]):
+    if not all([username, email, first_name, last_name, role]):
         return HttpResponse('You must fill all the fields', status=400)
-    if User.objects.filter(username=data['username']):
+    if User.objects.filter(username=username):
         return HttpResponse('This username is already in use', status=400)
     if role not in list(Employee.EmployeeRole):
         return HttpResponse('Invalid role', status=400)
-    new_user = User(
+
+    password = password_generator()
+    new_user = User.objects.create_user(
         username=username,
-        password=password,
         email=email,
+        password=password,
         first_name=first_name,
         last_name=last_name,
     )
-    new_user.set_password(password)
-    new_user.save()
     Employee.objects.create(user=new_user, role=role)
     employee_group = (
         Group.objects.get(name='admin') if role == 'SA' else Group.objects.get(name='courier')
     )
     new_user.groups.add(employee_group)
+    send_registration_email(first_name, last_name, email, username, password)
+
     return JsonResponse(
         dict(
             username=new_user.username,
             id=new_user.id,
             status=200,
-            message='User successfully registered',
+            message='User successfully registered, email sent with credentials',
         )
     )
 
@@ -100,6 +103,15 @@ class EmployeeListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+
+
+class AvailableEmployeeListView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EmployeeSerializer
+
+    def get_queryset(self):
+        queryset = Employee.objects.filter(available=True, role='CO')
+        return queryset
 
 
 class EmployeeUpdateView(UpdateAPIView):
@@ -125,16 +137,23 @@ class EmployeeDetailView(RetrieveAPIView):
     serializer_class = EmployeeSerializer
 
 
-class EmployeeDeleteView(DestroyAPIView):
+class UserDeleteView(DestroyAPIView):
     permission_classes = [IsAuthenticated]
-    queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return JsonResponse({'status': 200})
 
 
-class EmployeeMultipleDelete(APIView):
+class UserMultipleDelete(APIView):
+    permission_classes = [IsAuthenticated]
+
     def delete(self, request):
         data = json.loads(request.body)
         employee_ids = data['employee_ids']
         for employee_id in employee_ids:
-            Employee.objects.get(user=employee_id).delete()
+            User.objects.get(id=employee_id).delete()
         return JsonResponse({'status': 200})

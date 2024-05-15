@@ -79,3 +79,32 @@ export const logout = () => {
     timer: 1500,
   });
 };
+
+// Router Functions
+
+export const addRouteLayer = (routeData, map) => {
+  const layerId = `agent-route-${1}`;
+  agentPlan.value.routeLayer = layerId;
+  map.value.addSource(layerId, {
+    type: "geojson",
+    data: routeData,
+  });
+  let routeLayer = {
+    id: layerId,
+    type: "line",
+    source: layerId,
+    layout: {
+      "line-cap": "round",
+      "line-join": "round",
+    },
+    paint: {
+      "line-color": "#FF6C37",
+      "line-width": 3,
+    },
+  };
+
+  map.value.addLayer(routeLayer)
+
+  return routeLayer
+};
+
