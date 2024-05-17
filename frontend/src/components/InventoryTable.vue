@@ -270,7 +270,6 @@ const fetchData = async () => {
     loading.value = true;
     // const url = "https://backend.adalogix.es/product/list/";
     const url = "http://localhost:8000/product/list/";
-    const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
     items.value = response.map((item) => ({ ...item }));
     console.log(items.value);
@@ -342,7 +341,6 @@ const deleteItems = async () => {
         product_ids: selectedRows.value.map((item) => item.id),
       };
       // const url = "https://backend.adalogix.es/product/delete/multiple/";
-      const url = "http://localhost:8000/product/delete/multiple/";
       const url = "http://localhost:8000/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
