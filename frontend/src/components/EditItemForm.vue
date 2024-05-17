@@ -17,7 +17,7 @@
         <q-input outlined v-model="price" label="Price" type="text" />
         <q-input outlined v-model="weight" label="Weight" type="text" />
         <q-input outlined v-model="volume" label="Volume" type="text" />
-        <q-btn color="primary" label="SEND" type="submit" class="item-btn" :loading="loading" />
+        <q-btn push color="primary" label="SEND" type="submit" class="item-btn" :loading="loading" />
       </q-form>
     </q-card-section>
   </q-card>

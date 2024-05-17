@@ -2,7 +2,6 @@
   <q-table
     flat
     class="my-sticky-header-table"
-    title="Inventory Table"
     :rows="displayedItems"
     :columns="inventoryColumns"
     :loading="loading"
@@ -15,7 +14,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-sm q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -33,7 +32,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -50,7 +49,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -68,7 +67,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -84,12 +83,11 @@
         </q-tooltip>
       </q-btn>
       <CodeScanner @decodedValues="handleDecodedValues" />
-      <!-- Right actions -->
       <q-space />
       <q-input
         dense
         filled
-        class="q-mt-sm q-pl-sm q-pt-xs"
+        class="q-mt-sm q-pl-sm q-pt-sm action-btn"
         placeholder="Search Product..."
         debounce="300"
         color="primary"
@@ -114,6 +112,13 @@
           flat
           size="sm"
           color="primary"
+          icon="visibility"
+          @click="productDetail(props.row)"
+        />
+        <q-btn
+          flat
+          size="sm"
+          color="primary"
           icon="edit"
           @click="editItem(props.row)"
         />
@@ -123,13 +128,6 @@
           color="primary"
           icon="delete"
           @click="deleteItem(props.row)"
-        />
-        <q-btn
-          flat
-          size="sm"
-          color="primary"
-          icon="visibility"
-          @click="productDetail(props.row)"
         />
       </q-td>
     </template>
@@ -200,7 +198,7 @@ const $q = useQuasar();
 const exportTable = () => {
   let rowsToExport =
     selectedRows.value.length > 0 ? selectedRows.value : items.value;
-  const columnsToExport = columns.slice(0, -1);
+  const columnsToExport = inventoryColumns.slice(0, -1);
   const content = [columnsToExport.map((col) => wrapCsvValue(col.label))]
     .concat(
       rowsToExport.map((row) =>

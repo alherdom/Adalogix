@@ -15,7 +15,7 @@
         <q-input outlined v-model="lastName" label="Last Name" type="text" required />
         <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required />
         <q-input outlined v-model="email" label="Email" type="text" required />
-        <q-btn color="primary" label="SEND" type="submit" class="edit-btn" :loading="loading" />
+        <q-btn push color="primary" label="SEND" type="submit" class="edit-btn" :loading="loading" />
       </q-form>
     </q-card-section>
   </q-card>

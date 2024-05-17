@@ -15,7 +15,7 @@
         <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required
           :rules="[val => !!val || 'Please, user role is required']" lazy-rules />
         <q-input outlined v-model="email" label="Email" type="email" required />
-        <q-btn color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
+        <q-btn push color="primary" label="SEND" type="submit" class="register-btn" :loading="loading" />
       </q-form>
     </q-card-section>
   </q-card>

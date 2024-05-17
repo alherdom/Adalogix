@@ -28,6 +28,14 @@ body {
   flex-direction: column;
 }
 
+.login-form .q-field__control {
+  border-radius: 8px;
+}
+
+.q-field__control {
+  border-radius: 8px !important;
+}
+
 .subtitle-form {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -57,28 +65,28 @@ body {
   display: flex;
   flex-direction: column;
   height: auto;
-  height: 520px;
+  height: 490px;
 }
 
 .item-form {
   display: flex;
   flex-direction: column;
   height: auto;
-  height: 692px;
+  height: 662px;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
   height: auto;
-  height: 434px;
+  height: 404px;
 }
 
 .register-form-title,
 .edit-form-title,
 .item-form-title {
-  margin-top: -5px;
-  margin-bottom: -10px;
+  margin-top: -10px;
+  margin-bottom: -20px;
 }
 
 .register-form .q-input,
@@ -133,9 +141,12 @@ body {
 }
 
 // INVENTORY AND USERS TABLES
-.q-field--dense .q-field__control {
+.action-btn {
+  height: 35px;
+}
 
-  width: 240px;
+.q-field--dense .q-field__control {
+  width: 340px;
 }
 
 .my-sticky-header-table {
@@ -175,11 +186,9 @@ body {
   }
 }
 
-// PRODUCT DETAILS TABLE
+// PRODUCT DETAIL TABLE
 .product-detail-table {
-  scale: 1.05;
-  width: 50%;
-  max-width: 50% !important;
+  width: 500px;
   height: auto;
 }
 
@@ -194,8 +203,7 @@ body {
   margin: 2px;
 }
 
-// Router
-
+// ROUTER
 .flex-container {
   display: flex;
   flex-direction: column;
@@ -215,4 +223,66 @@ body {
   flex-direction: column;
   justify-content: center;
   gap: 10px;
+}
+
+// MEDIA QUERIES
+@media only screen and (max-width: 767px) {
+
+  // LOGIN FORM
+  .login-template {
+    scale: 0.85;
+    display: flex;
+    justify-content: center !important;
+  }
+
+  // EDIT PRODUCT
+  .item-card {
+    scale: 0.90 !important;
+    height: 620px;
+  }
+
+  .item-form {
+    height: 100%;
+  }
+
+  .item-card .q-input {
+    padding: 0px 10px 10px 10px !important;
+  }
+
+  // EDIT USER
+  .edit-card {
+    scale: 0.90 !important;
+    height: 487px;
+  }
+
+  .edit-form {
+    height: 100%;
+  }
+
+  .edit-card .q-input {
+    padding: 0px 10px 10px 10px !important;
+  }
+
+  .edit-form .q-select {
+    padding: 0px 10px 10px 10px !important;
+  }
+
+  // REGISTER USER
+  .register-card {
+    scale: 0.90 !important;
+    height: 420px;
+  }
+
+  .register-form {
+    height: 100%;
+  }
+
+  .register-card .q-input {
+    padding: 0px 10px 10px 10px !important;
+  }
+
+  .register-form .q-select {
+    padding: 0px 10px 10px 10px !important;
+  }
+
 }

@@ -1,8 +1,7 @@
 <template>
   <q-table
-    class="my-sticky-header-table"
     flat
-    title="Users Table"
+    class="my-sticky-header-table"
     :rows="displayedUsers"
     :columns="userColumns"
     :loading="loading"
@@ -15,7 +14,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-sm q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -33,7 +32,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -50,7 +49,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -68,7 +67,7 @@
       <q-btn
         push
         size="12px"
-        class="q-ml-sm q-mt-sm"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
@@ -88,7 +87,7 @@
       <q-input
         dense
         filled
-        class="q-mt-sm q-pl-sm q-pt-xs"
+        class="q-mt-sm q-pl-sm q-pt-sm action-btn"
         placeholder="Search User..."
         debounce="300"
         color="primary"

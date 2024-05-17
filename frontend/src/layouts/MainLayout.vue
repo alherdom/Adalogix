@@ -4,8 +4,8 @@
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" dense icon="menu" />
         <q-toolbar-title class="title"
-          ><a href="/">Adalogix {{ capitalizePath }}</a></q-toolbar-title
-        >
+          ><a href="/">{{ capitalizePath }}</a>
+        </q-toolbar-title>
         <q-space />
         <q-btn-dropdown
           class="userName"

@@ -2,7 +2,7 @@
   <q-btn
     push
     size="12px"
-    class="q-ml-sm q-mt-sm"
+    class="q-ml-xs q-mt-lg action-btn"
     color="white"
     text-color="black"
     :disable="loading"

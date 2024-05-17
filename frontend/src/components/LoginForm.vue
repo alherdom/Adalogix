@@ -35,6 +35,7 @@
         </q-input>
 
         <q-btn
+          push
           color="primary"
           label="Log in"
           type="submit"
