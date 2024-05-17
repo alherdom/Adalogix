@@ -120,13 +120,13 @@ const links = [
     icon: "inventory",
     roles: ["admin"],
   },
-  { path: "/router", label: "ROUTER", icon: "fmd_good", roles: ["admin"] },
   {
-    path: "/courier-router",
+    path: "/router",
     label: "ROUTER",
     icon: "fmd_good",
-    roles: ["courier"],
+    roles: ["admin", "courier"],
   },
+
   {
     path: "/chat",
     label: "CHAT",
