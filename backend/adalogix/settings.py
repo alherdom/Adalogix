@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
 from prettyconf import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x#$_yztjvbgq-8v*kp5k$pi$n_rfhm8=m)dakru60uja_j7eql'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 0
 
 ALLOWED_HOSTS = ['*']
 
@@ -63,7 +62,7 @@ ROOT_URLCONF = 'adalogix.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -142,9 +141,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
     'http://localhost:3000',
     'http://localhost:9000',
-    'http://localhost:9001',
-    # 'https://backend.adalogix.es/user/login/',
-    'http://localhost:8000',
 ]
 
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
@@ -158,9 +154,16 @@ CORS_ALLOW_HEADERS = [
 ]
 
 # REST FRAMEWORK SETTINGS
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# EMAIL SETTINGS
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default=None)
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=config.eval)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default=None)
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default=None)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=config.boolean)

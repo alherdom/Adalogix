@@ -5,7 +5,7 @@
         <div class="text-right">
           <q-btn flat dense icon="close" v-close-popup />
         </div>
-        Edit Item
+        Edit Product
       </div>
     </q-card-section>
     <q-card-section>
@@ -57,6 +57,7 @@ const sendData = async () => {
       volume: volume.value,
     };
     console.log(requestData);
+    // const url = `https://backend.adalogix.es/product/update/${id.value}/`;
     const url = `http://localhost:8000/product/update/${id.value}/`;
     const response = await patchRequest(requestData, url);
     console.log(response);

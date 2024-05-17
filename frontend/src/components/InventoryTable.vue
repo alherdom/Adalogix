@@ -4,7 +4,7 @@
     class="my-sticky-header-table"
     title="Inventory Table"
     :rows="displayedItems"
-    :columns="columns"
+    :columns="inventoryColumns"
     :loading="loading"
     row-key="id"
     v-model:selected="selectedRows"
@@ -20,14 +20,14 @@
         text-color="black"
         :disable="loading"
         icon="delete"
-        @click="deleteItem"
+        @click="deleteItems"
       >
         <q-tooltip
           anchor="bottom middle"
           transition-show="scale"
           transition-hide="scale"
         >
-          Delete Items
+          Delete Products
         </q-tooltip>
       </q-btn>
       <q-btn
@@ -65,11 +65,48 @@
           Export Table
         </q-tooltip>
       </q-btn>
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="refresh"
+        @click="fetchData"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Refresh Table
+        </q-tooltip>
+      </q-btn>
+      <!-- Right actions -->
       <q-space />
+      <q-btn
+        push
+        size="12px"
+        class="q-ml-sm q-mt-sm"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="qr_code_scanner"
+        @click="openScanner"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Code Reader
+        </q-tooltip>
+      </q-btn>
       <q-input
         dense
         filled
-        class="q-mr-sm q-mt-sm"
+        class="q-mr-sm q-mt-sm q-pl-sm"
         placeholder="Search Product..."
         debounce="300"
         color="primary"
@@ -83,7 +120,7 @@
           transition-show="scale"
           transition-hide="scale"
         >
-        By name, description or category
+          By name, description or category
         </q-tooltip>
       </q-input>
     </template>
@@ -100,14 +137,22 @@
           flat
           size="sm"
           color="primary"
+          icon="delete"
+          @click="deleteItem(props.row)"
+        />
+        <q-btn
+          flat
+          size="sm"
+          color="primary"
           icon="visibility"
-          @click="showProductDetail(props.row)"
+          @click="productDetail(props.row)"
         />
       </q-td>
     </template>
   </q-table>
 
   <!-- Dialogs-->
+  <!-- url="https://backend.adalogix.es/product/upload/" -->
   <q-dialog v-model="uploaderDialog">
     <q-uploader
       text-color="black"
@@ -123,27 +168,17 @@
   <q-dialog v-model="editItemForm">
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
   </q-dialog>
-  <q-dialog v-model="productDetail">
-    <q-table
-      class="product-detail-table"
-      flat
-      :rows="[productDetailRow]"
-      :columns="columns.slice(0, -1)"
-      :loading="loading"
-      row-key="id"
-      hide-bottom
-    >
-      <template v-slot:bottom-row>
-        <q-btn
-          class="close-product-detail-btn"
-          flat
-          dense
-          size="sm"
-          icon="close"
-          @click="productDetail = false"
-        />
-      </template>
-    </q-table>
+  <q-dialog v-model="showProductDetail">
+    <ProductDetail
+      :item="itemData"
+      @closeProductDetail="closeProductDetailTable"
+    />
+  </q-dialog>
+  <q-dialog v-model="openScanner">
+    <CodeScanner
+      @toggleScanner="toggleScanner"
+      @handleDecodedContent="handleDecodedContent"
+    />
   </q-dialog>
 </template>
 
@@ -152,20 +187,19 @@ import Swal from "sweetalert2";
 import { getRequest, deleteRequest } from "../utils/common";
 import { ref, onMounted, computed } from "vue";
 import { exportFile, useQuasar } from "quasar";
+import { inventoryColumns } from "src/utils/const";
 import EditItemForm from "./EditItemForm.vue";
+import ProductDetail from "./ProductDetail.vue";
+import CodeScanner from "./CodeScanner.vue";
 
-const productDetailRows = ref([
-  {
-    id: 1,
-    name: "Product 1",
-    description: "Product 1 Description",
-    quantity: 10,
-    category: "Category 1",
-    price: 100,
-    weight: 10,
-    volume: 10,
-  },
-]);
+const scannerActive = ref(false);
+const decodedContent = ref("");
+const toggleScanner = () => {
+  scannerActive.value = !scannerActive.value;
+};
+const handleDecodedContent = (content) => {
+  decodedContent.value = content;
+};
 
 const uploaderDialog = ref(false);
 const openUploaderDialog = () => {
@@ -176,7 +210,7 @@ const handleUpload = () => {
   uploaderDialog.value = false;
   Swal.fire({
     icon: "success",
-    title: "Items loaded successfully!",
+    title: "Products loaded successfully!",
   });
   fetchData();
 };
@@ -188,67 +222,6 @@ function wrapCsvValue(val, formatFn, row) {
   formatted = formatted.split('"').join('""');
   return `"${formatted}"`;
 }
-
-function parseStore(store) {
-  return JSON.parse(store)
-}
-
-const closeDialog = (status) => {
-  editProductForm.value = status
-  fetchData()
-}
-
-const productData = ref({})
-
-const editProductForm = ref(false)
-
-const editProduct = (productProps) => {
-  productData.value = productProps;
-  editProductForm.value = true;
-};
-
-
-
-function openEditDialog(data) {
-
-}
-
-const extendedRowColumns = [
-  {
-  name: "id",
-  required: true,
-  label: "Id",
-  align: "left",
-  field: "id",
-  sortable: true,
-  },
-  {
-  name: "name",
-  required: true,
-  label: "Store",
-  align: "left",
-  field: "name",
-  sortable: true,
-  },
-  {
-  name: "quantity",
-  required: true,
-  label: "Quantity",
-  align: "left",
-  field: "quantity",
-  sortable: true,
-  },
-  {
-  name: "address",
-  required: true,
-  label: "Address",
-  align: "left",
-  field: "address",
-  sortable: true,
-  },
-]
-
-
 
 const $q = useQuasar();
 const exportTable = () => {
@@ -284,89 +257,23 @@ const exportTable = () => {
   }
 };
 
-const columns = [
-  {
-    name: "id",
-    required: true,
-    label: "Id",
-    align: "left",
-    field: "id",
-    sortable: true,
-  },
-  {
-    name: "name",
-    required: true,
-    label: "Name",
-    align: "left",
-    field: "name",
-    sortable: true,
-  },
-  {
-    name: "description",
-    required: true,
-    label: "Description",
-    align: "left",
-    field: "description",
-    sortable: true,
-  },
-  {
-    name: "quantity",
-    required: true,
-    label: "Quantity",
-    align: "left",
-    field: "quantity",
-    sortable: true,
-  },
-  {
-    name: "category",
-    required: true,
-    label: "Category",
-    align: "left",
-    field: "category",
-    sortable: true,
-  },
-  {
-    name: "price",
-    required: true,
-    label: "Price",
-    align: "left",
-    field: "price",
-    sortable: true,
-  },
-  {
-    name: "weight",
-    required: true,
-    label: "Weight",
-    align: "left",
-    field: "weight",
-    sortable: true,
-  },
-  {
-    name: "volume",
-    required: true,
-    label: "Volume",
-    align: "left",
-    field: "volume",
-    sortable: true,
-  },
-  { name: "actions", label: "Actions", align: "left", field: "actions" },
-];
-
 const itemData = ref({});
 const loading = ref(false);
 const selectedRows = ref([]);
 const items = ref([]);
 const filter = ref("");
 const editItemForm = ref(false);
-const productDetail = ref(false);
-const productDetailRow = ref({});
+const showProductDetail = ref(false);
 
 const fetchData = async () => {
   try {
     loading.value = true;
+    // const url = "https://backend.adalogix.es/product/list/";
+    const url = "http://localhost:8000/product/list/";
     const url = "http://localhost:8000/product/list/";
     const response = await getRequest(url);
-    items.value = response.map((item) => ({ ...item, expanded: false }));
+    items.value = response.map((item) => ({ ...item }));
+    console.log(items.value);
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({
@@ -381,11 +288,42 @@ const fetchData = async () => {
 
 onMounted(fetchData);
 
-const deleteItem = async () => {
+const deleteItem = async (item) => {
+  Swal.fire({
+    title: `Are you sure you want to delete ${item.name}?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+    cancelButtonText: "No",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      // const url = `https://backend.adalogix.es/product/delete/${item.id}/`;
+      const requestData = { product_id: item.id };
+      const url = `http://localhost:8000/product/delete/${item.id}/`;
+      try {
+        const response = await deleteRequest(requestData, url);
+        if (response.status === 200) {
+          fetchData();
+          Swal.fire({
+            title: "Success",
+            text: "Product deleted successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      }
+    }
+  });
+};
+
+const deleteItems = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
-      title: "No items selected",
-      text: "Please select items to delete",
+      title: "No products selected",
+      text: "Please select products to delete",
       icon: "error",
       showConfirmButton: false,
       timer: 1500,
@@ -403,12 +341,21 @@ const deleteItem = async () => {
       const requestData = {
         product_ids: selectedRows.value.map((item) => item.id),
       };
+      // const url = "https://backend.adalogix.es/product/delete/multiple/";
+      const url = "http://localhost:8000/product/delete/multiple/";
       const url = "http://localhost:8000/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
           selectedRows.value = [];
           fetchData();
+          Swal.fire({
+            title: "Success",
+            text: "Products deleted successfully!",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       } catch (error) {
         console.error("Error deleting items:", error);
@@ -427,10 +374,13 @@ const closeEditItemForm = (value) => {
   fetchData();
 };
 
-const showProductDetail = (itemProps) => {
-  console.log(itemProps);
-  productDetailRow.value = itemProps;
-  productDetail.value = true;
+const productDetail = (itemProps) => {
+  itemData.value = itemProps;
+  showProductDetail.value = true;
+};
+
+const closeProductDetailTable = (value) => {
+  showProductDetail.value = value;
 };
 
 const displayedItems = computed(() => {
