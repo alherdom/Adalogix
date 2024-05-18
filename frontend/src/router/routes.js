@@ -113,12 +113,7 @@ const routes = [
         path: "router",
         name: "router",
         component: () => import("pages/RouterPage.vue"),
-        meta: { requiresAuth: true, roles: ["admin"] },
-      },
-      {
-        path: "courier-router",
-        name: "courier-router",
-        component: () => import("pages/RouterCourierPage.vue"),
+        meta: { requiresAuth: true, roles: ["admin", "courier"] },
       },
       {
         path: "chat",
