@@ -65,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   height: auto;
-  height: 490px;
+  height: 560px;
 }
 
 .item-form {
@@ -109,6 +109,10 @@ body {
   margin: 0 auto;
   font-size: medium;
   font-weight: bolder;
+}
+
+.reset-password-btn {
+  margin-bottom: 20px;
 }
 
 // MAIN LAYOUT SIDEBAR AND HEADER
@@ -252,7 +256,7 @@ body {
   // EDIT USER
   .edit-card {
     scale: 0.90 !important;
-    height: 487px;
+    height: 558px;
   }
 
   .edit-form {
@@ -270,7 +274,7 @@ body {
   // REGISTER USER
   .register-card {
     scale: 0.90 !important;
-    height: 420px;
+    height: 422px;
   }
 
   .register-form {

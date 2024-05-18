@@ -103,8 +103,7 @@ export const addRouteLayer = (routeData, map) => {
     },
   };
 
-  map.value.addLayer(routeLayer)
+  map.value.addLayer(routeLayer);
 
-  return routeLayer
+  return routeLayer;
 };
-

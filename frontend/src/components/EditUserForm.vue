@@ -10,12 +10,52 @@
     </q-card-section>
     <q-card-section>
       <q-form @submit="sendData" class="edit-form">
-        <q-input outlined v-model="userName" label="Username" type="text" required />
-        <q-input outlined v-model="firstName" label="First Name" type="text" required />
-        <q-input outlined v-model="lastName" label="Last Name" type="text" required />
-        <q-select class="input-form" outlined v-model="role" label="Role" :options="roleOptions" required />
+        <q-input
+          outlined
+          v-model="userName"
+          label="Username"
+          type="text"
+          required
+        />
+        <q-input
+          outlined
+          v-model="firstName"
+          label="First Name"
+          type="text"
+          required
+        />
+        <q-input
+          outlined
+          v-model="lastName"
+          label="Last Name"
+          type="text"
+          required
+        />
+        <q-select
+          class="input-form"
+          outlined
+          v-model="role"
+          label="Role"
+          :options="roleOptions"
+          required
+        />
         <q-input outlined v-model="email" label="Email" type="text" required />
-        <q-btn push color="primary" label="SEND" type="submit" class="edit-btn" :loading="loading" />
+        <q-btn
+          push
+          color="primary"
+          label="RESET PASSWORD"
+          class="edit-btn reset-password-btn"
+          :loading="loading"
+          @click="resetPassword"
+        />
+        <q-btn
+          push
+          color="primary"
+          label="SEND"
+          type="submit"
+          class="edit-btn"
+          :loading="loading"
+        />
       </q-form>
     </q-card-section>
   </q-card>
@@ -23,7 +63,7 @@
 
 <script setup>
 import Swal from "sweetalert2";
-import { patchRequest } from "../utils/common";
+import { patchRequest, postRequest } from "../utils/common";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -34,11 +74,14 @@ const id = ref(userData.id);
 const userName = ref(userData.username);
 const firstName = ref(userData.first_name);
 const lastName = ref(userData.last_name);
-const roleOptions = ref([{ label: "Admin", value: "SA" }, { label: "Courier", value: "CO" },]);
+const roleOptions = ref([
+  { label: "Admin", value: "SA" },
+  { label: "Courier", value: "CO" },
+]);
 const role = ref({ label: userData.role, value: userData.role });
 const email = ref(userData.email);
 const loading = ref(false);
-const emit = defineEmits(['closeEditForm'])
+const emit = defineEmits(["closeEditForm"]);
 
 const sendData = async () => {
   try {
@@ -57,6 +100,7 @@ const sendData = async () => {
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {
+      emit("closeEditForm", false);
       Swal.fire({
         title: "Success",
         text: "User edited successfully",
@@ -64,7 +108,6 @@ const sendData = async () => {
         showConfirmButton: false,
         timer: 1500,
       });
-      emit("closeEditForm", false);
     } else {
       console.log(response.status);
       alert("Error");
@@ -76,4 +119,34 @@ const sendData = async () => {
   }
 };
 
+const resetPassword = async () => {
+  try {
+    loading.value = true;
+    const requestData = {
+      employeeId: id.value,
+    };
+    console.log(requestData);
+    // const url = `https:/backend.adalogix.es/user/reset_password/`;
+    const url = `http://localhost:8000/user/reset_password/`;
+    const response = await postRequest(requestData, url);
+    if (response.status === 200) {
+      emit("closeEditForm", false);
+      Swal.fire({
+        title: "Success",
+        text: "Password reset successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+
+      });
+    } else {
+      console.log(response.status);
+      alert("Error");
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>

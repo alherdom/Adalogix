@@ -79,6 +79,11 @@ class ProductDeleteView(DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return JsonResponse({'status': 200})
+
 
 class ProductUpdateView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
@@ -103,7 +108,7 @@ class ProductUploadFromCSV(APIView):
         file = request.FILES[file_field_name]
         decoded_file = file.read().decode('utf-8')
         reader = DictReader(decoded_file.splitlines())
-        general_store = Store.objects.get(id=1)
+        general_store = Store.objects.get(id=21)
         for row in reader:
             print(row)
             new_product = Product.objects.create(

@@ -12,9 +12,8 @@ from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView,
 from .serializers import EmployeeSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from .utils import password_generator, send_registration_email, send_reset_password_email
-
-
 from .models import Employee
+from django.shortcuts import get_object_or_404
 
 
 class LoginView(APIView):
@@ -99,12 +98,19 @@ def user_registration(request: HttpRequest) -> HttpResponse:
     )
 
 
+def get_user_id_by_employee_id(employee_id):
+    employee = get_object_or_404(Employee, id=employee_id)
+    return employee.user.id
+
+
+@csrf_exempt
+@require_POST
 def reset_password(request: HttpRequest) -> HttpResponse:
     data = json.loads(request.body)
-    username = data['username']
-    if not User.objects.filter(username=username):
+    userId = get_user_id_by_employee_id(data['employeeId'])
+    if not User.objects.filter(id=userId):
         return JsonResponse({'error': 'User not found'}, status=404)
-    user = User.objects.get(username=username)
+    user = User.objects.get(id=userId)
     password = password_generator()
     user.set_password(password)
     user.save()

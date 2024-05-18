@@ -259,7 +259,8 @@ onMounted(fetchData);
 
 const deleteItem = async (item) => {
   Swal.fire({
-    title: `Are you sure you want to delete ${item.name}?`,
+    title: "Delete Product",
+    text: `Are you sure you want to delete ${item.name}?`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -271,6 +272,7 @@ const deleteItem = async (item) => {
       const url = `http://localhost:8000/product/delete/${item.id}/`;
       try {
         const response = await deleteRequest(requestData, url);
+        console.log(response);
         if (response.status === 200) {
           fetchData();
           Swal.fire({
@@ -300,6 +302,7 @@ const deleteItems = async () => {
     return;
   }
   Swal.fire({
+    text: "Delete Products",
     title: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,
@@ -314,6 +317,7 @@ const deleteItems = async () => {
       const url = "http://localhost:8000/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
+        console.log(response);
         if (response.status === 200) {
           selectedRows.value = [];
           fetchData();
