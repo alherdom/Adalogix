@@ -5,4 +5,4 @@ from .models import Store
 class StoreListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ['id', 'name', 'capacity', 'address']
+        fields = ['id', 'name', 'capacity', 'address', 'latitude', 'longitude']

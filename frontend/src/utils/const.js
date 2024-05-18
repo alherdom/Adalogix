@@ -11,13 +11,7 @@ export const links = [
     icon: "inventory",
     roles: ["admin"],
   },
-  { path: "/router", label: "Router", icon: "fmd_good", roles: ["admin"] },
-  {
-    path: "/courier-router",
-    label: "Router",
-    icon: "fmd_good",
-    roles: ["courier"],
-  },
+  { path: "/router", label: "Router", icon: "fmd_good", roles: ["admin", "courier"] },
   {
     path: "/chat",
     label: "Chat",
