@@ -3,9 +3,7 @@
     <q-header elevated class="myHeader">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" dense icon="menu" />
-        <q-toolbar-title class="title"
-          ><a href="/">{{ capitalizePath }}</a>
-        </q-toolbar-title>
+        <q-toolbar-title class="title">{{ capitalizePath }}</q-toolbar-title>
         <q-space />
         <q-btn-dropdown
           class="userName"
@@ -81,6 +79,13 @@
             <q-item-section class="link"> Logout </q-item-section>
           </q-item>
           <q-separator />
+          <!-- i18n -->
+          <q-item class="absolute-bottom" clickable @click="changeLanguage" v-ripple>
+            <q-item-section avatar>
+              <q-icon name="language" />
+            </q-item-section>
+            <q-item-section class="link">Language</q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
     </q-drawer>
@@ -97,7 +102,7 @@ import { links } from "../utils/const";
 import { useUserStore } from "../stores/users";
 import { useRouter } from "vue-router";
 
-const drawer = ref(false);
+const drawer = ref(true);
 const miniState = ref(true);
 const userStore = useUserStore();
 const router = useRouter();

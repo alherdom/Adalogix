@@ -7,7 +7,18 @@
       />
     </a>
     <!--Here is where the map will be rendered-->
-    <div class="map" ref="mapContainer"></div>
+    <div class="map" ref="mapContainer">
+      <div class="q-mini-drawer-hide absolute" style="top: 15px; right: 360px">
+        <q-btn
+          dense
+          round
+          unelevated
+          color="primary"
+          icon="chevron_right"
+          @click="drawer = !drawer"
+        ></q-btn>
+      </div>
+    </div>
     <q-list
       bordered
       separator
@@ -45,16 +56,46 @@
     >
   </div>
   <!--Beginning of the drawer-->
+
+  <div
+    v-if="!drawer"
+    style="position: absolute; top: 65px; right: 10px; z-index: 2000;"
+  >
+    <q-btn
+      round
+      push
+      color="primary"
+      @click="drawer = !drawer"
+    >
+      <q-icon :name="drawer ? 'chevron_right' : 'chevron_left'"/>
+    </q-btn>
+  </div>
+
   <q-drawer
+    elevated
     side="right"
-    v-model="drawerRight"
-    show-if-above
+    v-model="drawer"
+    overlay
     bordered
+    :mini="miniState"
     :width="350"
-    style="z-index: 100"
+    :breakpoint="500"
     v-if="userIsAdmin"
     class="router-drawer"
   >
+    <div
+      v-if="drawer"
+      style="position: absolute; top: 15px; right: 330px; z-index: 2000"
+    >
+      <q-btn
+        round
+        push
+        color="primary"
+        :icon="drawer ? 'chevron_right' : 'chevron_left'"
+        @click="drawer = !drawer"
+      />
+    </div>
+
     <div class="select-inputs">
       <q-select
         filled
@@ -214,6 +255,8 @@ import {
 
 // Global constants
 
+const drawer = ref(false);
+const miniState = ref(false);
 const userIsAdmin = localStorage.userGroup == "admin";
 const userIsCourier = localStorage.userGroup == "courier";
 const maptilerApiKey = config.maptilerApiKey;
