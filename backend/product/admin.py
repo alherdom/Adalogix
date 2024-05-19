@@ -10,4 +10,4 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Inventory)
 class InventoryAdmin(admin.ModelAdmin):
-    list_display = ['product', 'store', 'stock']
+    list_display = ['id', 'product', 'store', 'stock']

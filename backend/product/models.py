@@ -13,7 +13,7 @@ class Product(models.Model):
     stores = models.ManyToManyField(Store, through='Inventory', blank=True)
 
     def __str__(self) -> str:
-        return self.name
+        return f'{self.name}-{self.pk}'
 
     class Meta:
         ordering = ['id']
