@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
 
-def password_generator(length=8):
+def password_generator(length=12):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 
