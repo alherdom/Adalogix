@@ -171,6 +171,10 @@ const getStores = async () => {
   stores.forEach((store) => {
     storeOptions.value.push({ label: store["name"], value: store["id"] });
   });
+  if (storeOptions.value.length > 0) {
+    store.value = storeOptions.value[0]
+    getStoreProducts()
+  }
 };
 
 const getStoreProducts = async () => {
