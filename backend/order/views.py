@@ -73,6 +73,9 @@ class OrderDeleteView(DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
+        if (instance.courier):
+            instance.courier.route = None
+            instance.courier.save()
         self.perform_destroy(instance)
         return JsonResponse({'status': 200})
     
@@ -84,5 +87,10 @@ class OrderMultipleDelete(APIView):
         data = json.loads(request.body)
         orders_ids = data['orders_ids']
         for order_id in orders_ids:
-            Order.objects.get(id=order_id).delete()
+            order = Order.objects.get(id=order_id)
+            if order.courier:
+                order.courier.route = None
+                order.courier.save()
+            order.delete()
+
         return JsonResponse({'status': 200})
