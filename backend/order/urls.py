@@ -4,5 +4,6 @@ app_name = 'order'
 
 urlpatterns = [
     path('list/', views.OrderListView.as_view(), name='order_list'),
-    path('create/', views.OrderCreateView.as_view(), name='order_create')
+    path('create/', views.OrderCreateView.as_view(), name='order_create'),
+    path('update/<int:pk>/', views.OrderUpdateView.as_view(), name='order_update')
 ]

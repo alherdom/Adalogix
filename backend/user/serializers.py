@@ -40,3 +40,20 @@ class EmployeeSerializer(serializers.ModelSerializer):
         representation['email'] = instance.user.email
 
         return representation
+
+class EmployeeOrderSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    class Meta:
+        model = Employee
+        fields = ['id', 'username', 'first_name', 'last_name']
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        return {
+            'id': representation['id'],
+            'username': representation['username'],
+            'first_name': representation['first_name'],
+            'last_name': representation['last_name']
+        }

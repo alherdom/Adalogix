@@ -4,6 +4,10 @@ from .serializer import StoreListSerializer
 from rest_framework.views import APIView
 from django.http import JsonResponse
 from .models import Store
+from product.models import Inventory
+from product.serializers import InventorySerializer
+from rest_framework.response import Response
+import json
 
 
 class StoreListView(ListAPIView):
@@ -34,4 +38,14 @@ class ProductStoreView(APIView):
             ).stock
             stores_to_return.append(store_info)
         return JsonResponse(stores_to_return, safe=False)
+    
+class ProductStoreInventoryView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request, pk):
+        store = Store.objects.get(id=pk)
+        inventories = Inventory.objects.filter(store=store)
+        inventory_list = []
+        for inventory in inventories:
+             inventory_list.append(InventorySerializer(inventory).data)
+        return Response(inventory_list)

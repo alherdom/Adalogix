@@ -108,7 +108,7 @@
       </q-select>
       <q-select
         filled
-        label="Stores"
+        label="Orders"
         :options="storesListOptions"
         v-model="storeSelected"
         @update:model-value="setStartPoint"
@@ -160,6 +160,7 @@
           dropoffPoints.length == 0 ||
           startPointTable == null
         "
+        style="height: 45px;"
       />
       <div class="ds-buttons">
         <q-btn
@@ -167,7 +168,7 @@
           push
           @click="deleteRoute"
           label="Delete"
-          style="width: 100%"
+          style="width: 100%; height: 45px;"
           :disable="
             layers.length == 0 &&
             startPointTable == null &&
@@ -245,9 +246,7 @@ import config from "src/utils/keys";
 import Swal from "sweetalert2";
 import {
   markRaw,
-  onBeforeUpdate,
   onMounted,
-  onUpdated,
   ref,
   shallowRef,
   toRaw,
@@ -269,6 +268,7 @@ const calculated = ref(false);
 const layers = ref([]);
 const routeSource = ref(null);
 const waypointsSource = ref(null);
+const orderId = ref(null)
 
 // Finish Global constants
 
@@ -343,20 +343,21 @@ const setEmployees = async () => {
   employeesListOptions.value = employeesInfoList;
 };
 
-const getStores = async () => {
-  let storesListUrl = "http://localhost:8000/store/list/";
-  let stores = await getRequest(storesListUrl);
-  return stores;
+
+const getOrders = async () => {
+  let ordersListUrl = "http://localhost:8000/order/list/";
+  let orders = await getRequest(ordersListUrl);
+  return orders;
 };
 
-const setStores = async () => {
-  let stores = await getStores();
-  stores.forEach((store) => {
+const setOrders = async () => {
+  let orders = await getOrders();
+  orders.forEach((order) => {
     storesListOptions.value.push({
-      label: store.name,
-      value: store.id,
-      lng: store.longitude,
-      lat: store.latitude,
+      label: `Order ${order.id} (${order.store.name})`,
+      value: order.id,
+      lng: order.store.longitude,
+      lat: order.store.latitude,
     });
   });
 };
@@ -634,6 +635,7 @@ const drawLayers = async () => {
   map.value.addLayer(routeLayer);
   map.value.addLayer(pointsLayer[0]);
   map.value.addLayer(pointsLayer[1]);
+  orderId.value = storeSelected.value.value
 };
 
 const getAddressByCoords = async (lng, lat) => {
@@ -657,6 +659,15 @@ const deleteStartPoint = () => {
   startPointInfo.value = null;
   startPointTable.value = null;
 };
+
+const unassignCourierOrder = async () => {
+  const url = `http://localhost:8000/order/update/${orderId.value}/`
+  console.log(orderId.value)
+  const requestData = {
+    courier: null
+  }
+  await patchRequest(requestData, url)
+}
 
 const deleteRoute = async () => {
   Swal.fire({
@@ -725,10 +736,22 @@ const deleteRoute = async () => {
       calculated.value = false;
     }
   });
+
+  await unassignCourierOrder()
 };
+
+const saveOrderAssignment = async () => {
+  const orderId = storeSelected.value.value
+  const url = `http://localhost:8000/order/update/${orderId}/`
+  const requestData = {
+    courier: employeeSelected.value.value
+  }
+  await patchRequest(requestData, url)
+}
 
 const saveCourierRoute = async () => {
   const dataForCourier = JSON.stringify({
+    order: storeSelected.value.value,
     layers: toRaw(layers.value),
     startPoint: toRaw(startPointTable.value),
     dropoffPoints: toRaw(dropoffPointsTable.value),
@@ -766,8 +789,11 @@ const saveCourierRoute = async () => {
     });
   }
 
+  await saveOrderAssignment()
+
   dropoffPoints.value = [];
 };
+
 
 // Finish Admin functions
 
@@ -810,6 +836,7 @@ const setCourierRoute = async () => {
     }
     const courierRoute = JSON.parse(courierRouteInfo.route);
     if (courierRoute) {
+      orderId.value = courierRoute.order
       calculated.value = true;
       layers.value = courierRoute.layers;
       dropoffPointsTable.value = courierRoute.dropoffPoints;
@@ -824,6 +851,16 @@ const setCourierRoute = async () => {
     calculated.value = false;
   }
 };
+
+const finishOrder = async () => {
+  const url = `http://localhost:8000/order/update/${orderId.value}/`
+  const completion_date = new Date().toISOString()
+  const requestData = {
+    status: true,
+    completion_date: completion_date
+  }
+  await patchRequest(requestData, url)
+}
 
 const finishCourierRoute = async () => {
   Swal.fire({
@@ -867,6 +904,8 @@ const finishCourierRoute = async () => {
       }
     }
   });
+
+  await finishOrder()
 };
 
 // Finish courier functions
@@ -884,7 +923,7 @@ onMounted(() => {
       drawDropoffMark(lng, lat, color, address);
     });
     setEmployees();
-    setStores();
+    setOrders();
   }
 
   if (userIsCourier) {

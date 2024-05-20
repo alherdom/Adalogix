@@ -10,6 +10,7 @@ class Order(models.Model):
     products = models.ManyToManyField(Product, through='OrderProduct')
     status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    completion_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'Order_{self.pk}'
