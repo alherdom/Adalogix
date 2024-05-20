@@ -101,7 +101,7 @@ export const userColumns = [
     required: true,
     label: "User Code",
     align: "left",
-    field: "user",
+    field: "id",
     sortable: true,
   },
   {
