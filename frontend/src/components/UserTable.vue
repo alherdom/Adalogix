@@ -156,7 +156,7 @@ const $q = useQuasar();
 const exportTable = () => {
   let rowsToExport =
     selectedRows.value.length > 0 ? selectedRows.value : users.value;
-  const columnsToExport = columns.slice(0, -1);
+  const columnsToExport = userColumns.slice(0, -1);
   const content = [columnsToExport.map((col) => wrapCsvValue(col.label))]
     .concat(
       rowsToExport.map((row) =>

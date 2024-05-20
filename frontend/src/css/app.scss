@@ -157,6 +157,10 @@ body {
   // height or max-height is important
   height: 93vh;
 
+  tr:hover {
+    color: #FF6C37;
+  }
+
   .q-table__card {
     border-radius: 0px;
   }
@@ -192,7 +196,7 @@ body {
 
 // PRODUCT DETAIL TABLE
 .product-detail-table {
-  width: 500px;
+  min-width: 920px;
   height: auto;
 }
 

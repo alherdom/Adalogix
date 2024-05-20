@@ -80,12 +80,12 @@
           </q-item>
           <q-separator />
           <!-- i18n -->
-          <q-item class="absolute-bottom" clickable @click="changeLanguage" v-ripple>
+          <!-- <q-item class="absolute-bottom" clickable @click="changeLanguage" v-ripple>
             <q-item-section avatar>
               <q-icon name="language" />
             </q-item-section>
             <q-item-section class="link">Language</q-item-section>
-          </q-item>
+          </q-item> -->
         </q-list>
       </q-scroll-area>
     </q-drawer>

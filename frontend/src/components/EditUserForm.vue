@@ -51,7 +51,7 @@
         <q-btn
           push
           color="primary"
-          label="SEND"
+          label="SAVE"
           type="submit"
           class="edit-btn"
           :loading="loading"
@@ -78,7 +78,7 @@ const roleOptions = ref([
   { label: "Admin", value: "SA" },
   { label: "Courier", value: "CO" },
 ]);
-const role = ref({ label: userData.role, value: userData.role });
+const role = ref(userData.role);
 const email = ref(userData.email);
 const loading = ref(false);
 const emit = defineEmits(["closeEditForm"]);
