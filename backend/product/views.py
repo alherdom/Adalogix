@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from rest_framework.generics import (
     CreateAPIView,
     DestroyAPIView,
-    ListAPIView,
     RetrieveAPIView,
     UpdateAPIView,
 )
@@ -13,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from .models import Inventory, Product, Store
-from .serializers import ProductDetailSerializer, ProductListSerializer
+from .serializers import ProductDetailSerializer
 
 
 class ProductMultipleDelete(APIView):

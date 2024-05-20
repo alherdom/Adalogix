@@ -5,5 +5,7 @@ app_name = 'order'
 urlpatterns = [
     path('list/', views.OrderListView.as_view(), name='order_list'),
     path('create/', views.OrderCreateView.as_view(), name='order_create'),
-    path('update/<int:pk>/', views.OrderUpdateView.as_view(), name='order_update')
+    path('update/<int:pk>/', views.OrderUpdateView.as_view(), name='order_update'),
+    path('delete/<int:pk>/', views.OrderDeleteView.as_view(), name='order_delete'),
+    path('delete/multiple/', views.OrderMultipleDelete.as_view(), name='order_multiple_delete')
 ]

@@ -4,16 +4,14 @@ from .serializers import OrderSerializer
 from rest_framework.permissions import IsAuthenticated
 from store.models import Store
 from product.models import Product, Inventory
-from rest_framework.response import Response
 from user.models import Employee
+import json
 
 from rest_framework.generics import (
-    UpdateAPIView,
-    CreateAPIView,
+    DestroyAPIView,
     ListAPIView,
-    RetrieveAPIView, 
 )
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from datetime import datetime
 
 
@@ -67,3 +65,24 @@ class OrderUpdateView(APIView):
             order.status = request.data['status']
             order.save()
         return JsonResponse({"status": 200})
+    
+class OrderDeleteView(DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return JsonResponse({'status': 200})
+    
+
+class OrderMultipleDelete(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+        data = json.loads(request.body)
+        orders_ids = data['orders_ids']
+        for order_id in orders_ids:
+            Order.objects.get(id=order_id).delete()
+        return JsonResponse({'status': 200})

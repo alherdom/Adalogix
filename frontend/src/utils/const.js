@@ -1,9 +1,9 @@
 export const links = [
   {
-    path: "/",
-    label: "Home",
-    icon: "cottage",
-    roles: ["admin", "courier"],
+    path: "/orders",
+    label: "Orders",
+    icon: "dashboard_customize",
+    roles: ["admin"],
   },
   {
     path: "/inventory",
