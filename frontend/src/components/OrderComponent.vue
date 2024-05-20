@@ -10,7 +10,7 @@
   v-model:selected="selectedRows"
   selection="multiple"
   >
-  <template v-slot:top>    
+  <template v-slot:top>
     <q-btn
         icon="add"
         size="12px"
@@ -98,6 +98,7 @@ import AddOrderForm from './AddOrderForm.vue';
 import { formatDate } from 'src/utils/formatDate';
 import Swal from 'sweetalert2';
 
+const loading = ref(false);
 const selectedRows = ref([])
 const filter = ref("");
 
@@ -118,7 +119,7 @@ const columns = [
     name: "order_id",
     required: true,
     label: "Order id",
-    align: "center",   
+    align: "center",
     field: "id",
     sortable: true,
   },
@@ -132,7 +133,7 @@ const columns = [
   },
   {
     name: "date",
-    required: true, 
+    required: true,
     label: "Creation Date",
     align: "center",
     field: "created_at",
@@ -171,7 +172,7 @@ const getOrders = async () => {
     // const url = "https://backend.adalogix.es/product/list/";
     const url = "http://localhost:8000/order/list/";
     const response = await getRequest(url);
-    
+
     console.log(response)
     response.forEach((row) => {
       let completion_date;
@@ -181,9 +182,9 @@ const getOrders = async () => {
       } else {
         courier = '➖'
       }
-      
+
       console.log(row)
-      
+
       if (row.completion_date != null)  {
         completion_date = formatDate(row.completion_date)
       } else {

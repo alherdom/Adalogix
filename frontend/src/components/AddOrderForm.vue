@@ -1,145 +1,184 @@
 <template>
-  <q-card class="item-card card-container">
+  <q-card>
     <q-card-section>
-      <div class="text-h5 text-center item-form-title">
-        <div class="text-right">
-          <q-btn flat dense icon="close" v-close-popup />
-        </div>
-        Create Order
-      </div>
-    </q-card-section>
-    <q-card-section>
-      <q-form @submit="sendData" class="item-form">
-        <q-select :options="storeOptions" v-model="store" filled label="Stores" outlined  @update:model-value="getStoreProducts" style="width: 10%;"/>
-        <div class="order-container"> 
+      <q-form @submit="sendData">
+        <div class="order-container">
           <div class="table-container">
             <q-table
               flat
+              bordered
               :rows="rows"
               :columns="columns"
-              style="padding: 30px; height: 60vh;"
+              style="height: 95vh"
               :rows-per-page-options="[0]"
               class="my-sticky-header-table"
               hide-bottom
             >
-            <template v-slot:body-cell-quantity="props">
-            <q-td style="width: 150px;">
-       
+              <template v-slot:top>
+                <div>
+                  <q-select
+                    :options="storeOptions"
+                    v-model="store"
+                    filled
+                    label="Stores"
+                    outlined
+                    @update:model-value="getStoreProducts"
+                    style="width: 250px"
+                  />
+                </div>
+                <q-space />
+                <div>
+                  <q-btn
+                    push
+                    color="primary"
+                    label="Create Order"
+                    type="button"
+                    class="item-btn"
+                    style="width: 200px"
+                    @click="saveOrder"
+                  />
+                </div>
+              </template>
+              <template v-slot:body-cell-quantity="props">
+                <q-td
+                  style="
+                    display: flex;
+                    height: auto;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 10px;
+                  "
+                >
                   <q-input
                     type="number"
                     filled
                     v-model="props.row.quantity"
-                    style="width: 150px;"
+                    style="width: 150px; padding: 0px"
                     :min="0"
                     :max="props.row.stock"
                   />
-            </q-td>
-        </template>
-        <template v-slot:body-cell-action="props">
-          <q-td style="width: 150px;">
-            <q-btn
+                </q-td>
+              </template>
+              <template v-slot:body-cell-action="props">
+                <q-td style="width: 150px">
+                  <q-btn
                     label="Add"
                     size="sm"
                     color="primary"
                     icon="add"
-                    :disabled="props.row.quantity > props.row.stock || props.row.quantity === 0 || props.row.quantity === '0'"
-                    @click="addProduct(props.row)"/>
-                    
-          </q-td>
-        </template>
-          </q-table>
+                    :disabled="
+                      props.row.quantity > props.row.stock ||
+                      props.row.quantity === 0 ||
+                      props.row.quantity === '0'
+                    "
+                    @click="addProduct(props.row)"
+                  />
+                </q-td>
+              </template>
+            </q-table>
           </div>
-        <div class="orders-container">
-          <q-scroll-area style="height: 100%; max-width: 98%; margin-top: 0px">
-          <div v-for="(product, index) in products" :key="index">
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="category"></q-icon>
-              </q-item-section>
-              <q-item-section style="text-align: start">{{ product.name }}</q-item-section>
-              <q-item-section style="text-align: start">{{ product.quantity }}</q-item-section>
-            </q-item>
+          <div class="orders-container">
+            <div class="text-right" style="background-color: #EEEEEE;">
+              <q-btn flat dense  icon="close" v-close-popup />
+            </div>
+            <div>
+              <q-toolbar-title class="text-center" style="background-color: #EEEEEE; height: 96px; border-bottom: 1px solid #E0E0E0;">Products Order List</q-toolbar-title>
+            </div>
+            <q-scroll-area
+              style="height: 100%; max-width: 98%; margin-top: 0px"
+            >
+              <div v-for="(product, index) in products" :key="index">
+                <q-item clickable v-ripple>
+                  <q-item-section avatar>
+                    <q-icon name="label"></q-icon>
+                  </q-item-section>
+                  <q-item-section style="text-align: start">{{
+                    product.name
+                  }}</q-item-section>
+                  <q-item-section style="text-align: start">{{
+                    product.quantity
+                  }}</q-item-section>
+                </q-item>
+              </div>
+            </q-scroll-area>
           </div>
-        </q-scroll-area>
         </div>
-      </div>
-        <q-btn push color="primary" label="Save" type="button" class="item-btn" style="width: 100px;" @click="saveOrder"/>
       </q-form>
     </q-card-section>
   </q-card>
 </template>
 
 <script setup>
-import { getRequest, postRequest } from 'src/utils/common';
-import Swal from 'sweetalert2';
-import { onMounted, ref } from 'vue';
+import { getRequest, postRequest } from "src/utils/common";
+import Swal from "sweetalert2";
+import { onMounted, ref } from "vue";
 
-const products = ref([])
-const storeOptions = ref([])
-const store = ref(null)
-const rows = ref([])
+const products = ref([]);
+const storeOptions = ref([]);
+const store = ref(null);
+const rows = ref([]);
 const emit = defineEmits(["closeOrderForm"]);
 const columns = [
   {
     name: "id",
-    required: true, 
+    required: true,
     label: "Id",
-    align: "left",
-    field: "product"
+    align: "center",
+    field: "product",
   },
   {
     name: "name",
     required: true,
     label: "Name",
-    align: "left",   
-    field: "product_name"
+    align: "center",
+    field: "product_name",
   },
   {
     name: "stock",
     required: true,
     label: "Stock",
-    align: "left",
-    field: "stock"
+    align: "center",
+    field: "stock",
   },
   {
     name: "quantity",
-    required: false, 
+    required: false,
     label: "Quantity",
-    align: "left", 
-    field: "quantity"
+    align: "center",
+    field: "quantity",
   },
   {
     name: "action",
-    required: false, 
+    required: false,
     label: "Action",
-    align: "left", 
-    field: "action"
-  }
-]
+    align: "center",
+    field: "action",
+  },
+];
 
-  const addProduct = (props) => {
-    const product_info = {
-      name: props.product_name,
-      quantity: props.quantity,
-      id: props.product
-    }
-    products.value.push(product_info)
-  }
+const addProduct = (props) => {
+  const product_info = {
+    name: props.product_name,
+    quantity: props.quantity,
+    id: props.product,
+  };
+  products.value.push(product_info);
+};
 
 const getStores = async () => {
-  const url = "http://localhost:8000/store/list/"
-  const stores = await getRequest(url)
+  const url = "http://localhost:8000/store/list/";
+  const stores = await getRequest(url);
   stores.forEach((store) => {
-    storeOptions.value.push({label: store['name'], value: store['id']})
-  })
-}
+    storeOptions.value.push({ label: store["name"], value: store["id"] });
+  });
+};
 
 const getStoreProducts = async () => {
-    try {
+  try {
     // const url = "https://backend.adalogix.es/product/list/";
     const url = `http://localhost:8000/store/detail/${store.value.value}/`;
     const response = await getRequest(url);
-    rows.value = response.map((row) => ({ ...row, quantity: 0}));
+    rows.value = response.map((row) => ({ ...row, quantity: 0 }));
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({
@@ -147,39 +186,37 @@ const getStoreProducts = async () => {
       title: "Oops...",
       text: "Something went wrong while fetching data!",
     });
-  } 
+  }
 };
 
 const saveOrder = async () => {
-
   try {
-    const products_data = []
+    const products_data = [];
     products.value.forEach((product) => {
-    const product_info = {
-      product: product.id,
-      quantity: product.quantity
-    }
-    products_data.push(product_info)
-    })
+      const product_info = {
+        product: product.id,
+        quantity: product.quantity,
+      };
+      products_data.push(product_info);
+    });
 
     const requestData = {
       store: store.value.value,
-      products: products_data
-    }
+      products: products_data,
+    };
 
     // const url = `https:/backend.adalogix.es/user/reset_password/`;
-    const url = "http://localhost:8000/order/create/"
+    const url = "http://localhost:8000/order/create/";
     const response = await postRequest(requestData, url);
-    console.log(response)
+    console.log(response);
     if (response.status === 200) {
-      emit("closeOrderForm", false)
+      emit("closeOrderForm", false);
       Swal.fire({
         title: "Success",
         text: "Password reset successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,
-
       });
     } else {
       console.log(response.status);
@@ -190,32 +227,28 @@ const saveOrder = async () => {
   }
 };
 
-
 onMounted(() => {
-  getStores()
-})
+  getStores();
+});
 </script>
 
 <style>
-
 .order-container {
-  border-top: 2px solid #eee;
-  border-bottom: 2px solid #eee;
   display: flex;
-  margin: 30px 0px;
 }
 
 .table-container {
   width: 70%;
-  height: 20%;
+  height: 100%;
 }
 
 .orders-container {
+  border: 1px solid #E0E0E0;
   width: 30%;
   display: flex;
   flex-direction: column;
-  border-left: 2px solid #eee;
-  padding: 30px;
+  height: 95vh;
+  border-radius: 4px;
 }
 
 .card-container {
