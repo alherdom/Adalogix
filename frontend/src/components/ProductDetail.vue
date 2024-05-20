@@ -1,6 +1,5 @@
 <template>
   <q-table
-    class="product-detail-table"
     flat
     :rows="stores"
     :columns="storeColumns"
@@ -19,13 +18,48 @@
         v-close-popup
       />
     </template>
+    <template v-slot:body="props">
+      <q-tr :props="props">
+        <q-td key="id" :props="props">
+          {{ props.row.id }}
+        </q-td>
+        <q-td key="name" :props="props">
+          {{ props.row.name }}
+        </q-td>
+        <q-td key="address" :props="props">
+          {{ props.row.address }}
+        </q-td>
+        <q-td key="productId" :props="props" :item="props.item">
+          {{ item.id }}
+        </q-td>
+        <q-td key="stock" :props="props">
+          <q-input
+            v-model="props.row.stock"
+            outlined
+            dense
+            autofocus
+            type="number"
+            style="width: 80px !important"
+          />
+        </q-td>
+        <q-td key="actions" :props="props">
+          <q-btn
+            push
+            label="save"
+            size="sm"
+            color="primary"
+            @click="updateStore(props.row.id, item.id, props.row.stock)"
+          />
+        </q-td>
+      </q-tr>
+    </template>
   </q-table>
 </template>
 
 <script setup>
 import Swal from "sweetalert2";
 import { ref, onMounted, watch } from "vue";
-import { getRequest } from "src/utils/common";
+import { getRequest, patchRequest } from "src/utils/common";
 import { storeColumns } from "src/utils/const";
 
 const props = defineProps({
@@ -66,4 +100,33 @@ const loadProductData = () => {
 onMounted(loadProductData);
 watch(() => props.productId, loadProductData);
 watch(() => props.item, loadProductData);
+
+const updateStore = async (store, productId, stock) => {
+  try {
+    const requestData = {
+      product_id: productId,
+      store_id: store,
+      new_stock: stock,
+    };
+    // const url = https://backend.adalogix.es/product/update-stock/;
+    const url = "http://localhost:8000/product/update/stock/";
+    const response = await patchRequest(requestData, url);
+    if (response.status === 200) {
+      emit("closeProductDetail");
+      fetchData(productId);
+      Swal.fire({
+        title: "Success",
+        text: "Stock updated successfully",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      console.log(response.status);
+      alert("Error");
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>

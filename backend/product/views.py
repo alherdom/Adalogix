@@ -1,6 +1,6 @@
 import json
 from csv import DictReader
-
+from django.db import transaction
 from django.http import JsonResponse
 from rest_framework.generics import (
     CreateAPIView,
@@ -100,30 +100,77 @@ class ProductUpdateView(UpdateAPIView):
         return JsonResponse(dict(status=200, message='Product successfully updated'))
 
 
-class ProductUploadFromCSV(APIView):
-    # ToDo: Send token in headers from frontend
-    # permission_classes = [IsAuthenticated]
+class ProductUpdateStockView(UpdateAPIView):
+    permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        file_field_name = list(request.FILES.keys())[0]
-        file = request.FILES[file_field_name]
-        decoded_file = file.read().decode('utf-8')
-        reader = DictReader(decoded_file.splitlines())
-        general_store = Store.objects.get(id=21)
-        for row in reader:
-            print(row)
-            new_product = Product.objects.create(
-                name=row['Name'],
-                description=row['Description'],
-                price=row['Price'],
-                category=row['Category'],
-                weight=row['Weight'],
-                volume=row['Volume'],
-            )
-            Inventory.objects.create(
-                product=new_product, store=general_store, stock=row['Quantity']
-            )
+    def patch(self, request):
+        data = json.loads(request.body)
+        product_id = data['product_id']
+        store_id = data['store_id']
+        new_stock = data['new_stock']
+        inventory = Inventory.objects.get(product=product_id, store=store_id)
+        inventory.stock = new_stock
+        inventory.save()
         return JsonResponse({'status': 200})
+
+
+class ProductUploadFromCSV(APIView):
+    def post(self, request):
+        try:
+            file_field_name = list(request.FILES.keys())[0]
+            file = request.FILES[file_field_name]
+            decoded_file = file.read().decode('utf-8')
+            reader = DictReader(decoded_file.splitlines())
+
+            required_fields = [
+                'Id',
+                'Store',
+                'Name',
+                'Description',
+                'Quantity',
+                'Category',
+                'Price',
+                'Weight',
+                'Volume',
+            ]
+
+            with transaction.atomic():
+                for row in reader:
+                    missing_fields = [field for field in required_fields if field not in row]
+                    if missing_fields:
+                        return JsonResponse(
+                            {'error': f'Missing fields in CSV file: {", ".join(missing_fields)}'},
+                            status=400,
+                        )
+                    product, created = Product.objects.get_or_create(
+                        id=row['Id'],
+                        defaults={
+                            'name': row['Name'],
+                            'description': row['Description'],
+                            'category': row['Category'],
+                            'price': row['Price'],
+                            'weight': row['Weight'],
+                            'volume': row['Volume'],
+                        },
+                    )
+                    try:
+                        store = Store.objects.get(id=row['Store'])
+                    except Store.DoesNotExist:
+                        return JsonResponse(
+                            {'error': f'Store with id {row["Store"]} does not exist'}, status=400
+                        )
+                    inventory, created = Inventory.objects.get_or_create(
+                        product=product, store=store, defaults={'stock': row['Quantity']}
+                    )
+                    if not created:
+                        inventory.stock += int(row['Quantity'])
+                        inventory.save()
+            return JsonResponse({'status': 200})
+        except Exception as e:
+            print(f'Error: {e}')
+            return JsonResponse(
+                {'error': f'An error occurred while processing the file: {e}'}, status=500
+            )
 
 
 class LowStockProducts(APIView):

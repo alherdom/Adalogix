@@ -51,7 +51,7 @@
         <q-btn
           push
           color="primary"
-          label="SEND"
+          label="SAVE"
           type="submit"
           class="edit-btn"
           :loading="loading"

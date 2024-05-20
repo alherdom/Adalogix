@@ -150,8 +150,8 @@
   <q-dialog v-model="editItemForm">
     <EditItemForm :item="itemData" @closeEditForm="closeEditItemForm" />
   </q-dialog>
-  <q-dialog v-model="showProductDetail">
-    <ProductDetail
+  <q-dialog v-model="showProductDetail" >
+    <ProductDetail class="product-detail-table"
       :item="itemData"
       @closeProductDetail="closeProductDetailTable"
     />
@@ -302,8 +302,8 @@ const deleteItems = async () => {
     return;
   }
   Swal.fire({
-    text: "Delete Products",
-    title: "Are you sure you want to delete?",
+    title: "Delete Products",
+    text: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -353,6 +353,7 @@ const productDetail = (itemProps) => {
 
 const closeProductDetailTable = (value) => {
   showProductDetail.value = value;
+  fetchData();
 };
 
 const displayedItems = computed(() => {

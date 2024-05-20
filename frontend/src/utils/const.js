@@ -159,7 +159,7 @@ export const storeColumns = [
   {
     name: "name",
     required: true,
-    label: "Name",
+    label: "Store Name",
     align: "left",
     field: "name",
     sortable: true,
@@ -173,11 +173,20 @@ export const storeColumns = [
     sortable: true,
   },
   {
-    name: "sotck",
+    name: "productId",
+    required: true,
+    label: "Product Code",
+    align: "left",
+    field: "productId",
+    sortable: true,
+  },
+  {
+    name: "stock",
     required: true,
     label: "Stock",
     align: "left",
     field: "stock",
     sortable: true,
   },
+  { name: "actions", label: "Update", align: "left", field: "actions" },
 ];
