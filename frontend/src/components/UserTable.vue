@@ -200,7 +200,6 @@ const fetchData = async () => {
     // const url = "http://localhost:8000/user/list/";
     const url = "https://backend.adalogix.es/user/list/";
     const response = await getRequest(url);
-    console.log(response);
     users.value = response.map((user) => ({ ...user }));
   } catch (error) {
     console.error("Error fetching data:", error);

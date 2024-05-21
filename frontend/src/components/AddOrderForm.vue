@@ -237,7 +237,6 @@ const saveOrder = async () => {
     // const url = "http://localhost:8000/order/create/";
     const url = "https://backend.adalogix.es/order/create/";
     const response = await postRequest(requestData, url);
-    console.log(response);
     if (response.status === 200) {
       emit("closeOrderForm", false);
       Swal.fire({

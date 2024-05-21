@@ -649,7 +649,6 @@ const getAddressByCoords = async (lng, lat) => {
 };
 
 const deleteDropoffPoint = (index) => {
-  console.log(dropoffPointsTable.value.length);
   dropoffPoints.value[index].remove();
   delete dropoffPointsInfo.value[`order_${index + 1}`];
   delete dropoffPointsTable.value.splice(index, 1);
@@ -665,7 +664,6 @@ const deleteStartPoint = () => {
 const unassignCourierOrder = async () => {
   // const url = `http://localhost:8000/order/update/${orderId.value}/`
   const url = `https://backend.adalogix.es/order/update/${orderId.value}/`
-  console.log(orderId.value)
   const requestData = {
     courier: null
   }
@@ -924,7 +922,6 @@ onMounted(() => {
 
   if (userIsAdmin) {
     map.value.on("click", async (event) => {
-      console.log(calculated.value);
       let lng = event.lngLat.lng;
       let lat = event.lngLat.lat;
       let address = await getAddressByCoords(lng, lat);

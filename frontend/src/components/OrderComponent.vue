@@ -125,12 +125,11 @@ const openAddOrderForm = () =>  {
     addOrderForm.value = true
 }
 
-
 const columns = [
   {
     name: "order_id",
     required: true,
-    label: "Order id",
+    label: "Code",
     align: "center",
     field: "id",
     sortable: true,
@@ -290,7 +289,7 @@ const deleteItems = async () => {
 const deleteItem = async (item) => {
   Swal.fire({
     title: "Cancel Order",
-    text: `Are you sure you want to cancel the Order Nº${item.id}?`,
+    text: `Are you sure you want to cancel the Order ${item.id}?`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",

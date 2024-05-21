@@ -272,7 +272,6 @@ const deleteItem = async (item) => {
       const requestData = { product_id: item.id };
       try {
         const response = await deleteRequest(requestData, url);
-        console.log(response);
         if (response.status === 200) {
           fetchData();
           Swal.fire({
