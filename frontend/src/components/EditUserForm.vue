@@ -96,6 +96,7 @@ const sendData = async () => {
     };
     console.log(requestData);
     // const url = `http://localhost:8000/user/update/${id.value}/`;
+    // HOLA HOLA
     const url = `https://backend.adalogix.es/user/update/${id.value}/`;
     const response = await patchRequest(requestData, url);
     if (response.status === 200) {
