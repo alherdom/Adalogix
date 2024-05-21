@@ -5,7 +5,7 @@
     :rows="displayedUsers"
     :columns="userColumns"
     :loading="loading"
-    row-key="user"
+    row-key="id"
     v-model:selected="selectedRows"
     selection="multiple"
     :pagination="{ rowsPerPage: 20 }"
@@ -308,6 +308,7 @@ const displayedUsers = computed(() => {
     if (!filter.value) return true;
     const search = filter.value.toLowerCase();
     return (
+      user.id.toString().includes(search) ||
       user.username.toLowerCase().includes(search) ||
       user.first_name.toLowerCase().includes(search) ||
       user.last_name.toLowerCase().includes(search) ||

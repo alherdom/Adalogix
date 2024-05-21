@@ -78,17 +78,25 @@
             </q-table>
           </div>
           <div class="orders-container">
-            <div class="text-right" style="background-color: #EEEEEE;">
-              <q-btn flat dense  icon="close" v-close-popup />
+            <div class="text-right" style="background-color: #eeeeee">
+              <q-btn flat dense icon="close" v-close-popup />
             </div>
             <div>
-              <q-toolbar-title class="text-center" style="background-color: #EEEEEE; height: 96px; border-bottom: 1px solid #E0E0E0;">Products Order List</q-toolbar-title>
+              <q-toolbar-title
+                class="text-center"
+                style="
+                  background-color: #eeeeee;
+                  height: 96px;
+                  border-bottom: 1px solid #e0e0e0;
+                "
+                >Products Order List</q-toolbar-title
+              >
             </div>
             <q-scroll-area
               style="height: 100%; max-width: 98%; margin-top: 0px"
             >
               <div v-for="(product, index) in products" :key="index">
-                <q-item clickable v-ripple>
+                <q-item>
                   <q-item-section avatar>
                     <q-icon name="label"></q-icon>
                   </q-item-section>
@@ -97,9 +105,23 @@
                   }}</q-item-section>
                   <q-item-section style="text-align: start">{{
                     product.quantity
-                  }}</q-item-section>
-                  <q-item-section style="display: flex; justify-content: end; align-items: end;">
-                    <q-btn flat round color="primary" icon="delete" dense style="width: 20%;" @click="deleteProduct(index)"/>
+                  }} uds</q-item-section>
+                  <q-item-section
+                    style="
+                      display: flex;
+                      justify-content: end;
+                      align-items: end;
+                    "
+                  >
+                    <q-btn
+                      flat
+                      round
+                      color="primary"
+                      icon="delete"
+                      dense
+                      style="width: 20%"
+                      @click="deleteProduct(index)"
+                    />
                   </q-item-section>
                 </q-item>
               </div>
@@ -162,7 +184,7 @@ const columns = [
 const addProduct = (props) => {
   products.value[props.product] = {
     name: props.product_name,
-    quantity: props.quantity
+    quantity: props.quantity,
   };
 };
 
@@ -173,8 +195,8 @@ const getStores = async () => {
     storeOptions.value.push({ label: store["name"], value: store["id"] });
   });
   if (storeOptions.value.length > 0) {
-    store.value = storeOptions.value[0]
-    getStoreProducts()
+    store.value = storeOptions.value[0];
+    getStoreProducts();
   }
 };
 
@@ -200,7 +222,7 @@ const saveOrder = async () => {
     Object.keys(products.value).forEach((product_id) => {
       const product_info = {
         product: product_id,
-        quantity: products.value[product_id].quantity
+        quantity: products.value[product_id].quantity,
       };
       products_data.push(product_info);
     });
@@ -233,8 +255,8 @@ const saveOrder = async () => {
 };
 
 const deleteProduct = (id) => {
-  delete products.value[id]
-}
+  delete products.value[id];
+};
 
 onMounted(() => {
   getStores();
@@ -252,7 +274,7 @@ onMounted(() => {
 }
 
 .orders-container {
-  border: 1px solid #E0E0E0;
+  border: 1px solid #e0e0e0;
   width: 30%;
   display: flex;
   flex-direction: column;

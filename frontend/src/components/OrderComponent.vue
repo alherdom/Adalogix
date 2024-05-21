@@ -64,7 +64,7 @@
           transition-show="scale"
           transition-hide="scale"
         >
-          By courier, creation date, completion date or status
+          By code, courier or status
         </q-tooltip>
       </q-input>
     </template>
@@ -233,8 +233,7 @@ const displayedItems = computed(() => {
     if (!filter.value) return true;
     const search = filter.value.toLowerCase();
     return (
-      row.created_at.toLowerCase().includes(search) ||
-      row.completion_date.toLowerCase().includes(search) ||
+      row.id.toString().toLowerCase().includes(search) ||
       row.courier.toLowerCase().includes(search) ||
       row.status.toLowerCase().includes(search)
     );
@@ -336,8 +335,4 @@ const orderDetail = async (orderId) => {
 onMounted(() => {
   getOrders()
 })
-
-
-
-
 </script>

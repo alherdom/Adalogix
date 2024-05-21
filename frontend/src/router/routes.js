@@ -24,8 +24,8 @@ const routes = [
         children: [],
       },
       {
-        path: "users",
-        name: "users",
+        path: "employees",
+        name: "employees",
         component: () => import("pages/UsersPage.vue"),
         meta: { requiresAuth: true, roles: ["admin"] },
       },
@@ -44,7 +44,7 @@ const routes = [
       {
         path: "chat",
         name: "chat",
-        component: () => import("pages/ChatPage.vue"),
+        component: () => import("pages/IndexPage.vue"),
       },
       {
         path: "settings",

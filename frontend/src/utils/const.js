@@ -11,14 +11,24 @@ export const links = [
     icon: "inventory",
     roles: ["admin"],
   },
-  { path: "/router", label: "Router", icon: "fmd_good", roles: ["admin", "courier"] },
+  {
+    path: "/employees",
+    label: "Employees",
+    icon: "people_alt",
+    roles: ["admin"],
+  },
+  {
+    path: "/router",
+    label: "Router",
+    icon: "fmd_good",
+    roles: ["admin", "courier"],
+  },
   {
     path: "/chat",
     label: "Chat",
     icon: "comment",
     roles: ["admin", "courier"],
   },
-  { path: "/users", label: "Users", icon: "people_alt", roles: ["admin"] },
   {
     path: "/settings",
     label: "Settings",
@@ -31,7 +41,7 @@ export const inventoryColumns = [
   {
     name: "id",
     required: true,
-    label: "Product Code",
+    label: "Code",
     align: "left",
     field: "id",
     sortable: true,
@@ -99,7 +109,7 @@ export const userColumns = [
   {
     name: "id",
     required: true,
-    label: "User Code",
+    label: "Code",
     align: "left",
     field: "id",
     sortable: true,
@@ -175,7 +185,7 @@ export const storeColumns = [
   {
     name: "productId",
     required: true,
-    label: "Product Code",
+    label: "Code",
     align: "left",
     field: "productId",
     sortable: true,
