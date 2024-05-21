@@ -318,7 +318,8 @@ function mountMap() {
 // Admin site functions
 
 const getEmployees = async () => {
-  let employeesListUrl = "http://localhost:8000/user/list/";
+  // let employeesListUrl = "http://localhost:8000/user/list/";
+  let employeesListUrl = "https://backend.adalogix.es/user/list/";
   let employees = await getRequest(employeesListUrl);
   return employees;
 };
@@ -345,7 +346,8 @@ const setEmployees = async () => {
 
 
 const getOrders = async () => {
-  let ordersListUrl = "http://localhost:8000/order/list/";
+  // let ordersListUrl = "http://localhost:8000/order/list/";
+  let ordersListUrl = "https://backend.adalogix.es/order/list/";
   let orders = await getRequest(ordersListUrl);
   return orders;
 };
@@ -661,7 +663,8 @@ const deleteStartPoint = () => {
 };
 
 const unassignCourierOrder = async () => {
-  const url = `http://localhost:8000/order/update/${orderId.value}/`
+  // const url = `http://localhost:8000/order/update/${orderId.value}/`
+  const url = `https://backend.adalogix.es/order/update/${orderId.value}/`
   console.log(orderId.value)
   const requestData = {
     courier: null
@@ -701,7 +704,8 @@ const deleteRoute = async () => {
       if (employeeSelected.value) {
         const employeeId = employeeSelected.value.value;
         try {
-          const url = `http://localhost:8000/user/update/${employeeId}/`;
+          // const url = `http://localhost:8000/user/update/${employeeId}/`;
+          const url = `https://backend.adalogix.es/user/update/${employeeId}/`
           const requestData = {
             available: true,
             route: null,
@@ -742,7 +746,8 @@ const deleteRoute = async () => {
 
 const saveOrderAssignment = async () => {
   const orderId = storeSelected.value.value
-  const url = `http://localhost:8000/order/update/${orderId}/`
+  // const url = `http://localhost:8000/order/update/${orderId}/`
+  const url = `https://backend.adalogix.es/order/update/${orderId}/`
   const requestData = {
     courier: employeeSelected.value.value
   }
@@ -762,7 +767,8 @@ const saveCourierRoute = async () => {
   const employeeId = employeeSelected.value.value;
 
   try {
-    const url = `http://localhost:8000/user/update/${employeeId}/`;
+    // const url = `http://localhost:8000/user/update/${employeeId}/`;
+    const url = `https://backend.adalogix.es/user/update/${employeeId}/`
     const requestData = {
       available: false,
       route: dataForCourier,
@@ -808,7 +814,8 @@ const setCourierRoute = async () => {
   } else if (userIsCourier) {
     courierId = localStorage.userId;
   }
-  const getCourierRouterInfoUrl = `http://localhost:8000/user/detail/${courierId}/`;
+  // const getCourierRouterInfoUrl = `http://localhost:8000/user/detail/${courierId}/`;
+  const getCourierRouterInfoUrl = `https://backend.adalogix.es/user/detail/${courierId}/`
   const courierRouteInfo = await getRequest(getCourierRouterInfoUrl);
   const sourceToRemove = new Set();
 
@@ -853,7 +860,8 @@ const setCourierRoute = async () => {
 };
 
 const finishOrder = async () => {
-  const url = `http://localhost:8000/order/update/${orderId.value}/`
+  // const url = `http://localhost:8000/order/update/${orderId.value}/`
+  const url = `https://backend.adalogix.es/order/update/${orderId.value}/`
   const completion_date = new Date().toISOString()
   const requestData = {
     status: true,
@@ -876,7 +884,8 @@ const finishCourierRoute = async () => {
           route: null,
           available: true,
         };
-        const url = `http://localhost:8000/user/update/${localStorage.userId}/`;
+        // const url = `http://localhost:8000/user/update/${localStorage.userId}/`;
+        const url = `https://backend.adalogix.es/user/update/${localStorage.userId}/`
         const response = await patchRequest(requestData, url);
         if (response.status === 200) {
           Swal.fire({

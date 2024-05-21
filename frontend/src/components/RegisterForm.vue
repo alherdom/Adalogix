@@ -55,8 +55,8 @@ const sendData = async () => {
       role: role.value.value,
       email: email.value,
     };
-    // const url = "https://backend.adalogix.es/user/register/";
-    const url = "http://localhost:8000/user/register/";
+    // const url = "http://localhost:8000/user/register/";
+    const url = "https://backend.adalogix.es/user/register/";
     const response = await postRequest(requestData, url);
     if (response.status === 200) {
       Swal.fire({

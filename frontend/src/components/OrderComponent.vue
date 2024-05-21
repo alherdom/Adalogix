@@ -181,8 +181,8 @@ const rows = ref([])
 
 const getOrders = async () => {
   try {
-    // const url = "https://backend.adalogix.es/product/list/";
-    const url = "http://localhost:8000/order/list/";
+    // const url = "http://localhost:8000/order/list/";
+    const url = "https://backend.adalogix.es/order/list/";
     const response = await getRequest(url);
 
     response.forEach((row) => {
@@ -264,8 +264,8 @@ const deleteItems = async () => {
       const requestData = {
         orders_ids: selectedRows.value.map((item) => item.id),
       };
-      // const url = "https://backend.adalogix.es/product/delete/multiple/";
-      const url = "http://localhost:8000/order/delete/multiple/";
+      // const url = "http://localhost:8000/order/delete/multiple/";
+      const url = "https://backend.adalogix.es/order/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
@@ -297,9 +297,9 @@ const deleteItem = async (item) => {
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      // const url = `https://backend.adalogix.es/product/delete/${item.id}/`;
+      // const url = `http://localhost:8000/order/delete/${item.id}/`;
+      const url = `https://backend.adalogix.es/order/delete/${item.id}/`;
       const requestData = { order_id: item.id };
-      const url = `http://localhost:8000/order/delete/${item.id}/`;
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
@@ -325,7 +325,8 @@ const orderData = ref([])
 const showOrderDetail = ref(false)
 
 const orderDetail = async (orderId) => {
-  const url = `http://localhost:8000/order/detail/${orderId}/`
+  // const url = `http://localhost:8000/order/detail/${orderId}/`
+  const url = `https://backend.adalogix.es/order/detail/${orderId}/`
   const response = await getRequest(url)
   orderStore.value = response.store.name
   orderData.value = response.order_products

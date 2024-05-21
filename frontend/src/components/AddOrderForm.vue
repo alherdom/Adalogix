@@ -189,7 +189,8 @@ const addProduct = (props) => {
 };
 
 const getStores = async () => {
-  const url = "http://localhost:8000/store/list/";
+  // const url = "http://localhost:8000/store/list/";
+  const url = "https://backend.adalogix.es/store/list/";
   const stores = await getRequest(url);
   stores.forEach((store) => {
     storeOptions.value.push({ label: store["name"], value: store["id"] });
@@ -202,8 +203,8 @@ const getStores = async () => {
 
 const getStoreProducts = async () => {
   try {
-    // const url = "https://backend.adalogix.es/product/list/";
-    const url = `http://localhost:8000/store/detail/${store.value.value}/`;
+    // const url = `http://localhost:8000/store/detail/${store.value.value}/`;
+    const url = `https://backend.adalogix.es/store/detail/${store.value.value}/`;
     const response = await getRequest(url);
     rows.value = response.map((row) => ({ ...row, quantity: 0 }));
   } catch (error) {
@@ -232,8 +233,9 @@ const saveOrder = async () => {
       products: products_data,
     };
 
-    // const url = `https:/backend.adalogix.es/user/reset_password/`;
-    const url = "http://localhost:8000/order/create/";
+
+    // const url = "http://localhost:8000/order/create/";
+    const url = "https://backend.adalogix.es/order/create/";
     const response = await postRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {

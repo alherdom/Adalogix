@@ -197,8 +197,8 @@ const editUserForm = ref(false);
 const fetchData = async () => {
   try {
     loading.value = true;
-    // const url = "https://backend.adalogix.es/user/list/";
-    const url = "http://localhost:8000/user/list/";
+    // const url = "http://localhost:8000/user/list/";
+    const url = "https://backend.adalogix.es/user/list/";
     const response = await getRequest(url);
     console.log(response);
     users.value = response.map((user) => ({ ...user }));
@@ -226,8 +226,8 @@ const deleteUser = (user) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       const requestData = { employee_id: user.user };
-      // const url = `https://backend.adalogix.es/user/delete/${user.user}/`;
-      const url = `http://localhost:8000/user/delete/${user.user}/`;
+      // const url = `http://localhost:8000/user/delete/${user.user}/`;
+      const url = `https://backend.adalogix.es/user/delete/${user.user}/`;
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
@@ -270,8 +270,8 @@ const deleteUsers = async () => {
       const requestData = {
         employee_ids: selectedRows.value.map((item) => item.user),
       };
-      // const url = "https://backend.adalogix.es/user/delete/multiple/";
-      const url = "http://localhost:8000/user/delete/multiple/";
+      // const url = "http://localhost:8000/user/delete/multiple/";
+      const url = "https://backend.adalogix.es/user/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {

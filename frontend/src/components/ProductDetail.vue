@@ -74,7 +74,8 @@ const loading = ref(false);
 const fetchData = async (id) => {
   try {
     loading.value = true;
-    const url = `http://localhost:8000/store/product/?product_id=${id}`;
+    // const url = `http://localhost:8000/store/product/?product_id=${id}`;
+    const url = `https://backend.adalogix.es/store/product/?product_id=${id}/`;
     const response = await getRequest(url);
     stores.value = response.map((store) => ({ ...store }));
     console.log(stores.value);
@@ -108,8 +109,8 @@ const updateStore = async (store, productId, stock) => {
       store_id: store,
       new_stock: stock,
     };
-    // const url = https://backend.adalogix.es/product/update-stock/;
-    const url = "http://localhost:8000/product/update/stock/";
+    // const url = "http://localhost:8000/product/update/stock/";
+    const url = "https://backend.adalogix.es/product/update/stock/";
     const response = await patchRequest(requestData, url);
     if (response.status === 200) {
       emit("closeProductDetail");

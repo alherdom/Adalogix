@@ -95,8 +95,8 @@ const sendData = async () => {
       email: email.value,
     };
     console.log(requestData);
-    // const url = `https:/backend.adalogix.es/user/update/${id.value}/`;
-    const url = `http://localhost:8000/user/update/${id.value}/`;
+    // const url = `http://localhost:8000/user/update/${id.value}/`;
+    const url = `https:/backend.adalogix.es/user/update/${id.value}/`;
     const response = await patchRequest(requestData, url);
     console.log(response);
     if (response.status === 200) {
@@ -126,8 +126,8 @@ const resetPassword = async () => {
       employeeId: id.value,
     };
     console.log(requestData);
-    // const url = `https:/backend.adalogix.es/user/reset_password/`;
-    const url = `http://localhost:8000/user/reset_password/`;
+    // const url = `http://localhost:8000/user/reset/password/`;
+    const url = `https:/backend.adalogix.es/user/reset/password/`;
     const response = await postRequest(requestData, url);
     if (response.status === 200) {
       emit("closeEditForm", false);

@@ -134,12 +134,12 @@
   </q-table>
 
   <!-- Dialogs-->
-  <!-- url="https://backend.adalogix.es/product/upload/" -->
+  <!-- url="http://localhost:8000/product/upload/" -->
   <q-dialog v-model="uploaderDialog">
     <q-uploader
       text-color="black"
       ref="uploader"
-      url="http://localhost:8000/product/upload/"
+      url="https://backend.adalogix.es/product/upload/"
       label="Select a CSV file to upload"
       single-file
       accept=".csv"
@@ -239,8 +239,8 @@ const showProductDetail = ref(false);
 const fetchData = async () => {
   try {
     loading.value = true;
-    // const url = "https://backend.adalogix.es/product/list/";
-    const url = "http://localhost:8000/product/list/";
+    // const url = "http://localhost:8000/product/list/";
+    const url = "https://backend.adalogix.es/product/list/";
     const response = await getRequest(url);
     items.value = response.map((item) => ({ ...item }));
   } catch (error) {
@@ -267,9 +267,9 @@ const deleteItem = async (item) => {
     cancelButtonText: "No",
   }).then(async (result) => {
     if (result.isConfirmed) {
-      // const url = `https://backend.adalogix.es/product/delete/${item.id}/`;
+      // const url = `http://localhost:8000/product/delete/${item.id}/`;
+      const url = `https://backend.adalogix.es/product/delete/${item.id}/`;
       const requestData = { product_id: item.id };
-      const url = `http://localhost:8000/product/delete/${item.id}/`;
       try {
         const response = await deleteRequest(requestData, url);
         console.log(response);
@@ -313,8 +313,8 @@ const deleteItems = async () => {
       const requestData = {
         product_ids: selectedRows.value.map((item) => item.id),
       };
-      // const url = "https://backend.adalogix.es/product/delete/multiple/";
-      const url = "http://localhost:8000/product/delete/multiple/";
+      // const url = "http://localhost:8000/product/delete/multiple/";
+      const url = "https://backend.adalogix.es/product/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
         console.log(response);
