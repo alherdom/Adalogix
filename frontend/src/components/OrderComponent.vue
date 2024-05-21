@@ -13,7 +13,6 @@
   <template v-slot:top>
     <q-btn
         icon="add"
-        size="12px"
         color="white"
         text-color="black"
         push
@@ -30,13 +29,29 @@
     </q-btn>
     <q-btn
         push
-        size="12px"
-        class="q-ml-sm q-mt-lg action-btn"
+        class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
         :disable="loading"
         icon="cancel"
         @click="deleteItems"
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Cancel Orders
+        </q-tooltip>
+      </q-btn>
+      <q-btn
+        push
+        class="q-ml-xs q-mt-lg action-btn"
+        color="white"
+        text-color="black"
+        :disable="loading"
+        icon="refresh"
+        @click="getOrders"
       >
         <q-tooltip
           anchor="bottom middle"
@@ -180,6 +195,8 @@ const rows = ref([])
 
 const getOrders = async () => {
   try {
+    loading.value = true;
+    rows.value = []
     // const url = "http://localhost:8000/order/list/";
     const url = "https://backend.adalogix.es/order/list/";
     const response = await getRequest(url);

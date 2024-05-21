@@ -59,15 +59,10 @@
 
   <div
     v-if="!drawer && userIsAdmin"
-    style="position: absolute; top: 65px; right: 10px; z-index: 2000;"
+    style="position: absolute; top: 65px; right: 10px; z-index: 2000"
   >
-    <q-btn
-      round
-      push
-      color="primary"
-      @click="drawer = !drawer"
-    >
-      <q-icon :name="drawer ? 'chevron_right' : 'chevron_left'"/>
+    <q-btn round push color="primary" @click="drawer = !drawer">
+      <q-icon :name="drawer ? 'chevron_right' : 'chevron_left'" />
     </q-btn>
   </div>
 
@@ -160,7 +155,7 @@
           dropoffPoints.length == 0 ||
           startPointTable == null
         "
-        style="height: 45px;"
+        style="height: 45px"
       />
       <div class="ds-buttons">
         <q-btn
@@ -168,7 +163,7 @@
           push
           @click="deleteRoute"
           label="Delete"
-          style="width: 100%; height: 45px;"
+          style="width: 100%; height: 45px"
           :disable="
             layers.length == 0 &&
             startPointTable == null &&
@@ -244,13 +239,7 @@ import { Map, Marker, Popup } from "maplibre-gl";
 import { getRequest, patchRequest } from "src/utils/common";
 import config from "src/utils/keys";
 import Swal from "sweetalert2";
-import {
-  markRaw,
-  onMounted,
-  ref,
-  shallowRef,
-  toRaw,
-} from "vue";
+import { markRaw, onMounted, ref, shallowRef, toRaw } from "vue";
 
 // Global constants
 
@@ -268,7 +257,7 @@ const calculated = ref(false);
 const layers = ref([]);
 const routeSource = ref(null);
 const waypointsSource = ref(null);
-const orderId = ref(null)
+const orderId = ref(null);
 
 // Finish Global constants
 
@@ -344,7 +333,6 @@ const setEmployees = async () => {
   employeesListOptions.value = employeesInfoList;
 };
 
-
 const getOrders = async () => {
   // let ordersListUrl = "http://localhost:8000/order/list/";
   let ordersListUrl = "https://backend.adalogix.es/order/list/";
@@ -355,12 +343,14 @@ const getOrders = async () => {
 const setOrders = async () => {
   let orders = await getOrders();
   orders.forEach((order) => {
-    storesListOptions.value.push({
-      label: `Order ${order.id} (${order.store.name})`,
-      value: order.id,
-      lng: order.store.longitude,
-      lat: order.store.latitude,
-    });
+    if (order.status == false) {
+      storesListOptions.value.push({
+        label: `Order ${order.id} (${order.store.name})`,
+        value: order.id,
+        lng: order.store.longitude,
+        lat: order.store.latitude,
+      });
+    }
   });
 };
 
@@ -637,7 +627,7 @@ const drawLayers = async () => {
   map.value.addLayer(routeLayer);
   map.value.addLayer(pointsLayer[0]);
   map.value.addLayer(pointsLayer[1]);
-  orderId.value = storeSelected.value.value
+  orderId.value = storeSelected.value.value;
 };
 
 const getAddressByCoords = async (lng, lat) => {
@@ -663,12 +653,12 @@ const deleteStartPoint = () => {
 
 const unassignCourierOrder = async () => {
   // const url = `http://localhost:8000/order/update/${orderId.value}/`
-  const url = `https://backend.adalogix.es/order/update/${orderId.value}/`
+  const url = `https://backend.adalogix.es/order/update/${orderId.value}/`;
   const requestData = {
-    courier: null
-  }
-  await patchRequest(requestData, url)
-}
+    courier: null,
+  };
+  await patchRequest(requestData, url);
+};
 
 const deleteRoute = async () => {
   Swal.fire({
@@ -703,7 +693,7 @@ const deleteRoute = async () => {
         const employeeId = employeeSelected.value.value;
         try {
           // const url = `http://localhost:8000/user/update/${employeeId}/`;
-          const url = `https://backend.adalogix.es/user/update/${employeeId}/`
+          const url = `https://backend.adalogix.es/user/update/${employeeId}/`;
           const requestData = {
             available: true,
             route: null,
@@ -739,18 +729,18 @@ const deleteRoute = async () => {
     }
   });
 
-  await unassignCourierOrder()
+  await unassignCourierOrder();
 };
 
 const saveOrderAssignment = async () => {
-  const orderId = storeSelected.value.value
+  const orderId = storeSelected.value.value;
   // const url = `http://localhost:8000/order/update/${orderId}/`
-  const url = `https://backend.adalogix.es/order/update/${orderId}/`
+  const url = `https://backend.adalogix.es/order/update/${orderId}/`;
   const requestData = {
-    courier: employeeSelected.value.value
-  }
-  await patchRequest(requestData, url)
-}
+    courier: employeeSelected.value.value,
+  };
+  await patchRequest(requestData, url);
+};
 
 const saveCourierRoute = async () => {
   const dataForCourier = JSON.stringify({
@@ -766,7 +756,7 @@ const saveCourierRoute = async () => {
 
   try {
     // const url = `http://localhost:8000/user/update/${employeeId}/`;
-    const url = `https://backend.adalogix.es/user/update/${employeeId}/`
+    const url = `https://backend.adalogix.es/user/update/${employeeId}/`;
     const requestData = {
       available: false,
       route: dataForCourier,
@@ -793,11 +783,10 @@ const saveCourierRoute = async () => {
     });
   }
 
-  await saveOrderAssignment()
+  await saveOrderAssignment();
 
   dropoffPoints.value = [];
 };
-
 
 // Finish Admin functions
 
@@ -813,7 +802,7 @@ const setCourierRoute = async () => {
     courierId = localStorage.userId;
   }
   // const getCourierRouterInfoUrl = `http://localhost:8000/user/detail/${courierId}/`;
-  const getCourierRouterInfoUrl = `https://backend.adalogix.es/user/detail/${courierId}/`
+  const getCourierRouterInfoUrl = `https://backend.adalogix.es/user/detail/${courierId}/`;
   const courierRouteInfo = await getRequest(getCourierRouterInfoUrl);
   const sourceToRemove = new Set();
 
@@ -841,7 +830,7 @@ const setCourierRoute = async () => {
     }
     const courierRoute = JSON.parse(courierRouteInfo.route);
     if (courierRoute) {
-      orderId.value = courierRoute.order
+      orderId.value = courierRoute.order;
       calculated.value = true;
       layers.value = courierRoute.layers;
       dropoffPointsTable.value = courierRoute.dropoffPoints;
@@ -859,14 +848,14 @@ const setCourierRoute = async () => {
 
 const finishOrder = async () => {
   // const url = `http://localhost:8000/order/update/${orderId.value}/`
-  const url = `https://backend.adalogix.es/order/update/${orderId.value}/`
-  const completion_date = new Date().toISOString()
+  const url = `https://backend.adalogix.es/order/update/${orderId.value}/`;
+  const completion_date = new Date().toISOString();
   const requestData = {
     status: true,
-    completion_date: completion_date
-  }
-  await patchRequest(requestData, url)
-}
+    completion_date: completion_date,
+  };
+  await patchRequest(requestData, url);
+};
 
 const finishCourierRoute = async () => {
   Swal.fire({
@@ -883,7 +872,7 @@ const finishCourierRoute = async () => {
           available: true,
         };
         // const url = `http://localhost:8000/user/update/${localStorage.userId}/`;
-        const url = `https://backend.adalogix.es/user/update/${localStorage.userId}/`
+        const url = `https://backend.adalogix.es/user/update/${localStorage.userId}/`;
         const response = await patchRequest(requestData, url);
         if (response.status === 200) {
           Swal.fire({
@@ -912,7 +901,7 @@ const finishCourierRoute = async () => {
     }
   });
 
-  await finishOrder()
+  await finishOrder();
 };
 
 // Finish courier functions
