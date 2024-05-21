@@ -58,7 +58,7 @@
   <!--Beginning of the drawer-->
 
   <div
-    v-if="!drawer"
+    v-if="!drawer && userIsAdmin"
     style="position: absolute; top: 65px; right: 10px; z-index: 2000;"
   >
     <q-btn
@@ -952,11 +952,12 @@ onMounted(() => {
 .courier-route-list {
   position: absolute;
   left: 70%;
-  top: 2%;
+  top: 1%;
   background-color: white;
   border-radius: 10px;
   width: 550px;
 }
+
 .map-wrap {
   position: relative;
   width: 100%;
