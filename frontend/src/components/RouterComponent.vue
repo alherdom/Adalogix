@@ -947,6 +947,8 @@ onMounted(() => {
   position: absolute;
   left: 50%;
   top: 90%;
+  width: 100px;
+  height: 40px;
 }
 
 .courier-route-list {
