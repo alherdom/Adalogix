@@ -59,7 +59,7 @@ const handleDecode = (value) => {
       throw new Error("Invalid value type");
     }
 
-    const match = value.match(/^\d{3}$/);
+    const match = value.match(/^\d+$/);
     if (!match) {
       errorMessage.value = "Please scan a valid product code";
       setTimeout(() => {
