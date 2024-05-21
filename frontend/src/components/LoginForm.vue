@@ -85,7 +85,7 @@ const handleSuccessLogin = (response) => {
   localStorage.setItem("userGroup", response.group);
   localStorage.setItem("userToken", response.token);
   userStore.setUser(response);
-  router.push("/");
+  router.push("/orders");
 };
 
 // Function to handle the failed login
