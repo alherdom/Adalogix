@@ -127,7 +127,7 @@ const resetPassword = async () => {
     };
     console.log(requestData);
     // const url = `http://localhost:8000/user/reset/password/`;
-    const url = `https:/backend.adalogix.es/user/reset/password/`;
+    const url = `https://backend.adalogix.es/user/reset/password/`;
     const response = await postRequest(requestData, url);
     if (response.status === 200) {
       emit("closeEditForm", false);
