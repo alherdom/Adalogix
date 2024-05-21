@@ -75,7 +75,7 @@ const fetchData = async (id) => {
   try {
     loading.value = true;
     // const url = `http://localhost:8000/store/product/?product_id=${id}`;
-    const url = `https://backend.adalogix.es/store/product/?product_id=${id}/`;
+    const url = `https://backend.adalogix.es/store/product/${id}/`;
     const response = await getRequest(url);
     stores.value = response.map((store) => ({ ...store }));
     console.log(stores.value);

@@ -12,7 +12,6 @@
       <q-form @submit="sendData" class="item-form">
         <q-input outlined v-model="name" label="Name" type="text" />
         <q-input outlined v-model="description" label="Description" type="text" />
-        <q-input outlined v-model="quantity" label="Quantity" type="text" />
         <q-input outlined v-model="category" label="Category" type="text" />
         <q-input outlined v-model="price" label="Price" type="text" />
         <q-input outlined v-model="weight" label="Weight" type="text" />
@@ -35,7 +34,6 @@ const itemData = { ...props.item };
 const id = ref(itemData.id);
 const name = ref(itemData.name);
 const description = ref(itemData.description);
-const quantity = ref(itemData.quantity);
 const category = ref(itemData.category);
 const price = ref(itemData.price);
 const weight = ref(itemData.weight);
@@ -50,7 +48,6 @@ const sendData = async () => {
       id: id.value,
       name: name.value,
       description: description.value,
-      quantity: quantity.value,
       category: category.value,
       price: price.value,
       weight: weight.value,
