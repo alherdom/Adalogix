@@ -30,7 +30,12 @@
           {{ props.row.address }}
         </q-td>
         <q-td key="productId" :props="props" :item="props.item">
-          {{ item.id }}
+          <div v-if="props.item">
+            {{ item.id }}
+          </div>
+          <div v-else>
+            {{ props.row.product_id }}
+          </div>
         </q-td>
         <q-td key="stock" :props="props">
           <q-input
@@ -74,7 +79,8 @@ const loading = ref(false);
 const fetchData = async (id) => {
   try {
     loading.value = true;
-    const url = `https://backend.adalogix.es/product/detail/${id}/`;
+    // const url = `http://localhost:8000/store/product/?product_id=${id}`;
+    const url = `https://backend.adalogix.es/store/product/?product_id=${id}`;
     const response = await getRequest(url);
     stores.value = response.map((store) => ({ ...store }));
     console.log(stores.value);

@@ -63,7 +63,7 @@
                 <q-td style="width: 150px">
                   <q-btn
                     label="Add"
-                    size="sm"
+                    size="md"
                     color="primary"
                     icon="add"
                     :disabled="
@@ -103,14 +103,14 @@
                   <q-item-section style="text-align: start">{{
                     product.name
                   }}</q-item-section>
-                  <q-item-section style="text-align: start">{{
+                  <q-item-section style="text-align: center; border-left: 1px solid #E0E0E0;border-right: 1px solid #E0E0E0;">{{
                     product.quantity
                   }} uds</q-item-section>
                   <q-item-section
                     style="
                       display: flex;
-                      justify-content: end;
-                      align-items: end;
+                      justify-content: center;
+                      align-items: center;
                     "
                   >
                     <q-btn
@@ -147,7 +147,7 @@ const columns = [
   {
     name: "id",
     required: true,
-    label: "Id",
+    label: "Product Code",
     align: "center",
     field: "product",
   },

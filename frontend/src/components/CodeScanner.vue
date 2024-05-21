@@ -35,7 +35,7 @@
     </q-card>
   </q-dialog>
   <q-dialog v-model="showProductDetail">
-    <ProductDetail
+    <ProductDetail class="product-detail-table"
       :productId="productId"
       @closeProductDetail="closeProductDetailTable"
     />
