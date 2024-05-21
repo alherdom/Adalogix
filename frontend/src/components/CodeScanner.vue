@@ -20,9 +20,9 @@
   <q-dialog v-model="openDialog" persistent>
     <q-card :disable="loading" class="dialog-qr">
       <q-card-section class="row">
-        <q-card-title class="text-h6" style="font-weight: 400"
-          >Scan QR Code</q-card-title
-        >
+        <div class="text-h6" style="font-weight: 400"
+          >Scan QR Code
+        </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -53,6 +53,7 @@ const productId = ref(null);
 const showProductDetail = ref(false);
 const errorMessage = ref("");
 
+const emit = defineEmits(["decodedValues"]);
 const handleDecode = (value) => {
   try {
     if (typeof value !== "string") {
