@@ -8,7 +8,7 @@ from user.serializers import EmployeeSerializer, EmployeeOrderSerializer
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['name', 'price']
+        fields = ['id', 'name', 'price']
 
 class OrderProductSerializer(serializers.ModelSerializer):
     product = ProductSerializer()

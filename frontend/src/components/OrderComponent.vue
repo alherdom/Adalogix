@@ -74,20 +74,31 @@
     </q-td>
     </template>
     <template v-slot:body-cell-actions="props">
-      <q-td style="text-align: center;">
+      <q-td style="text-align: center ;">
         <q-btn
-            flat
-            round
-            size="sm"
-            color="primary"
-            icon="cancel"
-            @click="deleteItem(props.row)"
-          />
+        flat
+        round
+        size="sm"
+        color="primary"
+        icon="visibility"
+        @click="orderDetail(props.row.id)"
+        />
+      <q-btn
+          flat
+          round
+          size="sm"
+          color="primary"
+          icon="cancel"
+          @click="deleteItem(props.row)"
+        />
       </q-td>
     </template>
   </q-table>
     <q-dialog v-model="addOrderForm" maximized>
         <addOrderForm @closeOrderForm="closeOrderForm"/>
+  </q-dialog>
+  <q-dialog v-model="showOrderDetail">
+    <OrderDetail :orderProducts="orderData" :orderStore="orderStore"/>
   </q-dialog>
 </template>
 
@@ -95,6 +106,7 @@
 import { deleteRequest, getRequest } from 'src/utils/common';
 import { computed, onMounted, ref } from 'vue';
 import AddOrderForm from './AddOrderForm.vue';
+import OrderDetail from './OrderDetail.vue'
 import { formatDate } from 'src/utils/formatDate';
 import Swal from 'sweetalert2';
 
@@ -173,7 +185,6 @@ const getOrders = async () => {
     const url = "http://localhost:8000/order/list/";
     const response = await getRequest(url);
 
-    console.log(response)
     response.forEach((row) => {
       let completion_date;
       let courier;
@@ -183,7 +194,6 @@ const getOrders = async () => {
         courier = '➖'
       }
 
-      console.log(row)
 
       if (row.completion_date != null)  {
         completion_date = formatDate(row.completion_date)
@@ -220,7 +230,6 @@ const closeOrderForm = (value) => {
 
 const displayedItems = computed(() => {
   return rows.value.filter((row) => {
-    console.log(row)
     if (!filter.value) return true;
     const search = filter.value.toLowerCase();
     return (
@@ -260,7 +269,6 @@ const deleteItems = async () => {
       const url = "http://localhost:8000/order/delete/multiple/";
       try {
         const response = await deleteRequest(requestData, url);
-        console.log(response);
         if (response.status === 200) {
           selectedRows.value = [];
           rows.value = []
@@ -295,7 +303,6 @@ const deleteItem = async (item) => {
       const url = `http://localhost:8000/order/delete/${item.id}/`;
       try {
         const response = await deleteRequest(requestData, url);
-        console.log(response);
         if (response.status === 200) {
           rows.value = []
           getOrders()
@@ -314,6 +321,17 @@ const deleteItem = async (item) => {
   });
 };
 
+const orderStore = ref(null)
+const orderData = ref([])
+const showOrderDetail = ref(false)
+
+const orderDetail = async (orderId) => {
+  const url = `http://localhost:8000/order/detail/${orderId}/`
+  const response = await getRequest(url)
+  orderStore.value = response.store.name
+  orderData.value = response.order_products
+  showOrderDetail.value = true;
+};
 
 onMounted(() => {
   getOrders()

@@ -7,5 +7,6 @@ urlpatterns = [
     path('create/', views.OrderCreateView.as_view(), name='order_create'),
     path('update/<int:pk>/', views.OrderUpdateView.as_view(), name='order_update'),
     path('delete/<int:pk>/', views.OrderDeleteView.as_view(), name='order_delete'),
-    path('delete/multiple/', views.OrderMultipleDelete.as_view(), name='order_multiple_delete')
+    path('delete/multiple/', views.OrderMultipleDelete.as_view(), name='order_multiple_delete'),
+    path('detail/<int:pk>/', views.OrderDetailView.as_view(), name='order_detail')
 ]

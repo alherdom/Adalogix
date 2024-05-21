@@ -8,6 +8,7 @@ from user.models import Employee
 import json
 
 from rest_framework.generics import (
+    RetrieveAPIView,
     DestroyAPIView,
     ListAPIView,
 )
@@ -16,6 +17,11 @@ from datetime import datetime
 
 
 from rest_framework.views import APIView
+
+class OrderDetailView(RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
 class OrderListView(ListAPIView):
     permission_classes = [IsAuthenticated]

@@ -98,6 +98,9 @@
                   <q-item-section style="text-align: start">{{
                     product.quantity
                   }}</q-item-section>
+                  <q-item-section style="display: flex; justify-content: end; align-items: end;">
+                    <q-btn flat round color="primary" icon="delete" dense style="width: 20%;" @click="deleteProduct(index)"/>
+                  </q-item-section>
                 </q-item>
               </div>
             </q-scroll-area>
@@ -113,7 +116,7 @@ import { getRequest, postRequest } from "src/utils/common";
 import Swal from "sweetalert2";
 import { onMounted, ref } from "vue";
 
-const products = ref([]);
+const products = ref({});
 const storeOptions = ref([]);
 const store = ref(null);
 const rows = ref([]);
@@ -157,12 +160,10 @@ const columns = [
 ];
 
 const addProduct = (props) => {
-  const product_info = {
+  products.value[props.product] = {
     name: props.product_name,
-    quantity: props.quantity,
-    id: props.product,
+    quantity: props.quantity
   };
-  products.value.push(product_info);
 };
 
 const getStores = async () => {
@@ -196,10 +197,10 @@ const getStoreProducts = async () => {
 const saveOrder = async () => {
   try {
     const products_data = [];
-    products.value.forEach((product) => {
+    Object.keys(products.value).forEach((product_id) => {
       const product_info = {
-        product: product.id,
-        quantity: product.quantity,
+        product: product_id,
+        quantity: products.value[product_id].quantity
       };
       products_data.push(product_info);
     });
@@ -230,6 +231,10 @@ const saveOrder = async () => {
     console.error(error);
   }
 };
+
+const deleteProduct = (id) => {
+  delete products.value[id]
+}
 
 onMounted(() => {
   getStores();
