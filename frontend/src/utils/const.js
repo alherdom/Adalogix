@@ -123,14 +123,6 @@ export const userColumns = [
     sortable: true,
   },
   {
-    name: "role",
-    required: true,
-    label: "Role",
-    align: "left",
-    field: "role",
-    sortable: true,
-  },
-  {
     name: "firstName",
     required: true,
     label: "First Name",
@@ -144,6 +136,14 @@ export const userColumns = [
     label: "Last Name",
     align: "left",
     field: "last_name",
+    sortable: true,
+  },
+  {
+    name: "role",
+    required: true,
+    label: "Role",
+    align: "left",
+    field: "role",
     sortable: true,
   },
   {
