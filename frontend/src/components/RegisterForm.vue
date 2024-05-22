@@ -61,7 +61,7 @@ const sendData = async () => {
     if (response.status === 200) {
       Swal.fire({
         title: "Success",
-        text: "User registered successfully",
+        text: "Employee registered successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,

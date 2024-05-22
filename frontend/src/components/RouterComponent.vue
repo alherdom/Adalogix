@@ -94,20 +94,34 @@
     <div class="select-inputs">
       <q-select
         filled
-        label="Employees"
+        label="Courier"
         :options="employeesListOptions"
         v-model="employeeSelected"
         @update:model-value="setCourierRoute"
-      >
+        ><q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Select a courier
+        </q-tooltip>
         <template v-slot:append> <q-icon name="person" /> </template>
       </q-select>
       <q-select
         filled
-        label="Orders"
+        label="Order"
         :options="storesListOptions"
         v-model="storeSelected"
         @update:model-value="setStartPoint"
       >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Select an order
+        </q-tooltip>
+
         <template v-slot:append> <q-icon name="place" /> </template>
       </q-select>
       <q-separator />
@@ -119,8 +133,16 @@
           filled
           v-model="searchAddress"
           debounce="300"
+          style="font-size: 16px"
           @update:model-value="setAddressOptions"
         >
+          <q-tooltip
+            anchor="bottom middle"
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            Search for an address
+          </q-tooltip>
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -131,6 +153,13 @@
           :options="addressesListOptions"
           label="Suggested addresses"
         >
+          <q-tooltip
+            anchor="bottom middle"
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            Select an suggested address
+          </q-tooltip>
           <template v-slot:after
             ><q-btn
               round
@@ -139,7 +168,16 @@
               size="sm"
               push
               @click="setDropoffPoint"
-          /></template>
+            >
+              <q-tooltip
+                anchor="bottom middle"
+                transition-show="scale"
+                transition-hide="scale"
+              >
+                Add dropoff
+              </q-tooltip>
+            </q-btn>
+          </template>
         </q-select>
       </div>
     </div>
@@ -156,7 +194,15 @@
           startPointTable == null
         "
         style="height: 45px"
-      />
+      >
+        <q-tooltip
+          anchor="bottom middle"
+          transition-show="scale"
+          transition-hide="scale"
+        >
+          Calculate route from set points
+        </q-tooltip>
+      </q-btn>
       <div class="ds-buttons">
         <q-btn
           color="primary"
@@ -169,7 +215,15 @@
             startPointTable == null &&
             dropoffPointsTable.length == 0
           "
-        />
+        >
+          <q-tooltip
+            anchor="bottom middle"
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            Delete the route
+          </q-tooltip>
+        </q-btn>
         <q-btn
           color="primary"
           push
@@ -177,7 +231,15 @@
           label="Save"
           style="width: 100%"
           :disable="layers.length == 0"
-        />
+        >
+          <q-tooltip
+            anchor="bottom middle"
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            Save the route for the courier
+          </q-tooltip>
+        </q-btn>
       </div>
     </div>
     <q-separator />
@@ -662,7 +724,8 @@ const unassignCourierOrder = async () => {
 
 const deleteRoute = async () => {
   Swal.fire({
-    title: "Are you sure you want to delete?",
+    title: "Delete route",
+    text: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",

@@ -128,7 +128,8 @@ const isActive = (route) => {
 
 const logout = () => {
   Swal.fire({
-    title: "Are you sure you want to leave?",
+    title: "Logout",
+    text: "Are you sure you want to leave?",
     icon: "question",
     showCancelButton: true,
     confirmButtonText: "Yes",

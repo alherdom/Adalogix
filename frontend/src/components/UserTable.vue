@@ -88,7 +88,7 @@
         dense
         filled
         class="q-mt-sm q-pl-sm q-pt-sm action-btn"
-        placeholder="Search User..."
+        placeholder="Search Employee..."
         debounce="300"
         color="primary"
         v-model="filter"
@@ -217,7 +217,8 @@ onMounted(fetchData);
 
 const deleteUser = (user) => {
   Swal.fire({
-    title: `Are you sure you want to delete ${user.username}?`,
+    title: "Delete employee",
+    text: `Are you sure you want to delete ${user.username}?`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -258,7 +259,7 @@ const deleteUsers = async () => {
     return;
   }
   Swal.fire({
-    title: "Delete user",
+    title: "Delete employees",
     text: "Are you sure you want to delete?",
     icon: "warning",
     showCancelButton: true,

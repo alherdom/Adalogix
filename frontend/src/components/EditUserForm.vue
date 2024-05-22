@@ -101,7 +101,7 @@ const sendData = async () => {
       emit("closeEditForm", false);
       Swal.fire({
         title: "Success",
-        text: "User edited successfully",
+        text: "Employee edited successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,

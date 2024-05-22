@@ -1,34 +1,36 @@
 <template>
   <q-table
-  flat
-  :rows="displayedItems"
-  :columns="columns"
-  class="my-sticky-header-table"
-  style="height: 93vh;"
-  :pagination="{ rowsPerPage: 20 }"
-  row-key="id"
-  v-model:selected="selectedRows"
-  selection="multiple"
+    flat
+    :rows="displayedItems"
+    :columns="columns"
+    class="my-sticky-header-table"
+    style="height: 93vh"
+    :pagination="{ rowsPerPage: 20 }"
+    row-key="id"
+    v-model:selected="selectedRows"
+    selection="multiple"
   >
-  <template v-slot:top>
-    <q-btn
+    <template v-slot:top>
+      <q-btn
         icon="add"
         color="white"
         text-color="black"
         push
+        size="12px"
         class="q-ml-sm q-mt-lg action-btn"
         @click="openAddOrderForm"
-    >
-    <q-tooltip
+      >
+        <q-tooltip
           anchor="bottom middle"
           transition-show="scale"
           transition-hide="scale"
         >
-          Create Order
+          Create order
         </q-tooltip>
-    </q-btn>
-    <q-btn
+      </q-btn>
+      <q-btn
         push
+        size="12px"
         class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
@@ -41,11 +43,12 @@
           transition-show="scale"
           transition-hide="scale"
         >
-          Cancel Orders
+          Cancel orders
         </q-tooltip>
       </q-btn>
       <q-btn
         push
+        size="12px"
         class="q-ml-xs q-mt-lg action-btn"
         color="white"
         text-color="black"
@@ -58,11 +61,11 @@
           transition-show="scale"
           transition-hide="scale"
         >
-          Cancel Orders
+          Refresh orders
         </q-tooltip>
       </q-btn>
-    <q-space />
-    <q-input
+      <q-space />
+      <q-input
         dense
         filled
         class="q-mt-sm q-pl-sm q-pt-sm action-btn"
@@ -84,61 +87,78 @@
       </q-input>
     </template>
     <template v-slot:body-cell-status="props">
-    <q-td style="text-align: center;">
-      <q-badge outline :color="COLOR_STATUS[props.row.status]">{{ props.row.status }}</q-badge>
-    </q-td>
+      <q-td style="text-align: center">
+        <q-badge outline :color="COLOR_STATUS[props.row.status]">{{
+          props.row.status
+        }}</q-badge>
+      </q-td>
     </template>
     <template v-slot:body-cell-actions="props">
-      <q-td style="text-align: center ;">
+      <q-td style="text-align: center">
         <q-btn
-        flat
-        round
-        size="sm"
-        color="primary"
-        icon="visibility"
-        @click="orderDetail(props.row.id)"
-        />
-      <q-btn
+          flat
+          round
+          size="sm"
+          color="primary"
+          icon="visibility"
+          @click="orderDetail(props.row.id)"
+        >
+          <q-tooltip
+            anchor="bottom middle"
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            View order detail
+          </q-tooltip>
+        </q-btn>
+        <q-btn
           flat
           round
           size="sm"
           color="primary"
           icon="cancel"
           @click="deleteItem(props.row)"
-        />
+        >
+          <q-tooltip
+            anchor="bottom middle"
+            transition-show="scale"
+            transition-hide="scale"
+          >
+            Cancel order
+          </q-tooltip>
+        </q-btn>
       </q-td>
     </template>
   </q-table>
-    <q-dialog v-model="addOrderForm" maximized>
-        <addOrderForm @closeOrderForm="closeOrderForm"/>
+  <q-dialog v-model="addOrderForm" maximized>
+    <addOrderForm @closeOrderForm="closeOrderForm" />
   </q-dialog>
   <q-dialog v-model="showOrderDetail">
-    <OrderDetail :orderProducts="orderData" :orderStore="orderStore"/>
+    <OrderDetail :orderProducts="orderData" :orderStore="orderStore" />
   </q-dialog>
 </template>
 
 <script setup>
-import { deleteRequest, getRequest } from 'src/utils/common';
-import { computed, onMounted, ref } from 'vue';
-import AddOrderForm from './AddOrderForm.vue';
-import OrderDetail from './OrderDetail.vue'
-import { formatDate } from 'src/utils/formatDate';
-import Swal from 'sweetalert2';
+import { deleteRequest, getRequest } from "src/utils/common";
+import { computed, onMounted, ref } from "vue";
+import AddOrderForm from "./AddOrderForm.vue";
+import OrderDetail from "./OrderDetail.vue";
+import { formatDate } from "src/utils/formatDate";
+import Swal from "sweetalert2";
 
 const loading = ref(false);
-const selectedRows = ref([])
+const selectedRows = ref([]);
 const filter = ref("");
 
 const COLOR_STATUS = {
-  'Completed': "secondary",
-  'In progress': "primary"
-}
+  Completed: "secondary",
+  "In progress": "primary",
+};
 const addOrderForm = ref(false);
 
-
-const openAddOrderForm = () =>  {
-    addOrderForm.value = true
-}
+const openAddOrderForm = () => {
+  addOrderForm.value = true;
+};
 
 const columns = [
   {
@@ -155,7 +175,7 @@ const columns = [
     label: "Courier",
     align: "center",
     field: "courier",
-    sortabel: true
+    sortabel: true,
   },
   {
     name: "date",
@@ -163,7 +183,7 @@ const columns = [
     label: "Creation Date",
     align: "center",
     field: "created_at",
-    sortable: true
+    sortable: true,
   },
   {
     name: "completion_date",
@@ -171,7 +191,7 @@ const columns = [
     label: "Completion Date",
     align: "center",
     field: "completion_date",
-    sortable: true
+    sortable: true,
   },
   {
     name: "status",
@@ -179,7 +199,7 @@ const columns = [
     label: "Status",
     align: "center",
     field: "status",
-    sortable: true
+    sortable: true,
   },
   {
     name: "actions",
@@ -188,15 +208,14 @@ const columns = [
     align: "center",
     field: "actions",
   },
-]
+];
 
-const rows = ref([])
-
+const rows = ref([]);
 
 const getOrders = async () => {
   try {
     loading.value = true;
-    rows.value = []
+    rows.value = [];
     // const url = "http://localhost:8000/order/list/";
     const url = "https://backend.adalogix.es/order/list/";
     const response = await getRequest(url);
@@ -205,26 +224,25 @@ const getOrders = async () => {
       let completion_date;
       let courier;
       if (row.courier != null) {
-        courier = `${row.courier.username} (${row.courier.first_name} ${row.courier.last_name})`
+        courier = `${row.courier.username} (${row.courier.first_name} ${row.courier.last_name})`;
       } else {
-        courier = '➖'
+        courier = "➖";
       }
 
-
-      if (row.completion_date != null)  {
-        completion_date = formatDate(row.completion_date)
+      if (row.completion_date != null) {
+        completion_date = formatDate(row.completion_date);
       } else {
-        completion_date = '➖'
+        completion_date = "➖";
       }
       const row_info = {
         id: row.id,
         courier: courier,
         created_at: formatDate(row.created_at),
         completion_date: completion_date,
-        status: row.status == true ? 'Completed' : 'In progress'
-      }
-      rows.value.push(row_info)
-    })
+        status: row.status == true ? "Completed" : "In progress",
+      };
+      rows.value.push(row_info);
+    });
     // rows.value = response.map((row) => ({ ...row, courier: row.courier.username }));
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -239,10 +257,10 @@ const getOrders = async () => {
 };
 
 const closeOrderForm = (value) => {
-  addOrderForm.value = value
-  rows.value = []
-  getOrders()
-}
+  addOrderForm.value = value;
+  rows.value = [];
+  getOrders();
+};
 
 const displayedItems = computed(() => {
   return rows.value.filter((row) => {
@@ -256,7 +274,6 @@ const displayedItems = computed(() => {
   });
 });
 
-
 const deleteItems = async () => {
   if (selectedRows.value.length === 0) {
     Swal.fire({
@@ -269,8 +286,8 @@ const deleteItems = async () => {
     return;
   }
   Swal.fire({
-    text: "Cancel Orders",
-    title: "Are you sure you want to cancel?",
+    title: "Cancel Orders",
+    text: "Are you sure you want to cancel?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -286,8 +303,8 @@ const deleteItems = async () => {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
           selectedRows.value = [];
-          rows.value = []
-          getOrders()
+          rows.value = [];
+          getOrders();
           Swal.fire({
             title: "Success",
             text: "Orders canceled successfully!",
@@ -306,7 +323,7 @@ const deleteItems = async () => {
 const deleteItem = async (item) => {
   Swal.fire({
     title: "Cancel Order",
-    text: `Are you sure you want to cancel the Order ${item.id}?`,
+    text: `Are you sure you want to cancel the order ${item.id}?`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
@@ -319,8 +336,8 @@ const deleteItem = async (item) => {
       try {
         const response = await deleteRequest(requestData, url);
         if (response.status === 200) {
-          rows.value = []
-          getOrders()
+          rows.value = [];
+          getOrders();
           Swal.fire({
             title: "Success",
             text: "Order canceled successfully!",
@@ -336,20 +353,20 @@ const deleteItem = async (item) => {
   });
 };
 
-const orderStore = ref(null)
-const orderData = ref([])
-const showOrderDetail = ref(false)
+const orderStore = ref(null);
+const orderData = ref([]);
+const showOrderDetail = ref(false);
 
 const orderDetail = async (orderId) => {
   // const url = `http://localhost:8000/order/detail/${orderId}/`
-  const url = `https://backend.adalogix.es/order/detail/${orderId}/`
-  const response = await getRequest(url)
-  orderStore.value = response.store.name
-  orderData.value = response.order_products
+  const url = `https://backend.adalogix.es/order/detail/${orderId}/`;
+  const response = await getRequest(url);
+  orderStore.value = response.store.name;
+  orderData.value = response.order_products;
   showOrderDetail.value = true;
 };
 
 onMounted(() => {
-  getOrders()
-})
+  getOrders();
+});
 </script>

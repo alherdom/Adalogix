@@ -1,7 +1,6 @@
 <template>
   <q-card>
     <q-card-section>
-      <q-form @submit="sendData">
         <div class="order-container">
           <div class="table-container">
             <q-table
@@ -128,7 +127,6 @@
             </q-scroll-area>
           </div>
         </div>
-      </q-form>
     </q-card-section>
   </q-card>
 </template>
@@ -241,7 +239,7 @@ const saveOrder = async () => {
       emit("closeOrderForm", false);
       Swal.fire({
         title: "Success",
-        text: "Password reset successfully",
+        text: "Order created successfully",
         icon: "success",
         showConfirmButton: false,
         timer: 1500,

@@ -152,7 +152,7 @@
   </q-dialog>
   <q-dialog v-model="showProductDetail" >
     <ProductDetail class="product-detail-table"
-      :item="itemData"
+      :productId="itemData.id.toString()"
       @closeProductDetail="closeProductDetailTable"
     />
   </q-dialog>
@@ -181,7 +181,8 @@ const handleUpload = () => {
   uploaderDialog.value = false;
   Swal.fire({
     icon: "success",
-    title: "Products loaded successfully!",
+    title: "Success",
+    text: "Products loaded successfully!",
   });
   fetchData();
 };

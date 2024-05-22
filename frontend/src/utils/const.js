@@ -6,8 +6,8 @@ export const links = [
     roles: ["admin"],
   },
   {
-    path: "/inventory",
-    label: "Inventory",
+    path: "/inventories",
+    label: "Inventories",
     icon: "inventory",
     roles: ["admin"],
   },

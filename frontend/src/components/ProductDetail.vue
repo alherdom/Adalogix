@@ -29,13 +29,8 @@
         <q-td key="address" :props="props">
           {{ props.row.address }}
         </q-td>
-        <q-td key="productId" :props="props" :item="props.item">
-          <div v-if="props.item">
-            {{ item.id }}
-          </div>
-          <div v-else>
-            {{ props.row.product_id }}
-          </div>
+        <q-td key="productId">
+            {{ productId.valueOf() }}
         </q-td>
         <q-td key="stock" :props="props">
           <q-input
@@ -53,7 +48,7 @@
             label="save"
             size="sm"
             color="primary"
-            @click="updateStore(props.row.id, item.id, props.row.stock)"
+            @click="updateStore(props.row.id, productId.valueOf(), props.row.stock)"
           />
         </q-td>
       </q-tr>
@@ -67,23 +62,24 @@ import { ref, onMounted, watch } from "vue";
 import { getRequest, patchRequest } from "src/utils/common";
 import { storeColumns } from "src/utils/const";
 
+
 const props = defineProps({
   productId: String,
-  item: Object,
 });
+
+const productId = ref(props.productId);
 
 const emit = defineEmits(["closeProductDetail"]);
 const stores = ref([]);
 const loading = ref(false);
 
-const fetchData = async (id) => {
+const fetchData = async () => {
   try {
     loading.value = true;
     // const url = `http://localhost:8000/store/product/?product_id=${id}`;
-    const url = `https://backend.adalogix.es/store/product/?product_id=${id}`;
+    const url = `https://backend.adalogix.es/store/product/?product_id=${productId.value}`;
     const response = await getRequest(url);
     stores.value = response.map((store) => ({ ...store }));
-    console.log(stores.value);
   } catch (error) {
     console.error("Error fetching data:", error);
     Swal.fire({
@@ -96,16 +92,8 @@ const fetchData = async (id) => {
   }
 };
 
-const loadProductData = () => {
-  const id = props.item?.id || props.productId;
-  if (id) {
-    fetchData(id);
-  }
-};
+onMounted(fetchData);
 
-onMounted(loadProductData);
-watch(() => props.productId, loadProductData);
-watch(() => props.item, loadProductData);
 
 const updateStore = async (store, productId, stock) => {
   try {
