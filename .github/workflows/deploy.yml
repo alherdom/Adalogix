@@ -25,7 +25,7 @@ jobs:
           cd /root/Adalogix &&
           git pull &&
           cd frontend && 
-          npm install $$
+          npm install &&
           npm run build && 
           systemctl reload nginx 
         '
