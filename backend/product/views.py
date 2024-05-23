@@ -166,7 +166,6 @@ class ProductUploadFromCSV(APIView):
                         inventory.save()
             return JsonResponse({'status': 200})
         except Exception as e:
-            print(f'Error: {e}')
             return JsonResponse(
                 {'error': f'An error occurred while processing the file: {e}'}, status=500
             )

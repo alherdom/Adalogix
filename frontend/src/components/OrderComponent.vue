@@ -164,7 +164,7 @@ const columns = [
   {
     name: "order_id",
     required: true,
-    label: "Code",
+    label: "Order Code",
     align: "center",
     field: "id",
     sortable: true,
@@ -172,7 +172,7 @@ const columns = [
   {
     name: "courier",
     required: false,
-    label: "Courier",
+    label: "Courier Assigned",
     align: "center",
     field: "courier",
     sortabel: true,

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Order, OrderProduct
 from .serializers import OrderSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -18,15 +17,18 @@ from datetime import datetime
 
 from rest_framework.views import APIView
 
+
 class OrderDetailView(RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
+
 class OrderListView(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
 
 class OrderCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -36,25 +38,21 @@ class OrderCreateView(APIView):
         store = Store.objects.get(id=store_id)
         order = Order.objects.create(store=store)
         products = request.data['products']
-        print(products)
         for product_info in products:
-            product = Product.objects.get(id=product_info["product"])
-            OrderProduct.objects.create(product=product, order=order, quantity=product_info["quantity"])
+            product = Product.objects.get(id=product_info['product'])
+            OrderProduct.objects.create(
+                product=product, order=order, quantity=product_info['quantity']
+            )
             inventory = Inventory.objects.get(product=product, store=store)
-            inventory.stock -= int(product_info["quantity"])
+            inventory.stock -= int(product_info['quantity'])
             inventory.save()
-        return JsonResponse({"status": 200})
+        return JsonResponse({'status': 200})
 
-# class OrderUpdateView(UpdateAPIView):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = OrderSerializer
-#     queryset = Order.objects.all()
 
 class OrderUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk):
-        print(request.data)
         order = Order.objects.get(id=pk)
         completion_date = None
         courier = None
@@ -66,12 +64,12 @@ class OrderUpdateView(APIView):
         if request.data.get('status') and request.data.get('completion_date'):
             if request.data['completion_date']:
                 completion_date = datetime.fromisoformat(request.data['completion_date'])
-            print(completion_date)
             order.completion_date = completion_date
             order.status = request.data['status']
             order.save()
-        return JsonResponse({"status": 200})
-    
+        return JsonResponse({'status': 200})
+
+
 class OrderDeleteView(DestroyAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
@@ -79,12 +77,12 @@ class OrderDeleteView(DestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        if (instance.courier):
+        if instance.courier:
             instance.courier.route = None
             instance.courier.save()
         self.perform_destroy(instance)
         return JsonResponse({'status': 200})
-    
+
 
 class OrderMultipleDelete(APIView):
     permission_classes = [IsAuthenticated]
@@ -99,4 +97,15 @@ class OrderMultipleDelete(APIView):
                 order.courier.save()
             order.delete()
 
+        return JsonResponse({'status': 200})
+
+
+class OrderCourierDelete(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, pk):
+        courier = Employee.objects.get(id=pk)
+        order = Order.objects.get(courier=courier)
+        order.courier = None
+        order.save()
         return JsonResponse({'status': 200})

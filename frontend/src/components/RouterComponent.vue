@@ -756,15 +756,19 @@ const deleteRoute = async () => {
         const employeeId = employeeSelected.value.value;
         try {
           // const url = `http://localhost:8000/user/update/${employeeId}/`;
-          const url = `https://backend.adalogix.es/user/update/${employeeId}/`;
-          const requestData = {
+          const updateUrl = `https://backend.adalogix.es/user/update/${employeeId}/`;
+          const updateRequestData = {
             available: true,
             route: null,
           };
 
-          const response = await patchRequest(requestData, url);
+          const deleteUrl = `https://backend.adalogix.es/order/courier/delete/${employeeId}/`;
+          const [updateResponse, deleteResponse] = await Promise.all([
+            patchRequest(updateRequestData, updateUrl),
+            patchRequest(updateRequestData, deleteUrl),
+          ]);
 
-          if (response.status === 200) {
+          if (updateResponse.status === 200 && deleteResponse.status === 200) {
             Swal.fire({
               icon: "success",
               title: "Route Deleted",
