@@ -26,6 +26,7 @@ jobs:
           git pull &&
           cd frontend && 
           npm install &&
+          npm run test &&
           npm run build && 
           systemctl reload nginx 
         '
