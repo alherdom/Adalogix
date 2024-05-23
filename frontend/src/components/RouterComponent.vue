@@ -405,7 +405,7 @@ const getOrders = async () => {
 const setOrders = async () => {
   let orders = await getOrders();
   orders.forEach((order) => {
-    if (order.status == false) {
+    if (order.status == false && order.courier == null) {
       storesListOptions.value.push({
         label: `Order ${order.id} (${order.store.name})`,
         value: order.id,
