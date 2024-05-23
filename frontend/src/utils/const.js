@@ -81,7 +81,7 @@ export const inventoryColumns = [
   {
     name: "price",
     required: true,
-    label: "Price",
+    label: "Price €",
     align: "left",
     field: "price",
     sortable: true,
@@ -89,7 +89,7 @@ export const inventoryColumns = [
   {
     name: "weight",
     required: true,
-    label: "Weight",
+    label: "Weight Kg",
     align: "left",
     field: "weight",
     sortable: true,
@@ -97,7 +97,7 @@ export const inventoryColumns = [
   {
     name: "volume",
     required: true,
-    label: "Volume",
+    label: "Volume m3",
     align: "left",
     field: "volume",
     sortable: true,
