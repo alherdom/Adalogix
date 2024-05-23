@@ -41,7 +41,7 @@ export const inventoryColumns = [
   {
     name: "id",
     required: true,
-    label: "Code",
+    label: "Product Code",
     align: "left",
     field: "id",
     sortable: true,
