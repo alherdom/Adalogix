@@ -27,6 +27,7 @@ jobs:
           cd frontend && 
           npm install &&
           npx playwright install &&
+          npx playwright install-deps &&
           npm run test &&
           npm run build && 
           systemctl reload nginx 
