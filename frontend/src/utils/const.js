@@ -49,7 +49,7 @@ export const inventoryColumns = [
   {
     name: "name",
     required: true,
-    label: "Name",
+    label: "Product Name",
     align: "left",
     field: "name",
     sortable: true,
@@ -109,7 +109,7 @@ export const userColumns = [
   {
     name: "id",
     required: true,
-    label: "Code",
+    label: "Employee Code",
     align: "left",
     field: "id",
     sortable: true,

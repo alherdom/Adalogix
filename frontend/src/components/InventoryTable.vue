@@ -361,6 +361,7 @@ const displayedItems = computed(() => {
     if (!filter.value) return true;
     const search = filter.value.toLowerCase();
     return (
+      item.id.toString().includes(search) ||
       item.name.toLowerCase().includes(search) ||
       item.description.toLowerCase().includes(search) ||
       item.category.toLowerCase().includes(search)
