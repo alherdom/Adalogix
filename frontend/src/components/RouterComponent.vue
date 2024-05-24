@@ -349,8 +349,8 @@ const routeWaypoints = ref([]);
 function mountMap() {
   // Function to mount the map, we use the coordinates of Puerto de La Cruz like initial point
   const initialState = {
-    lng: -16.549341485486707,
-    lat: 28.4031139299302,
+    lng: -16.278529776841715,
+    lat: 28.46727453908661,
     zoom: 13,
   };
 
